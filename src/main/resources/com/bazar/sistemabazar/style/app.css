@@ -1,0 +1,42 @@
+* {
+    -app-primary-color: #E88952; /* naranja */
+    -app-primary-color-hover: #BE543D; /* naranja oscuro */
+    -app-background-color: white;
+}
+
+#barraMenu {
+    -fx-background-color: -app-primary-color;
+}
+
+.menu {
+    -fx-text-fill: white; /* white */
+    -fx-font-weight: bold;
+    -fx-padding: 15 10 15 10;
+    -fx-background-color: -app-primary-color;
+}
+
+.menu:hover {
+    -fx-background-color: -app-primary-color-hover;
+    -fx-text-fill-color: white;
+    -fx-font-weight: bold;
+}
+
+.menu > .label {
+     -fx-text-fill-color: white;
+     -fx-font-weight: bold;
+ }
+
+.menu-item {
+    -fx-background-color: white;
+}
+
+.menu-item > .label {
+    -fx-font-weight: normal;
+    -fx-text-fill: black;
+}
+
+.menu-item:hover {
+    -fx-font-weight: bold;
+    -fx-background-color: -app-primary-color;
+    -fx-text-fill: white;
+}
