@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class BazarApplication extends Application {
     @Override
+		// cambio
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(BazarApplication.class.getResource("app.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
