@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.LoginController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="291.0" style="-fx-background-color: #E88952;" styleClass="logo-pane-contiainer">
+      <Pane prefHeight="400.0" prefWidth="291.0" style="-fx-background-color: #E88952;" styleClass="logo-pane-container">
          <children>
             <Pane layoutX="85.0" layoutY="32.0" prefHeight="114.0" prefWidth="122.0" styleClass="logo-pane">
                <children>
@@ -39,7 +39,7 @@
             <PasswordField fx:id="loginPasswordField" styleClass="login-input" />
             <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="206.0">
                <children>
-                  <Button mnemonicParsing="false" text="Iniciar Sesion" />
+                  <Button mnemonicParsing="false" onAction="#onLoginBtnClick" fx:id="loginButton" style="-fx-border-color: null;" text="Iniciar Sesion" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

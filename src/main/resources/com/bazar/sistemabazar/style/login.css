@@ -12,12 +12,20 @@
     -fx-background-color: -app-background-color;
     /* deja solo la linea naranja de abajo (arriba, derecha, abajo, izquierda */
     -fx-border-color: transparent transparent -app-primary-color transparent;
+    -fx-border-insets: 3px;
+    -fx-highlight-fill: -app-primary-color;
 }
 
-/* estilo de las entradas del login cuando se pasa el mouse por encima */
-.login-input:hover {
-    -fx-highlight-fill: null;
+
+#loginButton {
+    -fx-background-color: -app-primary-color;
+    -fx-border-color: -app-primary-color;
+    -fx-text-fill: white; /* blanco */
 }
 
+#loginButton:hover {
+    -fx-background-color: -app-primary-color-hover;
+    -fx-border-color: -app-primary-color-hover;
+}
 
 
