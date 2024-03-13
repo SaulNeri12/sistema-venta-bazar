@@ -1,0 +1,23 @@
+* {
+    -app-primary-color: #E88952; /* naranja */
+    -app-primary-color-hover: #BE543D; /* naranja oscuro */
+    -app-background-color: white;
+}
+
+/*
+    Hace que las entradas (textfield y passwordfield) del
+    login tengan ese estilo
+*/
+.login-input {
+    -fx-background-color: -app-background-color;
+    /* deja solo la linea naranja de abajo (arriba, derecha, abajo, izquierda */
+    -fx-border-color: transparent transparent -app-primary-color transparent;
+}
+
+/* estilo de las entradas del login cuando se pasa el mouse por encima */
+.login-input:hover {
+    -fx-highlight-fill: null;
+}
+
+
+

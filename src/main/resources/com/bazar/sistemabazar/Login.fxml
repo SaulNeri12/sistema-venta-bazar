@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.LoginController">
+   <children>
+      <Pane prefHeight="400.0" prefWidth="291.0" style="-fx-background-color: #E88952;" styleClass="logo-pane-contiainer">
+         <children>
+            <Pane layoutX="85.0" layoutY="32.0" prefHeight="114.0" prefWidth="122.0" styleClass="logo-pane">
+               <children>
+                  <Label layoutX="43.0" layoutY="49.0" text="Logo" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <VBox layoutX="344.0" layoutY="164.0" prefHeight="170.0" prefWidth="206.0">
+         <children>
+            <Label text="Telefono:">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="loginPhoneField" styleClass="login-input" />
+            <Label />
+            <Label text="Contraseña:">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <PasswordField fx:id="loginPasswordField" styleClass="login-input" />
+            <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="206.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Iniciar Sesion" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <Label layoutX="344.0" layoutY="90.0" prefHeight="30.0" prefWidth="206.0" text="Inicio de Sesion">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
