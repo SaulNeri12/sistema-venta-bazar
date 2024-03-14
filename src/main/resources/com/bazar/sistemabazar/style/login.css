@@ -4,6 +4,11 @@
     -app-background-color: white;
 }
 
+.error-label {
+    -fx-text-fill: #CC1010;
+    -fx-font-size: 10px;
+}
+
 /*
     Hace que las entradas (textfield y passwordfield) del
     login tengan ese estilo
@@ -15,7 +20,6 @@
     -fx-border-insets: 3px;
     -fx-highlight-fill: -app-primary-color;
 }
-
 
 #loginButton {
     -fx-background-color: -app-primary-color;

@@ -22,7 +22,7 @@
             </Pane>
          </children>
       </Pane>
-      <VBox layoutX="344.0" layoutY="164.0" prefHeight="170.0" prefWidth="206.0">
+      <VBox layoutX="314.0" layoutY="139.0" prefHeight="197.0" prefWidth="267.0">
          <children>
             <Label text="Telefono:">
                <VBox.margin>
@@ -30,16 +30,17 @@
                </VBox.margin>
             </Label>
             <TextField fx:id="loginPhoneField" styleClass="login-input" />
-            <Label />
+            <Label fx:id="phoneNumberErrorLabel" prefHeight="26.0" prefWidth="264.0" styleClass="error-label" text="" />
             <Label text="Contraseña:">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
             </Label>
             <PasswordField fx:id="loginPasswordField" styleClass="login-input" />
+            <Label fx:id="passwordErrorLabel" prefHeight="29.0" prefWidth="265.0" styleClass="error-label" />
             <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="206.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onLoginBtnClick" fx:id="loginButton" style="-fx-border-color: null;" text="Iniciar Sesion" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onLoginBtnClick" style="-fx-border-color: null;" text="Iniciar Sesion" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
@@ -47,7 +48,7 @@
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="344.0" layoutY="90.0" prefHeight="30.0" prefWidth="206.0" text="Inicio de Sesion">
+      <Label layoutX="344.0" layoutY="75.0" prefHeight="30.0" prefWidth="206.0" text="Inicio de Sesion">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
