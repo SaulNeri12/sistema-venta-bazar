@@ -1,5 +1,6 @@
 package com.bazar.sistemabazar;
 
+import com.bazar.sistemabazar.controllers.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -17,7 +18,7 @@ public class BazarApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         // se mostrara el login
-        FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("Login.fxml"));
+        FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
         Parent root = loginFxmlLoader.load();
         Stage loginStage = new Stage();
 
@@ -39,7 +40,7 @@ public class BazarApplication extends Application {
         centerStage(loginStage);
 
         // se mostrara el login
-        FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("app.fxml"));
+        FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));
         Parent bazarRoot = bazarFxmlLoader.load();
         Scene scene = new Scene(bazarRoot);
         stage.setMaximized(true);

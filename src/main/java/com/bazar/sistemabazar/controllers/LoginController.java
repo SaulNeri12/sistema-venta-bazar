@@ -1,4 +1,4 @@
-package com.bazar.sistemabazar;
+package com.bazar.sistemabazar.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
