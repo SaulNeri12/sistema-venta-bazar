@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="588.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.style.VistaAgregarProducto">
+   <children>
+      <Pane fx:id="panelColor" prefHeight="63.0" prefWidth="735.0" style="-fx-background-color: E88952;" styleClass="menu-item" stylesheets="@style/app.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="labelAgregarProducto" layoutX="327.0" layoutY="14.0" text="Agregar Producto">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TextField fx:id="fieldNombreProducto" layoutX="38.0" layoutY="126.0" prefHeight="27.0" prefWidth="208.0" promptText="Ingrese el nombre del Producto">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label fx:id="labelAgregarNombreProducto" layoutX="38.0" layoutY="89.0" text="Nombre del Producto">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelProveedorProducto" layoutX="38.0" layoutY="175.0" text="Proveedor del Producto">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="boxSeleccionarProveedor" layoutX="40.0" layoutY="214.0" prefHeight="25.0" prefWidth="201.0" promptText="Seleccione un Proveedor" />
+      <Label layoutX="40.0" layoutY="281.0" text="Precio del Producto">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fieldPrecioProducto" layoutX="41.0" layoutY="318.0" prefHeight="27.0" prefWidth="201.0" promptText="Ingrese el precio del Producto">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <ButtonBar layoutX="285.0" layoutY="449.0" prefHeight="40.0" prefWidth="285.0">
+        <buttons>
+            <Button fx:id="botonAgregarProducto" mnemonicParsing="false" text="Confirmar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+          <Button fx:id="botonLimpiarCamposProducto" mnemonicParsing="false" text="Limpiar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonCancelarProducto" mnemonicParsing="false" onMouseClicked="#botonSalir" text="Cancelar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>
