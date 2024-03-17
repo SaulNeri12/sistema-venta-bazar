@@ -17,6 +17,7 @@ public class BazarApplication extends Application {
 		// cambio
     public void start(Stage stage) throws IOException {
 
+        /*
         // se mostrara el login
         FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
         Parent root = loginFxmlLoader.load();
@@ -39,6 +40,9 @@ public class BazarApplication extends Application {
         loginStage.showAndWait();
         centerStage(loginStage);
 
+
+         */
+
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));
         Parent bazarRoot = bazarFxmlLoader.load();
@@ -46,6 +50,7 @@ public class BazarApplication extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.setTitle("Sistema Bazar");
+
 
         stage.show();
     }

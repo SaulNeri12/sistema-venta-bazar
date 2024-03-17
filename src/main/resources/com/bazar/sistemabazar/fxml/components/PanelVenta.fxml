@@ -3,21 +3,35 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.PanelVentaController">
+<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.PanelVentaController">
    <children>
-      <VBox prefHeight="467.0" prefWidth="684.0">
+      <VBox prefHeight="463.0" prefWidth="1362.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="42.0" prefWidth="600.0" />
+            <HBox prefHeight="45.0" prefWidth="1362.0">
+               <children>
+                  <Label prefHeight="51.0" prefWidth="112.0" text="Venta">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="1362.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" text="Button" />
+               </children></HBox>
             <HBox prefHeight="22.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="40.0" prefWidth="111.0" text="Buscar Producto:">
@@ -27,36 +41,17 @@
                   </Label>
                   <TextField />
                   
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" text="Button">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin></Button>
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <TabPane prefHeight="-Infinity" prefWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-              <tabs>
-                <Tab text="Untitled Tab 1">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0">
-                           <children>
-                              <TableView layoutX="-7.0" prefHeight="420.0" prefWidth="1024.0">
-                                <columns>
-                                  <TableColumn prefWidth="115.0" text="ID" />
-                                  <TableColumn prefWidth="117.0" text="Nombre" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Untitled Tab 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="684.0" />
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-            <HBox prefHeight="181.0" prefWidth="684.0" />
+            <HBox prefHeight="48.0" prefWidth="1362.0" />
+            <VBox fx:id="tablaVentaPane" prefHeight="301.0" prefWidth="1362.0" />
          </children>
       </VBox>
    </children>
