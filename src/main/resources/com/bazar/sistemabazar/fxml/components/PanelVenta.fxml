@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.PanelVentaController">
+<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.PanelVentaController">
    <children>
-      <VBox prefHeight="463.0" prefWidth="1362.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="680.0" prefWidth="838.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="45.0" prefWidth="1362.0">
                <children>
                   <Label prefHeight="51.0" prefWidth="112.0" text="Venta">
                      <HBox.margin>
-                        <Insets left="25.0" />
+                        <Insets left="25.0" top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font name="System Bold" size="25.0" />
@@ -25,34 +25,75 @@
                   </Label>
                </children>
             </HBox>
-            <HBox prefHeight="25.0" prefWidth="1362.0">
+            <HBox prefHeight="29.0" prefWidth="1362.0">
                <children>
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
-               </children></HBox>
-            <HBox prefHeight="22.0" prefWidth="600.0">
-               <children>
-                  <Label prefHeight="40.0" prefWidth="111.0" text="Buscar Producto:">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </Label>
+                  <Label prefHeight="24.0" prefWidth="162.0" text="Buscar Producto por ID:" />
                   <TextField />
                   
-                  <Button mnemonicParsing="false" text="Button">
+                  <Button mnemonicParsing="false" styleClass="btn" text="Agregar">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="5.0" />
                      </HBox.margin></Button>
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="48.0" prefWidth="1362.0" />
-            <VBox fx:id="tablaVentaPane" prefHeight="301.0" prefWidth="1362.0" />
+            <HBox prefHeight="37.0" prefWidth="1352.0" styleClass="table-utils-pane">
+               <children>
+                  <Button mnemonicParsing="false" text="Buscar Producto - F1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Restaurar - F2">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+               </VBox.margin></HBox>
+            <VBox fx:id="tablaVentaPane" prefHeight="280.0" prefWidth="819.0" />
+            <VBox prefHeight="150.0" prefWidth="1066.0">
+               <children>
+                  <HBox alignment="TOP_RIGHT" prefHeight="19.0" prefWidth="838.0">
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="103.0" text="Total a pagar:" textAlignment="RIGHT">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField editable="false" prefHeight="24.0" prefWidth="82.0">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="24.0" prefWidth="838.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Finalizar Compra">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

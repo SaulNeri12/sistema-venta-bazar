@@ -40,3 +40,19 @@
     -fx-background-color: -app-primary-color;
     -fx-text-fill: white;
 }
+
+/* Es la parte donde se encuentran los botones de apoyo (agregar, restaurar, actualilzar, etc) */
+.table-utils-pane {
+    -fx-spacing: 10px;
+}
+
+/* Son los botones dentro del panel de utiles para la tabla en cuestion  */
+.table-utils-pane > .button {
+    -fx-padding: 10px 10px 10px 10px;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+
+
+
