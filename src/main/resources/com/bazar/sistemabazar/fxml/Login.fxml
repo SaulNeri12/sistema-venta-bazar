@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.LoginController">
    <children>
       <Pane prefHeight="400.0" prefWidth="291.0" style="-fx-background-color: #E88952;" styleClass="logo-pane-container">
          <children>
