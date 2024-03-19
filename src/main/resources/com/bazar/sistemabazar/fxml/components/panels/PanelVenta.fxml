@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.PanelVentaController">
+<AnchorPane fx:id="controlVentaAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.panels.PanelVentaController">
    <children>
       <VBox prefHeight="680.0" prefWidth="838.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,7 +41,7 @@
             </HBox>
             <HBox prefHeight="37.0" prefWidth="1352.0" styleClass="table-utils-pane">
                <children>
-                  <Button mnemonicParsing="false" text="Buscar Producto - F1">
+                  <Button fx:id="botonBuscarProducto" mnemonicParsing="false" onAction="#mostrarDialogoBusquedaProducto" text="Buscar Producto - F1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

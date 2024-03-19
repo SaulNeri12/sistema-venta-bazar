@@ -8,9 +8,11 @@ import java.util.regex.Pattern;
 
 public class LoginController {
 
+    private Stage stage;
+
     public Label phoneNumberErrorLabel;
     public Label passwordErrorLabel;
-    private Stage stage;
+
 
     @FXML
     public TextField loginPhoneField;
