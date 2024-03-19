@@ -90,6 +90,8 @@ public class BuscarProductoDlgController implements Initializable {
         );
 
         tablaProductos.getItems().addAll(listaProductos);
+        tablaProductos.setEditable(false);
+
 
         panelTablaProductos.getChildren().add(tablaProductos);
     }
