@@ -55,12 +55,16 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
         super();
         inicializar();
 
+        /*
         ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
                 new ProductoVentaTableModel(12, "Ruffles Queso (100g)", 40.21f, 1),
                 new ProductoVentaTableModel(13, "Galletas Emperador", 20.21f, 5)
         );
 
+
         this.getItems().addAll(listaProductos);
+
+         */
     }
 
 }

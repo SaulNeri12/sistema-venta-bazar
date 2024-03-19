@@ -3,25 +3,23 @@ package com.bazar.sistemabazar.controllers.dialogs;
 import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.collections.ObservableList;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BuscarProductoDlgController implements Initializable {
 
-
     private Stage stage;
 
-    ProductoTableModel productoSeleccionado;
+    private ProductoVentaTableModel productoSeleccionado;
 
     @FXML
     public Button botonAgregarProducto;
@@ -31,6 +29,8 @@ public class BuscarProductoDlgController implements Initializable {
     public TextField nombreProductoTextField;
     @FXML
     public TextField productoSeleccionadoTextField;
+    @FXML
+    public Spinner cantidadProductoSpinner;
 
     public void setStage(Stage stage) { this.stage = stage; }
 
@@ -53,7 +53,7 @@ public class BuscarProductoDlgController implements Initializable {
         tablaProductos.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
                 // Obtener la fila seleccionada
-                ProductoTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
+                ProductoVentaTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
 
                 if (productoTablaSeleccionado == null) {
                     botonAgregarProducto.setDisable(true);
@@ -62,9 +62,34 @@ public class BuscarProductoDlgController implements Initializable {
 
                 botonAgregarProducto.setDisable(false);
                 productoSeleccionado = productoTablaSeleccionado;
-                productoSeleccionadoTextField.setText(productoSeleccionado.toString());
+                productoSeleccionadoTextField.setText(
+                        String.format(
+                                "Producto(ID: %d, Nombre: %s)",
+                                productoSeleccionado.getIdProperty().get(),
+                                productoSeleccionado.getNombreProperty().get()
+                        )
+                );
             }
         });
+
+        // se le asigna la cantidad maxima para un producto
+        this.cantidadProductoSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                        1,
+                        100
+                )
+        );
+
+
+        ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
+                new ProductoVentaTableModel(12, "Jarra Plastico", 54.50f, 1),
+                new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
+                new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
+                new ProductoVentaTableModel(15, "Plato Plastico", 32.0f, 1),
+                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1)
+        );
+
+        tablaProductos.getItems().addAll(listaProductos);
 
         panelTablaProductos.getChildren().add(tablaProductos);
     }
@@ -85,6 +110,8 @@ public class BuscarProductoDlgController implements Initializable {
             alert.showAndWait();
             return;
         }
+
+        this.productoSeleccionado.setCantidad((Integer) this.cantidadProductoSpinner.getValue());
 
         this.stage.close();
     }

@@ -2,6 +2,7 @@ package com.bazar.sistemabazar.controllers.panels;
 
 import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
+import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -58,8 +60,14 @@ public class PanelVentaController implements Initializable {
 
             /* logica importante */
 
-            System.out.println("despues del dialogo");
-            System.out.println(buscarProductoController.getProductoSeleccionado());
+            ProductoVentaTableModel producto = (ProductoVentaTableModel) buscarProductoController.getProductoSeleccionado();
+
+            if (producto == null) {
+                return;
+            }
+
+            TableView tablaVenta = (TableView) tablaVentaPane.getChildren().get(0);
+            tablaVenta.getItems().add(producto);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

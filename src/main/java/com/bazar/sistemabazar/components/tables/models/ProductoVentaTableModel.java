@@ -33,4 +33,15 @@ public class ProductoVentaTableModel extends ProductoTableModel {
     public FloatProperty getTotalProperty() {
         return this.total;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ProductoVenta(%d, %s, %.2f, %d)",
+                productoId.get(),
+                nombre.get(),
+                precio.get(),
+                cantidad.get()
+        );
+    }
 }
