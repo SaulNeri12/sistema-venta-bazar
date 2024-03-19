@@ -11,11 +11,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProductoVentaTableView extends TableView<ProductoVentaTableView.ProductoVentaTableModel> {
 
-    public ProductoVentaTableView() {
-        super();
-
+    private void inicializar() {
         // se la asigna su estilo CSS
-        this.getStyleClass().add("tabla-venta");
+        this.getStyleClass().add("table-view-venta");
 
         // se crean las columnas necesarias de la tabla
         TableColumn<ProductoVentaTableModel, Integer> columnaProductoId = new TableColumn<>("ID");
@@ -38,13 +36,6 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableView.Pro
         columnaTotalProducto.setPrefWidth(100);
         columnaTotalProducto.setCellValueFactory(cellData -> cellData.getValue().getTotalProperty().asObject());
 
-        ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
-                new ProductoVentaTableModel(12, "Ruffles Queso (100g)", 40.21f, 1, 40.21f),
-                new ProductoVentaTableModel(13, "Galletas Emperador", 20.21f, 5, 101.05f)
-        );
-
-        this.getItems().addAll(listaProductos);
-
         // anade las columnas a la tabla
         this.getColumns().addAll(
                 columnaProductoId,
@@ -53,10 +44,18 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableView.Pro
                 columnaCantidadProducto,
                 columnaTotalProducto
         );
+    }
 
+    public ProductoVentaTableView() {
+        super();
+        inicializar();
 
+        ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
+                new ProductoVentaTableModel(12, "Ruffles Queso (100g)", 40.21f, 1, 40.21f),
+                new ProductoVentaTableModel(13, "Galletas Emperador", 20.21f, 5, 101.05f)
+        );
 
-
+        this.getItems().addAll(listaProductos);
     }
 
     public static class ProductoVentaTableModel {
@@ -136,9 +135,7 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableView.Pro
         }
 
         public float getTotal() {
-            int cantidad = this.cantidad.get();
-            float precio = this.precio.get();
-            return cantidad * precio;
+            return this.total.get();
         }
     }
 
