@@ -3,6 +3,7 @@ package com.bazar.sistemabazar.components.tables;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
@@ -42,13 +43,38 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
         // ajustes adicionales
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        TableColumn<ProductoVentaTableModel, Void> columnaControl = new TableColumn<>("");
+        columnaControl.setPrefWidth(100);
+        columnaControl.setMinWidth(100);
+        columnaControl.setMaxWidth(100);
+        columnaControl.setCellFactory(param -> new TableCell<>() {
+            final Button btn = new Button("Eliminar");
+            {
+                btn.setOnAction(event -> {
+                    ProductoVentaTableModel producto = getTableView().getItems().get(getIndex());
+                    getTableView().getItems().remove(producto);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+
         // anade las columnas a la tabla
         this.getColumns().addAll(
                 columnaProductoId,
                 columnaNombreProducto,
                 columnaPrecioProducto,
                 columnaCantidadProducto,
-                columnaTotalProducto
+                columnaTotalProducto,
+                columnaControl
         );
     }
 
