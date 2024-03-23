@@ -41,8 +41,9 @@ public class BuscarProductoDlgController implements Initializable {
         int numColumnas = tablaProductos.getColumns().size();
 
         // removemos las columnas de la tabla ya que no se utilizaran...
-        tablaProductos.getColumns().remove(numColumnas - 1); // se elimina la columna del total
-        tablaProductos.getColumns().remove(numColumnas - 2); // se elimina la columna de la cantidad
+        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna del total
+        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
+        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
 
         // producto seleccionado en la tabla
         productoSeleccionado = null;
@@ -86,7 +87,12 @@ public class BuscarProductoDlgController implements Initializable {
                 new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
                 new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
                 new ProductoVentaTableModel(15, "Plato Plastico", 32.0f, 1),
-                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1)
+                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1),
+                new ProductoVentaTableModel(17, "Caja Madera 25x25cm", 56.5f, 1),
+                new ProductoVentaTableModel(18, "Caja ordenadora madera 25x25", 97.0f, 1),
+                new ProductoVentaTableModel(19, "Taza Cafe Java", 50.0f, 1),
+                new ProductoVentaTableModel(20, "Taza Cafe Jurassic Park", 60.0f, 1),
+                new ProductoVentaTableModel(21, "Calentadera Metal Azul", 125.0f,1)
         );
 
         tablaProductos.getItems().addAll(listaProductos);

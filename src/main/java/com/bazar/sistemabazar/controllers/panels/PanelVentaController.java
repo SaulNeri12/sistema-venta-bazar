@@ -4,6 +4,11 @@ import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,19 +22,20 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 public class PanelVentaController implements Initializable {
 
+    private ProductoVentaTableView tablaVenta;
+
     @FXML
-    public TabPane ventasTabPane;
     public VBox tablaVentaPane;
     public Button botonBuscarProducto;
+    public TextField campoIndicadorTotal;
 
     @FXML
     private AnchorPane controlVentaAnchorPane;
@@ -38,7 +44,21 @@ public class PanelVentaController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // la tabla principal de ventas se anade al panel de venta
         ProductoVentaTableView tablaVenta = new ProductoVentaTableView();
-        tablaVentaPane.getChildren().add(tablaVenta);
+        this.tablaVenta = tablaVenta;
+
+        this.tablaVenta.setPlaceholder(new Label(""));
+
+        tablaVentaPane.getChildren().add(tablaVenta); // se anade al frame...
+
+        // dado que no encontre una manera facil de hacer que se actualice el indicador del total
+        // en cada evento, llegue a esta solucion. Hace que ese indicador se redibuje y tenga un
+        // nuevo valor cada 100 millisegundos.
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+            campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
+        }));
+
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     @FXML
@@ -51,9 +71,11 @@ public class PanelVentaController implements Initializable {
             Stage buscarProductoStage = new Stage();
             buscarProductoStage.setScene(new Scene(root));
 
+            // obtenemos el controlador del frame
             BuscarProductoDlgController buscarProductoController = buscarProductoDlgFxmlLoader.getController();
             buscarProductoController.setStage(buscarProductoStage);
 
+            // configuracion basica para el nuevo frame...
             buscarProductoStage.setTitle("Buscar Producto");
             buscarProductoStage.initModality(Modality.APPLICATION_MODAL);
             buscarProductoStage.showAndWait();
@@ -65,8 +87,6 @@ public class PanelVentaController implements Initializable {
                 return;
             }
 
-            TableView tablaVenta = (TableView) tablaVentaPane.getChildren().get(0);
-
             ObservableList<ProductoVentaTableModel> productosTabla = tablaVenta.getItems();
 
             // si el producto ya se encuentra en la tabla, solo se actualiza la cantidad de productos
@@ -75,42 +95,47 @@ public class PanelVentaController implements Initializable {
                 if (encontrado) {
                     int cantidadNueva = p.getCantidadProperty().get() + productoSeleccionado.getCantidadProperty().get();
                     p.setCantidad(cantidadNueva);
+                    campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
                     return;
                 }
             }
+
+            campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
 
             tablaVenta.getItems().add(productoSeleccionado);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @FXML
-    public void mostrarDialogoEliminarProducto() {
-        TextInputDialog productoIdDlg = new TextInputDialog();
-        productoIdDlg.setTitle("Eliminar Producto");
-        productoIdDlg.setHeaderText("Ingresa el ID del producto a eliminar de la venta:");
+    public void cancelarCompra() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar Compra");
+        alert.setHeaderText("Desea cancelar la compra?");
+        alert.setContentText("Todos los productos listos para procesar la compra seran eliminados de la tabla");
 
-        productoIdDlg.showAndWait().ifPresent(numero -> {
-            Integer productoId = Integer.valueOf(numero);
-
-            TableView tablaProductosVenta = (TableView) this.tablaVentaPane.getChildren().get(0);
-
-            ObservableList<ProductoVentaTableModel> productos = tablaProductosVenta.getItems();
-
-            System.out.println(productos.toString());
-
-            for (ProductoVentaTableModel producto: productos) {
-                if (producto.getIdProperty().get() == productoId) {
-                    tablaProductosVenta.getItems().remove(producto);
-                    return;
-                }
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                this.tablaVenta.getItems().remove(0, tablaVenta.getItems().size());
             }
         });
+    }
 
+    public float calcularTotalCompra() {
+        ObservableList<ProductoVentaTableModel> productos = tablaVenta.getItems();
 
+        if (productos.isEmpty()) {
+            return 0.0f;
+        }
 
+        float total = 0.0f;
+
+        for (ProductoVentaTableModel prdct: productos) {
+            total += prdct.getTotalProperty().get();
+        }
+
+        return total;
     }
 }

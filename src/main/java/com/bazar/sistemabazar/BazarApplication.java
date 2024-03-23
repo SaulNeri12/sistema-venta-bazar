@@ -41,7 +41,7 @@ public class BazarApplication extends Application {
         centerStage(loginStage);
 
         */
-         
+
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));
         Parent bazarRoot = bazarFxmlLoader.load();
