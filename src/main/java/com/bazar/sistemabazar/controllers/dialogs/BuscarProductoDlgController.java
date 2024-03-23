@@ -3,6 +3,8 @@ package com.bazar.sistemabazar.controllers.dialogs;
 import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +16,17 @@ import javafx.collections.ObservableList;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BuscarProductoDlgController implements Initializable {
 
+    private ObservableList<ProductoVentaTableModel> listaProductos;
+
+    private Timer timerBusquedaProducto;
+
     private Stage stage;
+    private ProductoVentaTableView tablaProductos;
 
     private ProductoVentaTableModel productoSeleccionado;
 
@@ -73,6 +82,8 @@ public class BuscarProductoDlgController implements Initializable {
             }
         });
 
+
+
         // se le asigna la cantidad maxima para un producto
         this.cantidadProductoSpinner.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(
@@ -81,8 +92,26 @@ public class BuscarProductoDlgController implements Initializable {
                 )
         );
 
+        timerBusquedaProducto = new Timer();
 
-        ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
+        nombreProductoTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String nuevoString) {
+                // Cancelar el temporizador existente si hay uno
+                timerBusquedaProducto.cancel();
+                timerBusquedaProducto = new Timer();
+
+                timerBusquedaProducto.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        filtrarProductosPorNombre(nuevoString.toLowerCase());
+                        System.out.println("CAMBIA!!!");
+                    }
+                }, 100);
+            }
+        });
+
+        this.listaProductos = FXCollections.observableArrayList(
                 new ProductoVentaTableModel(12, "Jarra Plastico", 54.50f, 1),
                 new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
                 new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
@@ -98,6 +127,7 @@ public class BuscarProductoDlgController implements Initializable {
         tablaProductos.getItems().addAll(listaProductos);
         tablaProductos.setEditable(false);
 
+        this.tablaProductos = tablaProductos;
 
         panelTablaProductos.getChildren().add(tablaProductos);
     }
@@ -122,6 +152,28 @@ public class BuscarProductoDlgController implements Initializable {
         this.productoSeleccionado.setCantidad((Integer) this.cantidadProductoSpinner.getValue());
 
         this.stage.close();
+    }
+
+    /**
+     * Filtra los elementos de la tabla del dialogo por su nombre.
+     * @param nombreProducto Nombre del producto a buscar
+     */
+    public void filtrarProductosPorNombre(String nombreProducto) {
+        ObservableList<ProductoVentaTableModel> productos = listaProductos;
+
+        if (nombreProducto.isEmpty() || nombreProducto == null) {
+            tablaProductos.getItems().remove(0, tablaProductos.getItems().size());
+            for (ProductoVentaTableModel p: productos) {
+                tablaProductos.getItems().add(p);
+            }
+            return;
+        }
+
+        for (ProductoVentaTableModel prdct: productos) {
+            if (!prdct.getNombreProperty().get().toLowerCase().contains(nombreProducto)) {
+                tablaProductos.getItems().remove(prdct);
+            }
+        }
     }
 
     /**
