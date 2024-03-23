@@ -9,6 +9,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import javafx.scene.input.KeyCode;
 
 public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
 
