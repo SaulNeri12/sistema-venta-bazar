@@ -20,7 +20,9 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 public class PanelVentaController implements Initializable {
 
@@ -57,14 +59,27 @@ public class PanelVentaController implements Initializable {
             buscarProductoStage.showAndWait();
 
             /* logica importante */
-            ProductoVentaTableModel producto = (ProductoVentaTableModel) buscarProductoController.getProductoSeleccionado();
+            ProductoVentaTableModel productoSeleccionado = (ProductoVentaTableModel) buscarProductoController.getProductoSeleccionado();
 
-            if (producto == null) {
+            if (productoSeleccionado == null) {
                 return;
             }
 
             TableView tablaVenta = (TableView) tablaVentaPane.getChildren().get(0);
-            tablaVenta.getItems().add(producto);
+
+            ObservableList<ProductoVentaTableModel> productosTabla = tablaVenta.getItems();
+
+            // si el producto ya se encuentra en la tabla, solo se actualiza la cantidad de productos
+            for (ProductoVentaTableModel p: productosTabla) {
+                boolean encontrado = p.getIdProperty().get() == productoSeleccionado.getIdProperty().get();
+                if (encontrado) {
+                    int cantidadNueva = p.getCantidadProperty().get() + productoSeleccionado.getCantidadProperty().get();
+                    p.setCantidad(cantidadNueva);
+                    return;
+                }
+            }
+
+            tablaVenta.getItems().add(productoSeleccionado);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
