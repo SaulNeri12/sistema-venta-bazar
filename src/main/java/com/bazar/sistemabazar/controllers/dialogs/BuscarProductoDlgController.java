@@ -161,14 +161,18 @@ public class BuscarProductoDlgController implements Initializable {
     public void filtrarProductosPorNombre(String nombreProducto) {
         ObservableList<ProductoVentaTableModel> productos = listaProductos;
 
-        if (nombreProducto.isEmpty() || nombreProducto == null) {
+        if (nombreProducto == null || nombreProducto.isEmpty()) {
             tablaProductos.getItems().remove(0, tablaProductos.getItems().size());
+            // se agregan todos los elementos encontrados cuando la entrada del
+            // nombre del producto es null o esta vacia...
             for (ProductoVentaTableModel p: productos) {
                 tablaProductos.getItems().add(p);
             }
             return;
         }
 
+        // cada producto el cual contiene en su nombre, el texto almacenado en
+        // 'nombreProducto' es anadido a la tabla ya que cumple con la busqueda
         for (ProductoVentaTableModel prdct: productos) {
             if (!prdct.getNombreProperty().get().toLowerCase().contains(nombreProducto)) {
                 tablaProductos.getItems().remove(prdct);
