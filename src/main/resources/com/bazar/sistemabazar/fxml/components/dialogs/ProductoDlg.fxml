@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="546.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.dialogs.ProductoDlgController">
+   <children>
+      <VBox prefHeight="552.0" prefWidth="642.0">
+         <children>
+            <HBox prefHeight="32.0" prefWidth="583.0">
+               <children>
+                  <HBox prefHeight="32.0" prefWidth="344.0">
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="116.0" text="Codigo de Barras:">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="codigoBarrasTextField" prefHeight="29.0" prefWidth="172.0">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <opaqueInsets>
+                        <Insets left="10.0" />
+                     </opaqueInsets>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="32.0" prefWidth="264.0">
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="132.0" text="Codigo de producto:">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="codigoInternoTextField" prefHeight="29.0" prefWidth="134.0">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="30.0" prefWidth="682.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="361.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="59.0" text="Nombre:" textAlignment="RIGHT">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nombreProductoTextField" prefHeight="30.0" prefWidth="287.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="258.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="126.0" text="Fecha de registro:" textAlignment="RIGHT">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="fechaRegistroTextField" prefHeight="30.0" prefWidth="137.0" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="23.0" prefWidth="632.0">
+               <children>
+                  <Label prefHeight="23.0" prefWidth="59.0" text="Precio:" textAlignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="11.0" />
+                     </font>
+                  </Label>
+                  <TextField prefHeight="22.0" prefWidth="118.0" fx:id="precioProductoTextField"/>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox prefHeight="92.0" prefWidth="642.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="713.0" text="Descripcion:">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="descripcionProductoTextArea" prefHeight="61.0" prefWidth="622.0">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </TextArea>
+               </children>
+            </VBox>
+            <VBox prefHeight="310.0" prefWidth="622.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="713.0" text="Proveedores:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Pane prefHeight="278.0" prefWidth="622.0" fx:id="tablaProveedoresPane"/>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="622.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="restaurarButton" mnemonicParsing="false" text="Restaurar" />
+                  <Button fx:id="cancelarButton" mnemonicParsing="false" text="Cancelar">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="aceptarButton" mnemonicParsing="false" text="Aceptar">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
