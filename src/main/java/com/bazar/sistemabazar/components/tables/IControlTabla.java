@@ -9,6 +9,11 @@ import javafx.scene.control.TableView;
 public interface IControlTabla<T> {
 
     /**
+     * Prepara el formato de columnas y celdas a un formato definido por el modelo de la tabla en cuestion.
+     */
+    public void inicializar();
+
+    /**
      * Regresa la informacion de la fila seleccionada en especificado.
      * @return null Si no se selecciono ningun elemento en la tabla.
      */

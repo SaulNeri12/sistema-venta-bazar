@@ -1,6 +1,6 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
+import com.bazar.sistemabazar.components.tables.ProductosVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import javafx.beans.value.ChangeListener;
@@ -26,7 +26,7 @@ public class BuscarProductoDlgController implements Initializable {
     private Timer timerBusquedaProducto;
 
     private Stage stage;
-    private ProductoVentaTableView tablaProductos;
+    private ProductosVentaTableView tablaProductos;
 
     private ProductoVentaTableModel productoSeleccionado;
 
@@ -45,7 +45,7 @@ public class BuscarProductoDlgController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ProductoVentaTableView tablaProductos = new ProductoVentaTableView();
+        ProductosVentaTableView tablaProductos = new ProductosVentaTableView();
 
         int numColumnas = tablaProductos.getColumns().size();
 

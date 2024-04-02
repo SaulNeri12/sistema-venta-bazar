@@ -33,6 +33,7 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
     }
 
     @Override
@@ -46,19 +47,18 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
     }
 
     @Override
-    public Producto getObjeto() {
+    public Producto obtenerObjeto() {
         return this.producto;
     }
 
     @Override
-    public void setObjeto(Producto producto) {
+    public void asignarObjeto(Producto objeto) {
         this.producto = producto;
 
         this.codigoBarrasTextField.setText(producto.getId().toString());
         this.codigoInternoTextField.setText(producto.getCodigo());
         this.nombreProductoTextField.setText(producto.getNombre());
         this.precioProductoTextField.setText(Float.toString(producto.getPrecio()));
-
-
     }
+
 }

@@ -1,28 +1,21 @@
 package com.bazar.sistemabazar.components.tables;
 
-import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
-import javafx.scene.input.KeyCode;
+import objetosNegocio.Producto;
 
-public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
+public class ProductosVentaTableView extends TableView<ProductoVentaTableModel> implements IControlTabla<De> {
 
-    private void inicializar() {
-        // se la asigna su estilo CSS
-        this.getStyleClass().add("table-view-venta");
-
-        // se crean las columnas necesarias de la tabla
-        TableColumn<ProductoVentaTableModel, Integer> columnaProductoId = new TableColumn<>("ID");
-        columnaProductoId.setMinWidth(80);
-        columnaProductoId.setMaxWidth(100);
-        columnaProductoId.setCellValueFactory(cellData -> cellData.getValue().getIdProperty().asObject());
+    public void inicializar() {
+        TableColumn<ProductoVentaTableModel, String> columnaProductoCodigo = new TableColumn<>("ID");
+        columnaProductoCodigo.setMinWidth(80);
+        columnaProductoCodigo.setMaxWidth(100);
+        columnaProductoCodigo.setCellValueFactory(cellData -> cellData.getValue().getCodigoProperty());
 
         TableColumn<ProductoVentaTableModel, String> columnaNombreProducto = new TableColumn<>("Nombre del producto");
         columnaNombreProducto.setPrefWidth(250);
@@ -71,7 +64,7 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
 
         // anade las columnas a la tabla
         this.getColumns().addAll(
-                columnaProductoId,
+                columnaProductoCodigo,
                 columnaNombreProducto,
                 columnaPrecioProducto,
                 columnaCantidadProducto,
@@ -80,7 +73,55 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
         );
     }
 
-    public ProductoVentaTableView() {
+    @Override
+    public ProductoVentaTableModel obtenerFilaObjetoSeleccionado() {
+        ProductoVentaTableModel seleccionado = this.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null)
+            return null;
+
+        Producto producto = new Producto();
+
+        producto.setId(null);
+        producto.setCodigo(seleccionado.getCodigoProperty().get());
+        producto.setNombre(seleccionado.getNombreProperty().get());
+        producto.setPrecio(seleccionado.getPrecioProperty().get());
+        producto.setFechaRegistro(seleccionado.getFechaRegistroProperty().get());
+
+        return producto;
+    }
+
+    @Override
+    public ProductoVentaTableModel obtenerFilaObjeto(ProductoVentaTableModel producto) {
+        return null;
+    }
+
+    @Override
+    public ProductoVentaTableModel obtenerFilaObjetoPorIndice(int indice) {
+        return null;
+    }
+
+    @Override
+    public void agregarFilaObjeto(ProductoVentaTableModel producto) {
+
+    }
+
+    @Override
+    public boolean eliminarFilaObjeto(ProductoVentaTableModel producto) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminarFilaObjetoPorIndice(int indice) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminarTodasLasFilas() {
+        return false;
+    }
+
+    public ProductosVentaTableView() {
         super();
         inicializar();
 

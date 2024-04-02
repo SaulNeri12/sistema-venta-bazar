@@ -1,9 +1,6 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
 import com.bazar.sistemabazar.components.tables.ProveedoresTableView;
-import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProveedorTableModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

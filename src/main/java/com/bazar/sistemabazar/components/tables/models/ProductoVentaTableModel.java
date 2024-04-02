@@ -6,8 +6,8 @@ public class ProductoVentaTableModel extends ProductoTableModel {
     private SimpleIntegerProperty cantidad;
     private SimpleFloatProperty total;
 
-    public ProductoVentaTableModel(int productoId, String nombre, float precio, int cantidad) {
-        super(productoId, nombre, precio, null);
+    public ProductoVentaTableModel(String codigo, String nombre, float precio, int cantidad) {
+        super(codigo, nombre, precio, null);
         this.cantidad = new SimpleIntegerProperty(cantidad);
         this.total = new SimpleFloatProperty(precio * cantidad);
     }
@@ -26,19 +26,19 @@ public class ProductoVentaTableModel extends ProductoTableModel {
         this.total.set(total);
     }
 
-    public IntegerProperty getCantidadProperty() {
+    public SimpleIntegerProperty getCantidadProperty() {
         return this.cantidad;
     }
 
-    public FloatProperty getTotalProperty() {
+    public SimpleFloatProperty getTotalProperty() {
         return this.total;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "ProductoVenta(%d, %s, %.2f, %d)",
-                productoId.get(),
+                "ProductoVenta(%s, %s, %.2f, %d)",
+                codigo.get(),
                 nombre.get(),
                 precio.get(),
                 cantidad.get()

@@ -1,14 +1,12 @@
 package com.bazar.sistemabazar.controllers.panels;
 
 import com.bazar.sistemabazar.BazarApplication;
-import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
+import com.bazar.sistemabazar.components.tables.ProductosVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -30,7 +27,7 @@ import java.util.ResourceBundle;
 
 public class PanelVentaController implements Initializable {
 
-    private ProductoVentaTableView tablaVenta;
+    private ProductosVentaTableView tablaVenta;
 
     @FXML
     public VBox tablaVentaPane;
@@ -43,7 +40,7 @@ public class PanelVentaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // la tabla principal de ventas se anade al panel de venta
-        ProductoVentaTableView tablaVenta = new ProductoVentaTableView();
+        ProductosVentaTableView tablaVenta = new ProductosVentaTableView();
         this.tablaVenta = tablaVenta;
 
         this.tablaVenta.setPlaceholder(new Label(""));
