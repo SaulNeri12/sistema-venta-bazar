@@ -6,39 +6,33 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1024.0" stylesheets="@../style/app.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" fx:controller="com.bazar.sistemabazar.controllers.BazarController" minWidth="-Infinity" prefHeight="680.0" prefWidth="1024.0" stylesheets="@../style/app.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar fx:id="barraMenu" prefHeight="24.0" prefWidth="1024.0">
         <menus>
           <Menu fx:id="menuVentas" mnemonicParsing="false" text="Ventas">
             <items>
-              <MenuItem mnemonicParsing="false" text="Registrar compra" />
-                  <MenuItem mnemonicParsing="false" text="Modificar Venta" />
-                  <MenuItem mnemonicParsing="false" text="Eliminar Venta" />
+                <MenuItem mnemonicParsing="false" text="Registrar compra" />
+                <MenuItem mnemonicParsing="false" text="Modificar Venta" />
+                <MenuItem mnemonicParsing="false" text="Eliminar Venta" />
             </items>
           </Menu>
           <Menu fx:id="menuProductos" mnemonicParsing="false" text="Productos">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Buscar Producto" />
-              <MenuItem mnemonicParsing="false" text="Agregar Producto" />
-                  <MenuItem mnemonicParsing="false" text="Modificar Producto" />
-                  <MenuItem mnemonicParsing="false" text="Eliminar Producto" />
+                <MenuItem mnemonicParsing="false" text="Buscar Producto" />
+                <MenuItem mnemonicParsing="false" text="Agregar Producto" />
             </items>
           </Menu>
           <Menu fx:id="menuUsuarios" mnemonicParsing="false" text="Usuarios">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Buscar Usuario" />
-              <MenuItem mnemonicParsing="false" text="Agregar Usuario" />
-                  <MenuItem mnemonicParsing="false" text="Actualizar Datos" />
-                  <MenuItem mnemonicParsing="false" text="Eliminar Usuario" />
+                <MenuItem mnemonicParsing="false" text="Buscar Usuario" />
+                <MenuItem mnemonicParsing="false" text="Agregar Usuario" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Proveedores">
               <items>
-                  <MenuItem mnemonicParsing="false" text="Buscar Proveedor" />
-                <MenuItem mnemonicParsing="false" text="Agregar Proveedor" />
-                  <MenuItem mnemonicParsing="false" text="Actualizar Datos" />
-                  <MenuItem mnemonicParsing="false" text="Eliminar Proveedor" />
+                  <MenuItem mnemonicParsing="false" text="Buscar Proveedor" onAction="#onMenuProveedoresBuscarProveedorClick"/>
+                  <MenuItem mnemonicParsing="false" text="Agregar Proveedor" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Inventario">
@@ -62,7 +56,6 @@
           <children>
               <fx:include source="components/panels/PanelVenta.fxml" />
           </children>
-
       </VBox>
    </children>
 </VBox>

@@ -1,6 +1,6 @@
 package com.bazar.sistemabazar.components.tables;
 
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+//import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProveedorTableModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,6 +36,8 @@ public class ProveedoresTableView extends TableView<ProveedorTableModel> {
                 columnaProveedorTelefono,
                 columnaProveedorDesc
         );
+
+        this.setPlaceholder(null);
     }
 
     public ProveedoresTableView() {

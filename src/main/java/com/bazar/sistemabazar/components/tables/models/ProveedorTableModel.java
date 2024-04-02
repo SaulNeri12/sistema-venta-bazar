@@ -8,7 +8,6 @@ public class ProveedorTableModel {
     private SimpleIntegerProperty id;
     private SimpleStringProperty nombre;
     private SimpleStringProperty telefono;
-    /* TODO: private SimpleObjectProperty<Direccion> direccion; */
     //private SimpleStringProperty email;
     private SimpleStringProperty descripcion;
     //private SimpleObjectProperty<LocalDateTime> fechaRegistro;

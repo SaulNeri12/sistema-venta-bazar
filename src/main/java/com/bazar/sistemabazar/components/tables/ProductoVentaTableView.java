@@ -43,6 +43,8 @@ public class ProductoVentaTableView extends TableView<ProductoVentaTableModel> {
         // ajustes adicionales
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        this.setPlaceholder(null);
+
         TableColumn<ProductoVentaTableModel, Void> columnaControl = new TableColumn<>("");
         columnaControl.setPrefWidth(100);
         columnaControl.setMinWidth(100);

@@ -38,8 +38,8 @@ public class BuscarProveedorDlgController implements Initializable {
     public VBox panelTablaProveedores;
     @FXML
     public TextField nombreProveedorTextField;
-    @FXML
-    public TextField proveedorSeleccionadoTextField;
+    //@FXML
+    //public TextField proveedorSeleccionadoTextField;
 
     public void setStage(Stage stage) { this.stage = stage; }
 
@@ -58,8 +58,6 @@ public class BuscarProveedorDlgController implements Initializable {
 
         // proveedor seleccionado en la tabla
         proveedorSeleccionado = null;
-
-        proveedorSeleccionadoTextField.setText("");
 
         // cuando se hace click en la tabla
         tablaProveedores.setOnMouseClicked(event -> {
@@ -85,6 +83,7 @@ public class BuscarProveedorDlgController implements Initializable {
                  */
             }
         });
+
 
 
         timerBusquedaProveedor = new Timer();
@@ -169,6 +168,4 @@ public class BuscarProveedorDlgController implements Initializable {
         proveedorSeleccionado = null;
         this.stage.close();
     }
-
-
 }
