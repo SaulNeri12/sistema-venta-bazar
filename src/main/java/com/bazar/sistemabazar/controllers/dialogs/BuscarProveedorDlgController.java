@@ -39,7 +39,7 @@ public class BuscarProveedorDlgController implements Initializable {
     @FXML
     public TextField nombreProveedorTextField;
     //@FXML
-    //public TextField proveedorSeleccionadoTextField;
+    public TextField proveedorSeleccionadoTextField;
 
     public void setStage(Stage stage) { this.stage = stage; }
 
@@ -72,15 +72,17 @@ public class BuscarProveedorDlgController implements Initializable {
 
                 botonAgregarProveedor.setDisable(false);
                 proveedorSeleccionado = proveedorTablaSeleccionado;
-                /*
+
                 proveedorSeleccionadoTextField.setText(
                         String.format(
-                                "ProveedorID: %d, Nombre: %s)",
-                                productoSeleccionado.getIdProperty().get(),
-                                productoSeleccionado.getNombreProperty().get()
+                                "ProveedorID: %d, Nombre: %s, Telefono: %s",
+                                proveedorSeleccionado.getIdProperty().get(),
+                                proveedorSeleccionado.getNombreProperty().get(),
+                                proveedorSeleccionado.getTelefonoProperty().get()
+
                         )
                 );
-                 */
+
             }
         });
 
@@ -113,6 +115,8 @@ public class BuscarProveedorDlgController implements Initializable {
         this.tablaProveedores = tablaProveedores;
 
         panelTablaProveedores.getChildren().add(tablaProveedores);
+
+        this.proveedorSeleccionadoTextField.setText("");
     }
 
     public ProveedorTableModel getProveedorSeleccionado() {

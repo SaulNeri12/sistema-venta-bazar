@@ -30,7 +30,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="productoProveedorTextField" editable="false" prefHeight="33.0" prefWidth="436.0">
+                  <TextField fx:id="proveedorSeleccionadoTextField" editable="false" prefHeight="33.0" prefWidth="436.0">
                      <font>
                         <Font name="System Bold" size="11.0" />
                      </font></TextField>

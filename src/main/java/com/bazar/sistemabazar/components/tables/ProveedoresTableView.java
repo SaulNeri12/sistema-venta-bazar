@@ -14,29 +14,31 @@ public class ProveedoresTableView extends TableView<ProveedorTableModel> {
         columnaProveedorId.setCellValueFactory(cellData -> cellData.getValue().getIdProperty().asObject());
 
         TableColumn<ProveedorTableModel, String> columnaProveedorNombre = new TableColumn<>("Nombre");
-        columnaProveedorNombre.setMaxWidth(100);
-        columnaProveedorNombre.setMinWidth(80);
+        columnaProveedorNombre.setMaxWidth(300);
+        columnaProveedorNombre.setMinWidth(250);
         columnaProveedorNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
 
         TableColumn<ProveedorTableModel, String> columnaProveedorTelefono = new TableColumn<>("Telefono");
-        columnaProveedorTelefono.setMinWidth(100);
-        columnaProveedorTelefono.setMaxWidth(120);
+        columnaProveedorTelefono.setMinWidth(150);
+        columnaProveedorTelefono.setMaxWidth(200);
         columnaProveedorTelefono.setCellValueFactory(cellData -> cellData.getValue().getTelefonoProperty());
 
+        /*
         TableColumn<ProveedorTableModel, String> columnaProveedorDesc = new TableColumn<>("Descripcion");
-        columnaProveedorDesc.setMinWidth(100);
-        columnaProveedorDesc.setMaxWidth(200);
+        columnaProveedorDesc.setMinWidth(300);
+        columnaProveedorDesc.setMaxWidth(400);
         columnaProveedorDesc.setCellValueFactory(cellData -> cellData.getValue().getDescripcionProperty());
+        */
 
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         this.getColumns().addAll(
                 columnaProveedorId,
                 columnaProveedorNombre,
-                columnaProveedorTelefono,
-                columnaProveedorDesc
+                columnaProveedorTelefono
         );
 
+        //this.getColumns().remove(this.getColumns().size() - 1);
         this.setPlaceholder(null);
     }
 
