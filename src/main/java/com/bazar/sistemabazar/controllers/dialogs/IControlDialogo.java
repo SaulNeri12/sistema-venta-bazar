@@ -7,6 +7,23 @@ package com.bazar.sistemabazar.controllers.dialogs;
 public interface IControlDialogo<T> {
 
     /**
+     * Asigna el modo de operacion que realizara el dialogo.
+     * @param modo Modo de operacion
+     */
+    public void asignarModoOperacion(DialogoOperacion modo);
+
+    /**
+     * Prepara el dialogo segun el modo de operacion del mismo.
+     */
+    public void prepararModoOperacion();
+
+    /**
+     * Regresa el modo de operacion.
+     * @return
+     */
+    public DialogoOperacion obtenerModoOperacion();
+
+    /**
      * Realiza las operaciones necesarias para guardar la informacion recibida
      * en el dialogo para ser transferida al objeto.
      */
