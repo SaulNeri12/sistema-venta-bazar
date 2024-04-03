@@ -1,8 +1,9 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.ProductosVentaTableView;
+import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
+import com.bazar.sistemabazar.components.tables.ProductosTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,20 +16,25 @@ import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BuscarProductoDlgController implements Initializable {
 
-    private ObservableList<ProductoVentaTableModel> listaProductos;
+    private ObservableList<ProductoTableModel> listaProductos;
 
     private Timer timerBusquedaProducto;
 
     private Stage stage;
-    private ProductosVentaTableView tablaProductos;
+    private ProductosTableView tablaProductos;
 
-    private ProductoVentaTableModel productoSeleccionado;
+    private ProductoTableModel productoSeleccionado;
+
+    private Integer cantidadProductos;
 
     @FXML
     public Button botonAgregarProducto;
@@ -45,14 +51,17 @@ public class BuscarProductoDlgController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ProductosVentaTableView tablaProductos = new ProductosVentaTableView();
+        ProductosTableView tablaProductos = new ProductosTableView();
 
         int numColumnas = tablaProductos.getColumns().size();
 
+        /*
         // removemos las columnas de la tabla ya que no se utilizaran...
         tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna del total
         tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
         tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
+
+         */
 
         // producto seleccionado en la tabla
         productoSeleccionado = null;
@@ -63,7 +72,7 @@ public class BuscarProductoDlgController implements Initializable {
         tablaProductos.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
                 // Obtener la fila seleccionada
-                ProductoVentaTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
+                ProductoTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
 
                 if (productoTablaSeleccionado == null) {
                     botonAgregarProducto.setDisable(true);
@@ -74,8 +83,8 @@ public class BuscarProductoDlgController implements Initializable {
                 productoSeleccionado = productoTablaSeleccionado;
                 productoSeleccionadoTextField.setText(
                         String.format(
-                                "Producto(ID: %d, Nombre: %s)",
-                                productoSeleccionado.getIdProperty().get(),
+                                "Producto(Codigo: %s, Nombre: %s)",
+                                productoSeleccionado.getCodigoProperty().get(),
                                 productoSeleccionado.getNombreProperty().get()
                         )
                 );
@@ -105,26 +114,31 @@ public class BuscarProductoDlgController implements Initializable {
                     @Override
                     public void run() {
                         filtrarProductosPorNombre(nuevoString.toLowerCase());
-                        System.out.println("CAMBIA!!!");
+                        //System.out.println("CAMBIA!!!");
                     }
                 }, 100);
             }
         });
 
+
+        Instant fechaActual = Instant.now();
+        LocalDateTime fechaLocal = LocalDateTime.ofInstant(fechaActual, ZoneId.systemDefault());
+
+
         this.listaProductos = FXCollections.observableArrayList(
-                new ProductoVentaTableModel(12, "Jarra Plastico", 54.50f, 1),
-                new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
-                new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
-                new ProductoVentaTableModel(15, "Plato Plastico", 32.0f, 1),
-                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1),
-                new ProductoVentaTableModel(17, "Caja Madera 25x25cm", 56.5f, 1),
-                new ProductoVentaTableModel(18, "Caja ordenadora madera 25x25", 97.0f, 1),
-                new ProductoVentaTableModel(19, "Taza Cafe Java", 50.0f, 1),
-                new ProductoVentaTableModel(20, "Taza Cafe Jurassic Park", 60.0f, 1),
-                new ProductoVentaTableModel(21, "Calentadera Metal Azul", 125.0f,1)
+                new ProductoTableModel("XA1010", "Jarra Plastico", 54.50f, fechaLocal),
+                new ProductoTableModel("XA1234", "Vaso Vidrio", 35.0f, fechaLocal),
+                new ProductoTableModel("SX1010", "Plato Vidrio Blanco", 40.0f, fechaLocal),
+                new ProductoTableModel("T34121", "Plato Plastico", 32.0f,fechaLocal),
+                new ProductoTableModel("SO1234", "Cesta ropa", 90.50f, fechaLocal),
+                new ProductoTableModel("POP123", "Caja Madera 25x25cm", 56.5f, fechaLocal),
+                new ProductoTableModel("PO1234", "Caja ordenadora madera 25x25", 97.0f, fechaLocal),
+                new ProductoTableModel("TZ1234", "Taza Cafe Java", 50.0f, fechaLocal),
+                new ProductoTableModel("TZ1334", "Taza Cafe Jurassic Park", 60.0f, fechaLocal),
+                new ProductoTableModel("CA1111", "Calentadera Metal Azul", 125.0f, fechaLocal)
         );
 
-        tablaProductos.getItems().addAll(listaProductos);
+        tablaProductos.getItems().addAll(this.listaProductos);
         tablaProductos.setEditable(false);
 
         this.tablaProductos = tablaProductos;
@@ -149,9 +163,13 @@ public class BuscarProductoDlgController implements Initializable {
             return;
         }
 
-        this.productoSeleccionado.setCantidad((Integer) this.cantidadProductoSpinner.getValue());
+        this.cantidadProductos = (Integer) this.cantidadProductoSpinner.getValue();
 
         this.stage.close();
+    }
+
+    public int getCantidadProductos() {
+        return this.cantidadProductos;
     }
 
     /**
@@ -159,13 +177,13 @@ public class BuscarProductoDlgController implements Initializable {
      * @param nombreProducto Nombre del producto a buscar
      */
     public void filtrarProductosPorNombre(String nombreProducto) {
-        ObservableList<ProductoVentaTableModel> productos = listaProductos;
+        ObservableList<ProductoTableModel> productos = listaProductos;
 
         if (nombreProducto == null || nombreProducto.isEmpty()) {
             tablaProductos.getItems().remove(0, tablaProductos.getItems().size());
             // se agregan todos los elementos encontrados cuando la entrada del
             // nombre del producto es null o esta vacia...
-            for (ProductoVentaTableModel p: productos) {
+            for (ProductoTableModel p: productos) {
                 tablaProductos.getItems().add(p);
             }
             return;
@@ -173,7 +191,7 @@ public class BuscarProductoDlgController implements Initializable {
 
         // cada producto el cual contiene en su nombre, el texto almacenado en
         // 'nombreProducto' es anadido a la tabla ya que cumple con la busqueda
-        for (ProductoVentaTableModel prdct: productos) {
+        for (ProductoTableModel prdct: productos) {
             if (!prdct.getNombreProperty().get().toLowerCase().contains(nombreProducto)) {
                 tablaProductos.getItems().remove(prdct);
             }

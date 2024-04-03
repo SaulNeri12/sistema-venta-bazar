@@ -44,15 +44,6 @@ public class BuscarProveedorDlgController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ProveedoresTableView tablaProveedores = new ProveedoresTableView();
 
-        int numColumnas = tablaProveedores.getColumns().size();
-
-        /*
-        // removemos las columnas de la tabla ya que no se utilizaran...
-        tablaProveedores.getColumns().remove(--numColumnas); // se elimina la columna del total
-        tablaProveedores.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-        tablaProveedores.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-        */
-
         // proveedor seleccionado en la tabla
         proveedorSeleccionado = null;
 

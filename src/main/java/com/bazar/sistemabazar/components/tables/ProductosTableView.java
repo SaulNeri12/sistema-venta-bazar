@@ -1,12 +1,16 @@
 package com.bazar.sistemabazar.components.tables;
 
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import objetosNegocio.Producto;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class ProductosTableView extends TableView<ProductoTableModel> implements IControlTabla<Producto> {
 
@@ -31,7 +35,7 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
 
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        this.setPlaceholder(null);
+        //this.setPlaceholder(null);
 
         this.getColumns().addAll(
                 columnaProductoCodigo,
@@ -60,20 +64,20 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
 
     @Override
     public Producto obtenerFilaObjeto(Producto producto) {
-        ProductoTableModel filaProducto = this.getItems()
+        Optional<ProductoTableModel> filaProducto = this.getItems()
                 .stream()
                 .filter(p -> p.getCodigoProperty().get().equals(producto.getCodigo()))
-                .findFirst().get();
+                .findFirst();
 
-        if (filaProducto == null)
+        if (filaProducto.isEmpty())
             return null;
 
         Producto productoEncontrado = new Producto();
 
-        productoEncontrado.setCodigo(filaProducto.getCodigoProperty().get());
-        productoEncontrado.setNombre(filaProducto.getNombreProperty().get());
-        productoEncontrado.setPrecio(filaProducto.getPrecioProperty().get());
-        productoEncontrado.setFechaRegistro(filaProducto.getFechaRegistroProperty().get());
+        productoEncontrado.setCodigo(filaProducto.get().getCodigoProperty().get());
+        productoEncontrado.setNombre(filaProducto.get().getNombreProperty().get());
+        productoEncontrado.setPrecio(filaProducto.get().getPrecioProperty().get());
+        productoEncontrado.setFechaRegistro(filaProducto.get().getFechaRegistroProperty().get());
 
         return productoEncontrado;
     }
@@ -115,7 +119,7 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
 
     @Override
     public boolean eliminarFilaObjeto(Producto producto) {
-        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(producto.getCodigo());
+        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(producto.getCodigo()));
     }
 
     @Override
@@ -124,24 +128,13 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
     }
 
     @Override
-    public boolean eliminarTodasLasFilas() {
+    public void eliminarTodasLasFilas() {
         this.getItems().clear();
     }
 
     public ProductosTableView() {
         super();
         inicializar();
-
-        /*
-        ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
-                new ProductoVentaTableModel(12, "Ruffles Queso (100g)", 40.21f, 1),
-                new ProductoVentaTableModel(13, "Galletas Emperador", 20.21f, 5)
-        );
-
-
-        this.getItems().addAll(listaProductos);
-
-         */
     }
 
 }

@@ -55,7 +55,6 @@ public interface IControlTabla<T> {
 
     /**
      * Elimina todas las filas de la tabla.
-     * @return true si se eliminaron filas, null en caso contrario.
      */
-    public boolean eliminarTodasLasFilas();
+    public void eliminarTodasLasFilas();
 }

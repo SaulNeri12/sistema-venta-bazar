@@ -2,11 +2,11 @@ package com.bazar.sistemabazar.components.tables.models;
 
 import javafx.beans.property.*;
 
-public class ProductoVentaTableModel extends ProductoTableModel {
+public class DetalleVentaTableModel extends ProductoTableModel {
     private SimpleIntegerProperty cantidad;
     private SimpleFloatProperty total;
 
-    public ProductoVentaTableModel(String codigo, String nombre, float precio, int cantidad) {
+    public DetalleVentaTableModel(String codigo, String nombre, float precio, int cantidad) {
         super(codigo, nombre, precio, null);
         this.cantidad = new SimpleIntegerProperty(cantidad);
         this.total = new SimpleFloatProperty(precio * cantidad);

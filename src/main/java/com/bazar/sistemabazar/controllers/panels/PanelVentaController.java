@@ -1,8 +1,9 @@
 package com.bazar.sistemabazar.controllers.panels;
 
 import com.bazar.sistemabazar.BazarApplication;
-import com.bazar.sistemabazar.components.tables.ProductosVentaTableView;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
+import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
+import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -20,6 +21,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.util.Duration;
+import objetosNegocio.DetalleVenta;
+import objetosNegocio.Producto;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class PanelVentaController implements Initializable {
 
-    private ProductosVentaTableView tablaVenta;
+    private DetallesVentaTableView tablaVenta;
 
     @FXML
     public VBox tablaVentaPane;
@@ -40,7 +43,7 @@ public class PanelVentaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // la tabla principal de ventas se anade al panel de venta
-        ProductosVentaTableView tablaVenta = new ProductosVentaTableView();
+        DetallesVentaTableView tablaVenta = new DetallesVentaTableView();
         this.tablaVenta = tablaVenta;
 
         this.tablaVenta.setPlaceholder(new Label(""));
@@ -78,17 +81,30 @@ public class PanelVentaController implements Initializable {
             buscarProductoStage.showAndWait();
 
             /* logica importante */
-            ProductoVentaTableModel productoSeleccionado = (ProductoVentaTableModel) buscarProductoController.getProductoSeleccionado();
+            ProductoTableModel productoSeleccionadoTabla = buscarProductoController.getProductoSeleccionado();
 
-            if (productoSeleccionado == null) {
+            if (productoSeleccionadoTabla == null) {
                 return;
             }
 
-            ObservableList<ProductoVentaTableModel> productosTabla = tablaVenta.getItems();
+            Producto productoSeleccionado = new Producto();
+            productoSeleccionado.setCodigo(productoSeleccionadoTabla.getCodigoProperty().get());
+            productoSeleccionado.setNombre(productoSeleccionadoTabla.getNombreProperty().get());
+            productoSeleccionado.setPrecio(productoSeleccionadoTabla.getPrecioProperty().get());
 
+            ObservableList<DetalleVentaTableModel> productosTabla = tablaVenta.getItems();
+
+            DetalleVenta productoVenta = new DetalleVenta();
+            productoVenta.setProducto(productoSeleccionado);
+            productoVenta.setPrecioProducto(productoSeleccionado.getPrecio());
+            productoVenta.setCantidad(buscarProductoController.getCantidadProductos());
+
+            tablaVenta.agregarFilaObjeto(productoVenta);
+
+            /*
             // si el producto ya se encuentra en la tabla, solo se actualiza la cantidad de productos
-            for (ProductoVentaTableModel p: productosTabla) {
-                boolean encontrado = p.getIdProperty().get() == productoSeleccionado.getIdProperty().get();
+            for (DetalleVentaTableModel p: productosTabla) {
+                boolean encontrado = p.getCodigoProperty().get() == productoSeleccionado.getCodigoProperty().get();
                 if (encontrado) {
                     int cantidadNueva = p.getCantidadProperty().get() + productoSeleccionado.getCantidadProperty().get();
                     p.setCantidad(cantidadNueva);
@@ -97,10 +113,11 @@ public class PanelVentaController implements Initializable {
                 }
             }
 
+             */
+
             campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
 
-            tablaVenta.getItems().add(productoSeleccionado);
-
+            //tablaVenta.getItems().add(productoSeleccionado);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -121,7 +138,7 @@ public class PanelVentaController implements Initializable {
     }
 
     public float calcularTotalCompra() {
-        ObservableList<ProductoVentaTableModel> productos = tablaVenta.getItems();
+        ObservableList<DetalleVentaTableModel> productos = tablaVenta.getItems();
 
         if (productos.isEmpty()) {
             return 0.0f;
@@ -129,7 +146,7 @@ public class PanelVentaController implements Initializable {
 
         float total = 0.0f;
 
-        for (ProductoVentaTableModel prdct: productos) {
+        for (DetalleVentaTableModel prdct: productos) {
             total += prdct.getTotalProperty().get();
         }
 
