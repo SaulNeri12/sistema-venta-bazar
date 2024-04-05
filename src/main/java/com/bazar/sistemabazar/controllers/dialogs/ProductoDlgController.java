@@ -38,6 +38,12 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
     public TextField codigoBarrasTextField;
     public Pane tablaProveedoresPane;
 
+    /*
+    public ProductoDlgController(IGestorProductos gestorProductos, IGestorProveedores ) {
+
+    }
+     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.codigoInternoTextField.setText("");

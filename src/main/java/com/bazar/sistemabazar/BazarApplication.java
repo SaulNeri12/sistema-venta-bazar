@@ -17,13 +17,24 @@ public class BazarApplication extends Application {
 		// cambio
     public void start(Stage stage) throws IOException {
 
-        /*
+
         // se mostrara el login
         FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
+
+        /*
+        // se le asigna el subsistema usuarios...
+        loginFxmlLoader.setControllerFactory(c -> {
+            return new LoginController("SHESH");
+        });
+         */
+
         Parent root = loginFxmlLoader.load();
-        Stage loginStage = new Stage();
 
         LoginController loginController = loginFxmlLoader.getController();
+
+        Stage loginStage = new Stage();
+
+        //LoginController loginController = loginFxmlLoader.getController();
         loginController.setStage(loginStage);
 
         // si se cierra la ventana del login, no se abre la ventana de la aplicacion
@@ -40,7 +51,7 @@ public class BazarApplication extends Application {
         loginStage.showAndWait();
         centerStage(loginStage);
 
-        */
+
 
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));

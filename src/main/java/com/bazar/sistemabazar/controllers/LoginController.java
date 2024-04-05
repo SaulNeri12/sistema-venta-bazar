@@ -21,6 +21,10 @@ public class LoginController {
     @FXML
     public Button loginButton;
 
+
+    //public LoginController(IGestorUsuarios gestorUsuarios);
+
+
     @FXML
     public void onLoginBtnClick() {
         Pattern phoneNumberPattern = Pattern.compile("^[0-9}]{10}$");
@@ -62,3 +66,4 @@ public class LoginController {
     }
 
 }
+

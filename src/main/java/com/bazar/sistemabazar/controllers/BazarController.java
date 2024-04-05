@@ -11,12 +11,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BazarController implements Initializable {
+
+    //private IPersistencia persistencia;
+
     @FXML
     private Label welcomeText;
     @FXML
@@ -37,6 +42,15 @@ public class BazarController implements Initializable {
         FXMLLoader buscarProveedorDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProveedorDlg.fxml"));
         Parent root = null;
 
+        /*
+
+        // se le asigna el subsistema de IGestorProveedores
+        buscarProveedorDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarProveedorDlgController(persistencia.getSubsistemaProveedores());
+        });
+
+        */
+
         try {
             root = buscarProveedorDlgFxmlLoader.load();
         } catch (IOException e) {
@@ -51,9 +65,6 @@ public class BazarController implements Initializable {
         buscarProveedorDlgStage.setScene(new Scene(root));
         buscarProveedorDlgStage.initModality(Modality.APPLICATION_MODAL);
         buscarProveedorDlgStage.showAndWait();
-
-
-
     }
 
 }

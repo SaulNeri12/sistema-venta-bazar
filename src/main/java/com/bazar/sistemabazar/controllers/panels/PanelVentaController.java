@@ -40,6 +40,11 @@ public class PanelVentaController implements Initializable {
     @FXML
     private AnchorPane controlVentaAnchorPane;
 
+    /*
+    public PanelVentaController(String msg) {
+        System.out.println(msg);
+    }*/
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // la tabla principal de ventas se anade al panel de venta
