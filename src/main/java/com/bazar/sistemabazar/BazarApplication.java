@@ -18,6 +18,7 @@ public class BazarApplication extends Application {
     public void start(Stage stage) throws IOException {
 
 
+        /*
         // se mostrara el login
         FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
 
@@ -26,7 +27,7 @@ public class BazarApplication extends Application {
         loginFxmlLoader.setControllerFactory(c -> {
             return new LoginController("SHESH");
         });
-         */
+
 
         Parent root = loginFxmlLoader.load();
 
@@ -50,8 +51,7 @@ public class BazarApplication extends Application {
         loginStage.initModality(Modality.APPLICATION_MODAL);
         loginStage.showAndWait();
         centerStage(loginStage);
-
-
+        */
 
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));

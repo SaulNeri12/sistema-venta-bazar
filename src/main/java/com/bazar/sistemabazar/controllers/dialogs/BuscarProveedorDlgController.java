@@ -112,7 +112,7 @@ public class BuscarProveedorDlgController implements Initializable {
     }
 
     /**
-     * Cierra el dialogo conservando el producto seleccionado
+     * Cierra el dialogo conservando el proveedor seleccionado
      */
     public void agregarProveedor() {
         if (this.proveedorSeleccionado == null) {

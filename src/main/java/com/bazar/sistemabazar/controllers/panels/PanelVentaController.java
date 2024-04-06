@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 
 public class PanelVentaController implements Initializable {
 
+    private Float totalAPagar;
+
     private DetallesVentaTableView tablaVenta;
 
     @FXML
@@ -40,10 +42,12 @@ public class PanelVentaController implements Initializable {
     @FXML
     private AnchorPane controlVentaAnchorPane;
 
-    /*
+
     public PanelVentaController(String msg) {
+        totalAPagar = 0.0f;
+
         System.out.println(msg);
-    }*/
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,7 +63,7 @@ public class PanelVentaController implements Initializable {
         // en cada evento, llegue a esta solucion. Hace que ese indicador se redibuje y tenga un
         // nuevo valor cada 100 millisegundos.
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
-            campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
+            this.calcularTotalCompra();
         }));
 
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -75,11 +79,9 @@ public class PanelVentaController implements Initializable {
 
             Stage buscarProductoStage = new Stage();
             buscarProductoStage.setScene(new Scene(root));
-
             // obtenemos el controlador del frame
             BuscarProductoDlgController buscarProductoController = buscarProductoDlgFxmlLoader.getController();
             buscarProductoController.setStage(buscarProductoStage);
-
             // configuracion basica para el nuevo frame...
             buscarProductoStage.setTitle("Buscar Producto");
             buscarProductoStage.initModality(Modality.APPLICATION_MODAL);
@@ -106,25 +108,21 @@ public class PanelVentaController implements Initializable {
 
             tablaVenta.agregarFilaObjeto(productoVenta);
 
-            /*
-            // si el producto ya se encuentra en la tabla, solo se actualiza la cantidad de productos
-            for (DetalleVentaTableModel p: productosTabla) {
-                boolean encontrado = p.getCodigoProperty().get() == productoSeleccionado.getCodigoProperty().get();
-                if (encontrado) {
-                    int cantidadNueva = p.getCantidadProperty().get() + productoSeleccionado.getCantidadProperty().get();
-                    p.setCantidad(cantidadNueva);
-                    campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
-                    return;
-                }
-            }
-
-             */
-
-            campoIndicadorTotal.setText(Float.toString(this.calcularTotalCompra()));
+            this.calcularTotalCompra();
 
             //tablaVenta.getItems().add(productoSeleccionado);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error - Buscar producto");
+            alert.setHeaderText("");
+            alert.setContentText("No se pudo realizar la accion");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    this.tablaVenta.getItems().remove(0, tablaVenta.getItems().size());
+                }
+            });
         }
     }
 
@@ -142,19 +140,23 @@ public class PanelVentaController implements Initializable {
         });
     }
 
-    public float calcularTotalCompra() {
+    /**
+     * Actualiza el total a pagar por la compra asi como el campo que muestra
+     * el total.
+     */
+    private void calcularTotalCompra() {
         ObservableList<DetalleVentaTableModel> productos = tablaVenta.getItems();
 
-        if (productos.isEmpty()) {
-            return 0.0f;
+        Float total = 0.0f;
+
+        if (!productos.isEmpty()) {
+            for (DetalleVentaTableModel prdct : productos) {
+                total += prdct.getTotalProperty().get();
+            }
         }
 
-        float total = 0.0f;
+        totalAPagar = total;
 
-        for (DetalleVentaTableModel prdct: productos) {
-            total += prdct.getTotalProperty().get();
-        }
-
-        return total;
+        this.campoIndicadorTotal.setText(totalAPagar.toString());
     }
 }

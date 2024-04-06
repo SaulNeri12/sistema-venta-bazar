@@ -49,12 +49,12 @@
             </Menu>
         </menus>
       </MenuBar>
-      <VBox fx:id="mainControlPanel" alignment="CENTER" prefHeight="680.0" prefWidth="1006.0">
+      <VBox fx:id="panelVentaContainer" alignment="CENTER" prefHeight="680.0" prefWidth="1006.0">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
           <children>
-              <fx:include source="components/panels/PanelVenta.fxml" />
+              <!--<fx:include source="components/panels/PanelVenta.fxml" />-->
           </children>
       </VBox>
    </children>

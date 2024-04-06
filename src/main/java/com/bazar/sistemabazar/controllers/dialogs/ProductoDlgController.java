@@ -4,10 +4,7 @@ import com.bazar.sistemabazar.components.tables.ProveedoresTableView;
 import com.bazar.sistemabazar.components.tables.models.ProveedorTableModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.Serializable;
 import java.net.URL;
@@ -15,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 import javafx.scene.layout.Pane;
 import objetosNegocio.Producto;
@@ -52,6 +51,21 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
         this.precioProductoTextField.setText("");
         this.fechaRegistroTextField.setText("");
         this.descripcionProductoTextArea.setText("");
+
+        UnaryOperator<TextFormatter.Change> filtroNumeros = change -> {
+            String entrada = change.getControlNewText();
+            Pattern pattern = Pattern.compile("-?\\d*\\.?\\d*");
+            boolean entradaValida = pattern.matcher(entrada).matches();
+            if (entradaValida) {
+                return change;
+            } else {
+                return null; // Rechazar el cambio
+            }
+        };
+
+        this.precioProductoTextField.setTextFormatter((TextFormatter<?>) filtroNumeros);
+
+        this.prepararModoOperacion();
 
         ProveedoresTableView tablaProveedores = new ProveedoresTableView();
         this.tablaProveedores = tablaProveedores;
@@ -115,7 +129,17 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
         this.producto.setId(Long.valueOf(this.codigoBarrasTextField.getId()));
         this.producto.setNombre(this.nombreProductoTextField.getText());
         this.producto.setCodigo(this.codigoInternoTextField.getText());
-        this.producto.setPrecio(Float.parseFloat(this.precioProductoTextField.getText()));
+
+        Float precio;
+
+        try {
+            precio = Float.parseFloat(this.precioProductoTextField.getText());
+        } catch (Exception e) {
+            System.out.println("# ERROR EN EL PRECIO DEL PRODUCTO");
+            return;
+        }
+
+        this.producto.setPrecio(precio);
 
         String fechaString = this.fechaRegistroTextField.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

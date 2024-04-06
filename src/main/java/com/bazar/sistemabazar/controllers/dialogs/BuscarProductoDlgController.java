@@ -124,7 +124,6 @@ public class BuscarProductoDlgController implements Initializable {
         Instant fechaActual = Instant.now();
         LocalDateTime fechaLocal = LocalDateTime.ofInstant(fechaActual, ZoneId.systemDefault());
 
-
         this.listaProductos = FXCollections.observableArrayList(
                 new ProductoTableModel("XA1010", "Jarra Plastico", 54.50f, fechaLocal),
                 new ProductoTableModel("XA1234", "Vaso Vidrio", 35.0f, fechaLocal),

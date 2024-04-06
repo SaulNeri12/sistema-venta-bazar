@@ -2,6 +2,7 @@ package com.bazar.sistemabazar.controllers;
 
 import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProveedorDlgController;
+import com.bazar.sistemabazar.controllers.panels.PanelVentaController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -23,19 +25,28 @@ public class BazarController implements Initializable {
     //private IPersistencia persistencia;
 
     @FXML
-    private Label welcomeText;
-    @FXML
-    private AnchorPane panelVenta;
+    private VBox panelVentaContainer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        FXMLLoader panelVentaLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/panels/PanelVenta.fxml"));
 
+        // aqui se inyecta la dependencia de ventas
+        panelVentaLoader.setControllerFactory(c -> {
+            return new PanelVentaController("Hello world");
+        });
+
+        AnchorPane nuevoPanelVenta = null;
+
+        try {
+            nuevoPanelVenta = panelVentaLoader.load();
+            panelVentaContainer.getChildren().add(nuevoPanelVenta);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
+
 
     @FXML
     protected void onMenuProveedoresBuscarProveedorClick() {
