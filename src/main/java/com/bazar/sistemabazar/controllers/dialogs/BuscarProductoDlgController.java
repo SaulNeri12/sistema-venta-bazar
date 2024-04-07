@@ -39,6 +39,7 @@ public class BuscarProductoDlgController implements Initializable {
     private ProductosTableView tablaProductos;
 
     private ProductoTableModel productoSeleccionado;
+    private Producto objetoProducto;
 
     private Integer cantidadProductos;
 
@@ -57,6 +58,7 @@ public class BuscarProductoDlgController implements Initializable {
 
     public BuscarProductoDlgController(IPersistenciaBazar persistencia) {
         this.persistencia = persistencia;
+        objetoProducto = null;
     }
 
     @Override
@@ -88,10 +90,15 @@ public class BuscarProductoDlgController implements Initializable {
                                 productoSeleccionado.getNombreProperty().get()
                         )
                 );
+
+                try {
+                    objetoProducto = persistencia.consultarProductoPorCodigo(productoSeleccionado.getCodigoProperty().get());
+                } catch (PersistenciaBazarException e) {
+                    objetoProducto = null;
+                    // TODO: MOSTRAR ALERTA
+                }
             }
         });
-
-
 
         // se le asigna la cantidad maxima para un producto
         this.cantidadProductoSpinner.setValueFactory(
@@ -143,8 +150,8 @@ public class BuscarProductoDlgController implements Initializable {
         panelTablaProductos.getChildren().add(tablaProductos);
     }
 
-    public ProductoTableModel getProductoSeleccionado() {
-        return this.productoSeleccionado;
+    public Producto getProductoSeleccionado() {
+        return this.objetoProducto;
     }
 
     /**

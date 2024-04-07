@@ -95,16 +95,11 @@ public class PanelVentaController implements Initializable {
             buscarProductoStage.showAndWait();
 
             /* logica importante */
-            ProductoTableModel productoSeleccionadoTabla = buscarProductoController.getProductoSeleccionado();
+            Producto productoSeleccionado= buscarProductoController.getProductoSeleccionado();
 
-            if (productoSeleccionadoTabla == null) {
+            if (productoSeleccionado == null) {
                 return;
             }
-
-            Producto productoSeleccionado = new Producto();
-            productoSeleccionado.setCodigo(productoSeleccionadoTabla.getCodigoProperty().get());
-            productoSeleccionado.setNombre(productoSeleccionadoTabla.getNombreProperty().get());
-            productoSeleccionado.setPrecio(productoSeleccionadoTabla.getPrecioProperty().get());
 
             ObservableList<DetalleVentaTableModel> productosTabla = tablaVenta.getItems();
 

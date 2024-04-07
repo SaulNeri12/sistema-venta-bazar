@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +18,10 @@ import javafx.scene.layout.Pane;
 import objetosNegocio.Producto;
 import objetosNegocio.Proveedor;
 
-public class ProductoDlgController implements Initializable, IControlDialogo<Producto> {
+// TODO: AVERIGUAR QUE SE PUEDE HACER CON ESTE CONTROLADOR (VER SI ES MEJOR DIVIDIRLO)
+
+public class ProductoDlgController implements Initializable {
+
 
     private Producto producto;
     private DialogoOperacion modoOperacion;
@@ -40,8 +42,8 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
     /*
     public ProductoDlgController(IGestorProductos gestorProductos, IGestorProveedores ) {
 
-    }
-     */
+    }*/
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,18 +67,16 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
 
         this.precioProductoTextField.setTextFormatter((TextFormatter<?>) filtroNumeros);
 
-        this.prepararModoOperacion();
+        //this.prepararModoOperacion();
 
         ProveedoresTableView tablaProveedores = new ProveedoresTableView();
         this.tablaProveedores = tablaProveedores;
         this.tablaProveedoresPane.getChildren().add(tablaProveedores);
     }
 
-    @Override
-    public void asignarModoOperacion(DialogoOperacion modo) {
-        this.modoOperacion = modo;
-    }
 
+
+    /*
     @Override
     public void prepararModoOperacion() {
          switch (modoOperacion) {
@@ -116,6 +116,7 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
              }
         }
     }
+
 
     @Override
     public DialogoOperacion obtenerModoOperacion() {
@@ -180,5 +181,5 @@ public class ProductoDlgController implements Initializable, IControlDialogo<Pro
             this.nombreProductoTextField.setText(producto.getNombre());
             this.precioProductoTextField.setText(Float.toString(producto.getPrecio()));
         }
-    }
+    }*/
 }
