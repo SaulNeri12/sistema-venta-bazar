@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.util.Duration;
 import objetosNegocio.DetalleVenta;
 import objetosNegocio.Producto;
+import persistencia.IPersistenciaBazar;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,8 @@ import java.util.ResourceBundle;
 public class PanelVentaController implements Initializable {
 
     private Float totalAPagar;
+
+    private IPersistenciaBazar persistencia;
 
     private DetallesVentaTableView tablaVenta;
 
@@ -43,10 +46,9 @@ public class PanelVentaController implements Initializable {
     private AnchorPane controlVentaAnchorPane;
 
 
-    public PanelVentaController(String msg) {
+    public PanelVentaController(IPersistenciaBazar persistencia) {
         totalAPagar = 0.0f;
-
-        System.out.println(msg);
+        this.persistencia = persistencia;
     }
 
     @Override
@@ -73,6 +75,11 @@ public class PanelVentaController implements Initializable {
     @FXML
     public void mostrarDialogoBusquedaProducto(ActionEvent actionEvent) {
         FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoDlg.fxml"));
+
+        buscarProductoDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarProductoDlgController(persistencia);
+        });
+
         Parent root = null;
         try {
             root = buscarProductoDlgFxmlLoader.load();

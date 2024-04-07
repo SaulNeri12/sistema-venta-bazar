@@ -1,6 +1,7 @@
 package com.bazar.sistemabazar.components.tables.models;
 
 import javafx.beans.property.*;
+import objetosNegocio.Producto;
 
 public class DetalleVentaTableModel extends ProductoTableModel {
     private SimpleIntegerProperty cantidad;
@@ -10,6 +11,18 @@ public class DetalleVentaTableModel extends ProductoTableModel {
         super(codigo, nombre, precio, null);
         this.cantidad = new SimpleIntegerProperty(cantidad);
         this.total = new SimpleFloatProperty(precio * cantidad);
+    }
+
+    public DetalleVentaTableModel(Producto producto, int cantidad) {
+        super(
+                producto.getCodigo(),
+                producto.getNombre(),
+                producto.getPrecio(),
+                null
+        );
+
+        this.cantidad = new SimpleIntegerProperty(cantidad);
+        this.total = new SimpleFloatProperty(producto.getPrecio() * cantidad);
     }
 
     public void setCantidad(int cantidad) {

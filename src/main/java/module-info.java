@@ -4,6 +4,7 @@ module com.bazar.sistemabazar {
 
     requires org.kordamp.bootstrapfx.core;
     requires ObjetosNegocioBazar;
+    requires PersistenciaListasBazar;
 
     opens com.bazar.sistemabazar to javafx.fxml;
     exports com.bazar.sistemabazar;

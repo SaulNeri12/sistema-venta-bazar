@@ -14,11 +14,15 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
+import objetosNegocio.Producto;
+import persistencia.IPersistenciaBazar;
+import persistencia.excepciones.PersistenciaBazarException;
 
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +30,8 @@ import java.util.TimerTask;
 public class BuscarProductoDlgController implements Initializable {
 
     private ObservableList<ProductoTableModel> listaProductos;
+
+    private IPersistenciaBazar persistencia;
 
     private Timer timerBusquedaProducto;
 
@@ -49,19 +55,13 @@ public class BuscarProductoDlgController implements Initializable {
 
     public void setStage(Stage stage) { this.stage = stage; }
 
+    public BuscarProductoDlgController(IPersistenciaBazar persistencia) {
+        this.persistencia = persistencia;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ProductosTableView tablaProductos = new ProductosTableView();
-
-        int numColumnas = tablaProductos.getColumns().size();
-
-        /*
-        // removemos las columnas de la tabla ya que no se utilizaran...
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna del total
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-
-         */
 
         // producto seleccionado en la tabla
         productoSeleccionado = null;
@@ -114,28 +114,26 @@ public class BuscarProductoDlgController implements Initializable {
                     @Override
                     public void run() {
                         filtrarProductosPorNombre(nuevoString.toLowerCase());
-                        //System.out.println("CAMBIA!!!");
                     }
                 }, 100);
             }
         });
 
+        // cargar todos los productos en la tabla desde la persistencia...
+        this.listaProductos = FXCollections.observableArrayList();
 
-        Instant fechaActual = Instant.now();
-        LocalDateTime fechaLocal = LocalDateTime.ofInstant(fechaActual, ZoneId.systemDefault());
+        try {
+            List<Producto> productosEnSistema = persistencia.consultarProductosTodos();
 
-        this.listaProductos = FXCollections.observableArrayList(
-                new ProductoTableModel("XA1010", "Jarra Plastico", 54.50f, fechaLocal),
-                new ProductoTableModel("XA1234", "Vaso Vidrio", 35.0f, fechaLocal),
-                new ProductoTableModel("SX1010", "Plato Vidrio Blanco", 40.0f, fechaLocal),
-                new ProductoTableModel("T34121", "Plato Plastico", 32.0f,fechaLocal),
-                new ProductoTableModel("SO1234", "Cesta ropa", 90.50f, fechaLocal),
-                new ProductoTableModel("POP123", "Caja Madera 25x25cm", 56.5f, fechaLocal),
-                new ProductoTableModel("PO1234", "Caja ordenadora madera 25x25", 97.0f, fechaLocal),
-                new ProductoTableModel("TZ1234", "Taza Cafe Java", 50.0f, fechaLocal),
-                new ProductoTableModel("TZ1334", "Taza Cafe Jurassic Park", 60.0f, fechaLocal),
-                new ProductoTableModel("CA1111", "Calentadera Metal Azul", 125.0f, fechaLocal)
-        );
+            for (Producto producto: productosEnSistema) {
+                ProductoTableModel productoFilaTabla = new ProductoTableModel(producto);
+                this.listaProductos.add(productoFilaTabla);
+            }
+
+        } catch (PersistenciaBazarException e) {
+            throw new RuntimeException(e);
+            // TODO: EMITIR ALERTA
+        }
 
         tablaProductos.getItems().addAll(this.listaProductos);
         tablaProductos.setEditable(false);
@@ -151,6 +149,7 @@ public class BuscarProductoDlgController implements Initializable {
 
     /**
      * Cierra el dialogo conservando el producto seleccionado
+     * TODO: CAMBIAR NOMBRE
      */
     public void agregarProducto() {
         if (this.productoSeleccionado == null) {
