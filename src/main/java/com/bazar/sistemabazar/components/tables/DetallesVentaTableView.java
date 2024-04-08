@@ -101,29 +101,7 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
         return productoVenta;
     }
 
-    @Override
-    public DetalleVenta obtenerFilaObjeto(DetalleVenta productoVenta) {
-        Optional<DetalleVentaTableModel> productoEnTabla = this.getItems()
-                .stream()
-                .filter(p -> p.getCodigoProperty().get().equals(productoVenta.getProducto().getCodigo()))
-                .findFirst();
 
-        if (productoEnTabla.isPresent()) {
-            Producto producto = new Producto();
-            producto.setCodigo(productoEnTabla.get().getCodigoProperty().get());
-            producto.setNombre(productoEnTabla.get().getNombreProperty().get());
-            producto.setPrecio(productoEnTabla.get().getPrecioProperty().get());
-
-            DetalleVenta productoVentaRet = new DetalleVenta();
-            productoVentaRet.setProducto(producto);
-            productoVentaRet.setCantidad(productoEnTabla.get().getCantidadProperty().get());
-            productoVentaRet.setPrecioProducto(producto.getPrecio());
-
-            return productoVentaRet;
-        }
-
-        return null;
-    }
 
     @Override
     public DetalleVenta obtenerFilaObjetoPorIndice(int indice) {

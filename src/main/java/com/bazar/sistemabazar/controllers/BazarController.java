@@ -2,6 +2,7 @@ package com.bazar.sistemabazar.controllers;
 
 import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProveedorDlgController;
+import com.bazar.sistemabazar.controllers.dialogs.BuscarVentaDlgController;
 import com.bazar.sistemabazar.controllers.panels.PanelVentaController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,6 @@ import java.util.ResourceBundle;
 
 public class BazarController implements Initializable {
 
-
     private IPersistenciaBazar persistencia;
     private Usuario usuario;
 
@@ -35,6 +35,7 @@ public class BazarController implements Initializable {
     private VBox panelVentaContainer;
     // menu ventas
     public Menu menuVentas;
+    public MenuItem menuVentasConsultarTodos;
     public MenuItem menuVentasBuscarVenta;
     public MenuItem menuVentasModificarVenta;
     public MenuItem menuVentasEliminarVenta;
@@ -107,6 +108,35 @@ public class BazarController implements Initializable {
         buscarProveedorDlgStage.setScene(new Scene(root));
         buscarProveedorDlgStage.initModality(Modality.APPLICATION_MODAL);
         buscarProveedorDlgStage.showAndWait();
+    }
+
+    @FXML
+    public void mostrarDialogoVentas() {
+        FXMLLoader buscarVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarVentaDlg.fxml"));
+
+        buscarVentaDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarVentaDlgController(persistencia, usuario);
+        });
+
+        Parent root = null;
+
+        try {
+            root = buscarVentaDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage ventasDlgStage = new Stage();
+
+        BuscarVentaDlgController ventaDlgController = buscarVentaDlgFxmlLoader.getController();
+        ventaDlgController.setStage(ventasDlgStage);
+
+        Scene scene = new Scene(root);
+        ventasDlgStage.setMaximized(false);
+        ventasDlgStage.setScene(scene);
+        ventasDlgStage.setTitle("Ventas");
+
+        ventasDlgStage.show();
     }
 
 }

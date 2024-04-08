@@ -32,12 +32,12 @@ public class VentasTableView extends TableView<VentaTableModel> implements ICont
 
         TableColumn<VentaTableModel, String> colVentaMetodoPago = new TableColumn<>("Metodo pago");
         colVentaMetodoPago.setMaxWidth(100);
-        colVentaMetodoPago.setMinWidth(80);
+        colVentaMetodoPago.setMinWidth(100);
         colVentaMetodoPago.setCellValueFactory(cellData -> cellData.getValue().getMetodoPagoProperty());
 
         TableColumn<VentaTableModel, Float> colVentaMontoTotal = new TableColumn<>("Monto total");
         colVentaMontoTotal.setMaxWidth(100);
-        colVentaMontoTotal.setMinWidth(80);
+        colVentaMontoTotal.setMinWidth(100);
         colVentaMontoTotal.setCellValueFactory(cellData -> cellData.getValue().getMontoTotalProperty().asObject());
 
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
