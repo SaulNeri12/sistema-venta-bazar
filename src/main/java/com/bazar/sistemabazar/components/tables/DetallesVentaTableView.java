@@ -21,19 +21,19 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
         columnaProductoCodigo.setCellValueFactory(cellData -> cellData.getValue().getCodigoProperty());
 
         TableColumn<DetalleVentaTableModel, String> columnaNombreProducto = new TableColumn<>("Nombre del producto");
-        columnaNombreProducto.setPrefWidth(250);
+        columnaNombreProducto.setPrefWidth(300);
         columnaNombreProducto.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
 
         TableColumn<DetalleVentaTableModel, Float> columnaPrecioProducto = new TableColumn<>("Precio");
-        columnaPrecioProducto.setPrefWidth(100);
+        columnaPrecioProducto.setPrefWidth(50);
         columnaPrecioProducto.setCellValueFactory(cellData -> cellData.getValue().getPrecioProperty().asObject());
 
         TableColumn<DetalleVentaTableModel, Integer> columnaCantidadProducto = new TableColumn<>("Cantidad");
-        columnaCantidadProducto.setPrefWidth(100);
+        columnaCantidadProducto.setPrefWidth(50);
         columnaCantidadProducto.setCellValueFactory(cellData -> cellData.getValue().getCantidadProperty().asObject());
 
         TableColumn<DetalleVentaTableModel, Float> columnaTotalProducto = new TableColumn<>("Total");
-        columnaTotalProducto.setPrefWidth(100);
+        columnaTotalProducto.setPrefWidth(50);
         columnaTotalProducto.setCellValueFactory(cellData -> cellData.getValue().getTotalProperty().asObject());
 
         // ajustes adicionales

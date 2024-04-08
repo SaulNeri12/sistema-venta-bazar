@@ -74,8 +74,6 @@ public class BuscarProveedorDlgController implements Initializable {
             }
         });
 
-
-
         timerBusquedaProveedor = new Timer();
 
         nombreProveedorTextField.textProperty().addListener(new ChangeListener<String>() {
@@ -89,7 +87,7 @@ public class BuscarProveedorDlgController implements Initializable {
                     @Override
                     public void run() {
                         filtrarProveedoresPorNombre(nuevoString.toLowerCase());
-                        System.out.println("CAMBIA!!!");
+                        //System.out.println("CAMBIA!!!");
                     }
                 }, 100);
             }

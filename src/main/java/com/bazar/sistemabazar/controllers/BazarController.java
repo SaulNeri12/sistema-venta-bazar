@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -30,6 +32,33 @@ public class BazarController implements Initializable {
 
     @FXML
     private VBox panelVentaContainer;
+    // menu ventas
+    public Menu menuVentas;
+    public MenuItem menuVentasModificarVenta;
+    public MenuItem menuVentasEliminarVenta;
+    // menu productos
+    public Menu menuProductos;
+    public MenuItem menuProductosBuscarProducto;
+    public MenuItem menuProductosAgregarProducto;
+    public MenuItem menuProductosModificarProducto;
+    public MenuItem menuProductosEliminarProducto;
+    // menu usuarios
+    public Menu menuUsuarios;
+    public MenuItem menuUsuariosBuscarUsuario;
+    public MenuItem menuUsuariosAgregarUsuario;
+    public MenuItem menuUsuariosModificarUsuario;
+    public MenuItem menuUsuariosEliminarUsuario;
+    // menu proveedores
+    public Menu menuProveedores;
+    public MenuItem menuProveedoresBuscarProveedor;
+    public MenuItem menuProveedoresAgregarProveedor;
+    public MenuItem menuProveedoresModificarProveedor;
+    public MenuItem menuProveedoresEliminarProveedor;
+    // menu inventario
+    public Menu menuInventario;
+    public MenuItem menuInventarioBuscarProducto;
+    public MenuItem menuInventarioRegistrarExistenciaProducto;
+
 
     public BazarController(IPersistenciaBazar persistencia, Usuario usuario) {
         this.persistencia = persistencia;
@@ -61,15 +90,6 @@ public class BazarController implements Initializable {
     protected void onMenuProveedoresBuscarProveedorClick() {
         FXMLLoader buscarProveedorDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProveedorDlg.fxml"));
         Parent root = null;
-
-        /*
-
-        // se le asigna el subsistema de IGestorProveedores
-        buscarProveedorDlgFxmlLoader.setControllerFactory(c -> {
-            return new BuscarProveedorDlgController(persistencia.getSubsistemaProveedores());
-        });
-
-        */
 
         try {
             root = buscarProveedorDlgFxmlLoader.load();

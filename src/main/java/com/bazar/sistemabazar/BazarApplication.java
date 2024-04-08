@@ -1,5 +1,7 @@
 package com.bazar.sistemabazar;
 
+import com.bazar.sistemabazar.adaptador.principal.AdaptadorUsuarioGUICajero;
+import com.bazar.sistemabazar.adaptador.principal.AdaptadorUsuarioGUIGerente;
 import com.bazar.sistemabazar.controllers.BazarController;
 import com.bazar.sistemabazar.controllers.LoginController;
 import javafx.application.Application;
@@ -61,7 +63,7 @@ public class BazarApplication extends Application {
         // inicializacion del frame principal
         Usuario usuarioLogeado = loginController.obtenerUsuarioLogeado();
 
-        /***/ System.out.println(usuarioLogeado);
+        /*** System.out.println(usuarioLogeado);*/
 
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));
@@ -75,6 +77,21 @@ public class BazarApplication extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.setTitle("Sistema Bazar");
+
+        BazarController controladorBazar = bazarFxmlLoader.getController();
+
+        // adapta la interfaz
+        switch (usuarioLogeado.getPuesto()) {
+            case CAJERO -> {
+                new AdaptadorUsuarioGUICajero().ejecutar(controladorBazar);
+            }
+            case GERENTE -> {
+                new AdaptadorUsuarioGUIGerente().ejecutar(controladorBazar);
+            }
+            case ADMIN -> {
+                // nada...
+            }
+        }
 
         stage.show(); // se muestra el frame principal
     }
