@@ -25,11 +25,7 @@ public class BazarApplication extends Application {
     }
 
     @Override
-		// cambio
     public void start(Stage stage) throws IOException {
-
-
-
         // se mostrara el login
         FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
 
@@ -62,6 +58,7 @@ public class BazarApplication extends Application {
         centerStage(loginStage);
 
 
+        // inicializacion del frame principal
         Usuario usuarioLogeado = loginController.obtenerUsuarioLogeado();
 
         /***/ System.out.println(usuarioLogeado);
@@ -79,8 +76,7 @@ public class BazarApplication extends Application {
         stage.setScene(scene);
         stage.setTitle("Sistema Bazar");
 
-
-        stage.show();
+        stage.show(); // se muestra el frame principal
     }
 
     private void centerStage(Stage stage) {

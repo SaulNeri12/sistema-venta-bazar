@@ -5,6 +5,7 @@ import com.bazar.sistemabazar.components.tables.models.ProveedorTableModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+// TODO: HACER QUE IMPLEMENTE ICONTROLTABLA
 public class ProveedoresTableView extends TableView<ProveedorTableModel> {
 
     public void inicialiar() {
