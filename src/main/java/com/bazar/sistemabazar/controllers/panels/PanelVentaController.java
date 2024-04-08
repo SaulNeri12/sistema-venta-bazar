@@ -29,6 +29,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+// TODO: OCURRE UN ERROR EXTRANO CUANDO SE QUITAN PRODUCTOS DE LA VENTA, SIGUEN CONSERVANDO
+// LA CANTIDAD DE PRODUCTOS QUE HABIA ANTES DE QUE SE REMOVIERAN DE LA TABLA DE DETALLLES DE VENTA,
+// HACIENDO QUE EL TOTAL DEL PRODUCTO COMPRADO SE VEA AFECTADO...
+
 public class PanelVentaController implements Initializable {
 
     private Float totalAPagar;
@@ -152,7 +156,7 @@ public class PanelVentaController implements Initializable {
         Float total = 0.0f;
 
         if (!productos.isEmpty()) {
-            for (DetalleVentaTableModel prdct : productos) {
+            for (DetalleVentaTableModel prdct: productos) {
                 total += prdct.getTotalProperty().get();
             }
         }

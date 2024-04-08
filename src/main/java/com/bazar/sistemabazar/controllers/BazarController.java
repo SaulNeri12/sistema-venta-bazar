@@ -29,6 +29,8 @@ public class BazarController implements Initializable {
     @FXML
     private VBox panelVentaContainer;
 
+
+
     public BazarController() {
         persistencia = new PersistenciaBazarListas();
     }
