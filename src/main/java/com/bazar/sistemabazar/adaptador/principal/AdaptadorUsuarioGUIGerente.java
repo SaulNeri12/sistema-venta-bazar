@@ -10,7 +10,7 @@ public class AdaptadorUsuarioGUIGerente implements IAdaptadorUsuarioGUI {
     @Override
     public void ejecutar(BazarController controladorBazar) {
         // opciones de menu ventas
-        controladorBazar.menuVentas.setVisible(false);
+        //controladorBazar.menuVentas.setVisible(false);
         // opciones de menu productos
         controladorBazar.menuProductosAgregarProducto.setVisible(false);
         controladorBazar.menuProductosModificarProducto.setVisible(false);

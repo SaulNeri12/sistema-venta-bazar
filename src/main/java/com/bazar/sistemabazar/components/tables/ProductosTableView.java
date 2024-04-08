@@ -63,26 +63,6 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
     }
 
     @Override
-    public Producto obtenerFilaObjeto(Producto producto) {
-        Optional<ProductoTableModel> filaProducto = this.getItems()
-                .stream()
-                .filter(p -> p.getCodigoProperty().get().equals(producto.getCodigo()))
-                .findFirst();
-
-        if (filaProducto.isEmpty())
-            return null;
-
-        Producto productoEncontrado = new Producto();
-
-        productoEncontrado.setCodigo(filaProducto.get().getCodigoProperty().get());
-        productoEncontrado.setNombre(filaProducto.get().getNombreProperty().get());
-        productoEncontrado.setPrecio(filaProducto.get().getPrecioProperty().get());
-        productoEncontrado.setFechaRegistro(filaProducto.get().getFechaRegistroProperty().get());
-
-        return productoEncontrado;
-    }
-
-    @Override
     public Producto obtenerFilaObjetoPorIndice(int indice) {
         ProductoTableModel filaProducto = this.getItems().get(indice);
 

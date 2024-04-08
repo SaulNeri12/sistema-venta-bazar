@@ -20,13 +20,6 @@ public interface IControlTabla<T> {
     public T obtenerFilaObjetoSeleccionado();
 
     /**
-     * Obtiene el objeto de la que contenga informacion del objeto especificado.
-     * @param objeto Objeto a buscar en la tabla.
-     * @return null si no se encontro.
-     */
-    public T obtenerFilaObjeto(T objeto);
-
-    /**
      * Obtiene el objeto en la fila especificada por el indice (empezando desde 0).
      * @param indice Posicion (partiendo desde 0) de la fila que se quiere obtener su dato.
      * @return null si no se encontro el objeto en la fila especificada.

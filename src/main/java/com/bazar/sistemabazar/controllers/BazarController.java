@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 public class BazarController implements Initializable {
 
+
     private IPersistenciaBazar persistencia;
     private Usuario usuario;
 
@@ -34,6 +35,7 @@ public class BazarController implements Initializable {
     private VBox panelVentaContainer;
     // menu ventas
     public Menu menuVentas;
+    public MenuItem menuVentasBuscarVenta;
     public MenuItem menuVentasModificarVenta;
     public MenuItem menuVentasEliminarVenta;
     // menu productos
