@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.util.Duration;
 import objetosNegocio.DetalleVenta;
 import objetosNegocio.Producto;
+import objetosNegocio.Usuario;
 import persistencia.IPersistenciaBazar;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class PanelVentaController implements Initializable {
     private Float totalAPagar;
 
     private IPersistenciaBazar persistencia;
+    private Usuario usuario;
 
     private DetallesVentaTableView tablaVenta;
 
@@ -50,9 +52,10 @@ public class PanelVentaController implements Initializable {
     private AnchorPane controlVentaAnchorPane;
 
 
-    public PanelVentaController(IPersistenciaBazar persistencia) {
+    public PanelVentaController(IPersistenciaBazar persistencia, Usuario usuario) {
         totalAPagar = 0.0f;
         this.persistencia = persistencia;
+        this.usuario = usuario;
     }
 
     @Override

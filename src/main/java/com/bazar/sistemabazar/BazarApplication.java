@@ -1,5 +1,6 @@
 package com.bazar.sistemabazar;
 
+import com.bazar.sistemabazar.controllers.BazarController;
 import com.bazar.sistemabazar.controllers.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,25 +10,33 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
+import objetosNegocio.Usuario;
+import persistencia.IPersistenciaBazar;
+import persistencia.PersistenciaBazarListas;
 
 import java.io.IOException;
 
 public class BazarApplication extends Application {
+
+    private IPersistenciaBazar persistencia;
+
+    public BazarApplication() {
+        this.persistencia = new PersistenciaBazarListas();
+    }
+
     @Override
 		// cambio
     public void start(Stage stage) throws IOException {
 
 
-        /*
+
         // se mostrara el login
         FXMLLoader loginFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/Login.fxml"));
 
-        /*
         // se le asigna el subsistema usuarios...
         loginFxmlLoader.setControllerFactory(c -> {
-            return new LoginController("SHESH");
+            return new LoginController(persistencia);
         });
-
 
         Parent root = loginFxmlLoader.load();
 
@@ -51,10 +60,19 @@ public class BazarApplication extends Application {
         loginStage.initModality(Modality.APPLICATION_MODAL);
         loginStage.showAndWait();
         centerStage(loginStage);
-        */
+
+
+        Usuario usuarioLogeado = loginController.obtenerUsuarioLogeado();
+
+        /***/ System.out.println(usuarioLogeado);
 
         // se mostrara el login
         FXMLLoader bazarFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/app.fxml"));
+
+        bazarFxmlLoader.setControllerFactory(c -> {
+            return new BazarController(persistencia, usuarioLogeado);
+        });
+
         Parent bazarRoot = bazarFxmlLoader.load();
         Scene scene = new Scene(bazarRoot);
         stage.setMaximized(true);

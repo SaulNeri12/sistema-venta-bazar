@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import objetosNegocio.Usuario;
 import persistencia.IPersistenciaBazar;
 import persistencia.PersistenciaBazarListas;
 
@@ -25,14 +26,14 @@ import java.util.ResourceBundle;
 public class BazarController implements Initializable {
 
     private IPersistenciaBazar persistencia;
+    private Usuario usuario;
 
     @FXML
     private VBox panelVentaContainer;
 
-
-
-    public BazarController() {
-        persistencia = new PersistenciaBazarListas();
+    public BazarController(IPersistenciaBazar persistencia, Usuario usuario) {
+        this.persistencia = persistencia;
+        this.usuario = usuario;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class BazarController implements Initializable {
 
         // aqui se inyecta la dependencia de ventas
         panelVentaLoader.setControllerFactory(c -> {
-            return new PanelVentaController(persistencia);
+            return new PanelVentaController(this.persistencia, this.usuario);
         });
 
         AnchorPane nuevoPanelVenta = null;
