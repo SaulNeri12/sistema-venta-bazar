@@ -168,4 +168,10 @@ public class PanelVentaController implements Initializable {
 
         this.campoIndicadorTotal.setText(totalAPagar.toString());
     }
+
+    @FXML
+    public void registrarCompra() {
+
+    }
+
 }
