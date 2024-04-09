@@ -22,7 +22,8 @@ import java.util.regex.Pattern;
 public class ConfirmarVentaDlgController implements Initializable {
 
 
-    private String nombreApellidoCliente;
+    private String nombreCliente;
+    private String apellidoCliente;
     private Venta.MetodoPago metodoPago;
     private Float montoTotal;
 
@@ -44,7 +45,8 @@ public class ConfirmarVentaDlgController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.nombreApellidoCliente = "";
+        this.nombreCliente = "";
+        this.apellidoCliente = "";
         this.metodoPago = Venta.MetodoPago.EFECTIVO;
 
         this.campoCambioTextField.setEditable(false);
@@ -90,8 +92,8 @@ public class ConfirmarVentaDlgController implements Initializable {
     public void completarVenta() {
         Pattern patronNombreApellido = Pattern.compile("^[a-zA-Z?\\s]{2,30}");
 
-        String nombreCliente = this.nombreClienteTextField.getText();
-        String apellidoCliente = this.apellidoClienteTextField.getText();
+        this.nombreCliente = this.nombreClienteTextField.getText();
+        this.apellidoCliente = this.apellidoClienteTextField.getText();
 
         try {
 
@@ -116,8 +118,6 @@ public class ConfirmarVentaDlgController implements Initializable {
                     return;
                 }
             });
-
-            this.nombreApellidoCliente = String.format("%s %s", nombreCliente, apellidoCliente);
 
             String metodoPagoSeleccionado = (String) this.metodoPagoChoiceBox.getSelectionModel().getSelectedItem();
 
@@ -149,8 +149,12 @@ public class ConfirmarVentaDlgController implements Initializable {
         }
     }
 
-    public String getNombreApellidoCliente() {
-        return this.nombreApellidoCliente;
+    public String getNombreCliente() {
+        return this.nombreCliente;
+    }
+
+    public String getApellidoCliente() {
+        return this.apellidoCliente;
     }
 
     public Venta.MetodoPago getMetodoPago() {

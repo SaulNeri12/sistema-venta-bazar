@@ -25,10 +25,15 @@ import javafx.util.Duration;
 import objetosNegocio.DetalleVenta;
 import objetosNegocio.Producto;
 import objetosNegocio.Usuario;
+import objetosNegocio.Venta;
 import persistencia.IPersistenciaBazar;
+import persistencia.excepciones.PersistenciaBazarException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 // [x] (solucionado, sin hacer nada...) TODO: OCURRE UN ERROR EXTRANO CUANDO SE QUITAN PRODUCTOS DE LA VENTA, SIGUEN CONSERVANDO
@@ -203,10 +208,49 @@ public class PanelVentaController implements Initializable {
         confirmarVentaDlgStage.initModality(Modality.APPLICATION_MODAL);
         confirmarVentaDlgStage.showAndWait();
 
-        System.out.println(confirmarVentaController.getMetodoPago());
-        System.out.println(confirmarVentaController.getNombreApellidoCliente());
+        List<DetalleVenta> productosDetalleVenta = new ArrayList<>();
 
+        for (DetalleVentaTableModel detalleVentaEnTabla: tablaVenta.getItems()) {
+            try {
+                Producto producto = persistencia.consultarProductoPorCodigo(detalleVentaEnTabla.getCodigoProperty().get());
 
+                if (producto == null) {
+                    throw new PersistenciaBazarException("Ocurrio un error al buscar el detalle del producto");
+                }
+
+                DetalleVenta detalleVenta = new DetalleVenta();
+                detalleVenta.setProducto(producto);
+                detalleVenta.setCantidad(detalleVentaEnTabla.getCantidadProperty().get());
+                detalleVenta.setPrecioProducto(producto.getPrecio());
+
+                productosDetalleVenta.add(detalleVenta);
+
+            } catch (PersistenciaBazarException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Venta venta = new Venta();
+
+        // NOTE: PARA SIMULACION...
+        Random random = new Random();
+
+        venta.setId(random.nextLong() & Long.MAX_VALUE);
+
+        venta.setNombreCliente(confirmarVentaController.getNombreCliente());
+        venta.setApellidoCliente(confirmarVentaController.getApellidoCliente());
+        venta.setMetodoPago(confirmarVentaController.getMetodoPago());
+        venta.setProductosVendidos(productosDetalleVenta);
+        venta.setUsuario(this.usuario);
+
+        try {
+            persistencia.registrarVenta(venta);
+        } catch (PersistenciaBazarException e) {
+            throw new RuntimeException(e);
+            // TODO: MANEJAR ERROR CON DIALOGO
+        }
+
+        this.tablaVenta.eliminarTodasLasFilas();
     }
 
 }
