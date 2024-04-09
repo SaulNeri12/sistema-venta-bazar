@@ -9,66 +9,86 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objetosNegocio.Usuario;
+import objetosNegocio.Venta;
 import persistencia.IPersistenciaBazar;
 
 import java.net.URL;
 import java.util.IllegalFormatException;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfirmarVentaDlgController implements Initializable {
 
+
+    private String nombreApellidoCliente;
+    private Venta.MetodoPago metodoPago;
+    private Float montoTotal;
+
     private Stage stage;
 
     @FXML
     public TextField nombreClienteTextField;
-    public Label apellidoClienteTextField;
+    public TextField apellidoClienteTextField;
     public ChoiceBox metodoPagoChoiceBox;
     public TextField montoTotalTextField;
-    public Spinner campoMontoPagoSpinner;
+    public TextField campoMontoPagoTextField;
     public TextField campoCambioTextField;
     public Button completarVentaBoton;
 
+    public ConfirmarVentaDlgController(Float montoTotal) {
+        this.montoTotal = montoTotal;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        this.nombreApellidoCliente = "";
+        this.metodoPago = Venta.MetodoPago.EFECTIVO;
+
         this.campoCambioTextField.setEditable(false);
         this.montoTotalTextField.setEditable(false);
+        this.montoTotalTextField.setText(this.montoTotal.toString());
+        this.completarVentaBoton.setDisable(false);
 
-        this.metodoPagoChoiceBox = new ChoiceBox<String>();
         this.metodoPagoChoiceBox.setItems(FXCollections.observableArrayList(
                 "EFECTIVO",
                 "TARJETA"
         ));
 
-        this.campoMontoPagoSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
+
+        this.campoMontoPagoTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends Integer> observableValue, Integer i, Integer nuevoValor) {
-                Float montoTotalCompra = Float.valueOf(montoTotalTextField.getText());
+            public void changed(ObservableValue<? extends String> observableValue, String s, String nuevoValor) {
+                if (!nuevoValor.matches("\\d*")) {
+                    campoMontoPagoTextField.setText(nuevoValor.replaceAll("[^\\d]", ""));
+                }
 
-                completarVentaBoton.setDisable(false);
-
-                if (nuevoValor < montoTotalCompra) {
+                Float cantidadPago = Float.valueOf(campoMontoPagoTextField.getText());
+                Float cambioCalculado = cantidadPago - montoTotal;
+                if (cambioCalculado >= 0) {
+                    completarVentaBoton.setDisable(false);
+                    campoCambioTextField.setText(cambioCalculado.toString());
+                } else {
                     completarVentaBoton.setDisable(true);
+                    campoCambioTextField.setText("");
                 }
             }
         });
 
-        this.campoMontoPagoSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                1,
-                100_000
-        ));
+        this.campoMontoPagoTextField.setEditable(true);
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+
+
     @FXML
     public void completarVenta() {
-        Pattern patronNombreApellido = Pattern.compile("^[a-zA-Z\\s]{2,30}");
+        Pattern patronNombreApellido = Pattern.compile("^[a-zA-Z?\\s]{2,30}");
 
         String nombreCliente = this.nombreClienteTextField.getText();
         String apellidoCliente = this.apellidoClienteTextField.getText();
@@ -97,6 +117,26 @@ public class ConfirmarVentaDlgController implements Initializable {
                 }
             });
 
+            this.nombreApellidoCliente = String.format("%s %s", nombreCliente, apellidoCliente);
+
+            String metodoPagoSeleccionado = (String) this.metodoPagoChoiceBox.getSelectionModel().getSelectedItem();
+
+            if (metodoPagoSeleccionado.equals(Venta.MetodoPago.EFECTIVO.toString())) {
+                this.metodoPago = Venta.MetodoPago.EFECTIVO;
+            }
+            else if (metodoPagoSeleccionado.equals(Venta.MetodoPago.TARJETA.toString())) {
+                this.metodoPago = Venta.MetodoPago.TARJETA;
+            }
+
+            Float montoPagoVenta = Float.valueOf(this.campoMontoPagoTextField.getText());
+            Float totalAPagar = Float.valueOf(this.montoTotalTextField.getText());
+            if (montoPagoVenta < totalAPagar) {
+                this.completarVentaBoton.setDisable(true);
+                return;
+            }
+
+            this.completarVentaBoton.setDisable(false);
+
             this.cerrarDialogo();
 
         } catch (IllegalArgumentException ex) {
@@ -105,14 +145,20 @@ public class ConfirmarVentaDlgController implements Initializable {
             alert.setHeaderText("");
             alert.setContentText(ex.getMessage());
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.show();
+            alert.showAndWait();
         }
+    }
+
+    public String getNombreApellidoCliente() {
+        return this.nombreApellidoCliente;
+    }
+
+    public Venta.MetodoPago getMetodoPago() {
+        return this.metodoPago;
     }
 
     @FXML
     public void cerrarDialogo() {
         this.stage.close();
     }
-
-
 }

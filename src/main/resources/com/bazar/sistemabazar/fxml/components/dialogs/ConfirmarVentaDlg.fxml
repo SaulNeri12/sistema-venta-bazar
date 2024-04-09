@@ -37,8 +37,8 @@
             </HBox>
             <HBox prefHeight="34.0" prefWidth="580.0">
                <children>
-                  <Label prefHeight="33.0" prefWidth="114.0" text="Apellido Cliente:" fx:id="apellidoClienteTextField"/>
-                  <TextField prefHeight="34.0" prefWidth="278.0" />
+                  <Label prefHeight="33.0" prefWidth="114.0" text="Apellido Cliente:"/>
+                  <TextField prefHeight="34.0" prefWidth="278.0" fx:id="apellidoClienteTextField"/>
                </children>
             </HBox>
             <Separator prefHeight="21.0" prefWidth="580.0" />
@@ -69,7 +69,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Spinner prefHeight="33.0" prefWidth="137.0" fx:id="campoMontoPagoSpinner"/>
+                        <TextField prefHeight="33.0" prefWidth="137.0" fx:id="campoMontoPagoTextField"/>
                      </children>
                   </HBox>
                   <Separator prefHeight="24.0" prefWidth="580.0" />

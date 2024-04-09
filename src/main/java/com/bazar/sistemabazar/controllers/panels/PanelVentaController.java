@@ -5,6 +5,7 @@ import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
+import com.bazar.sistemabazar.controllers.dialogs.ConfirmarVentaDlgController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -36,6 +37,7 @@ import java.util.ResourceBundle;
 
 public class PanelVentaController implements Initializable {
 
+
     private Float totalAPagar;
 
     private IPersistenciaBazar persistencia;
@@ -47,6 +49,7 @@ public class PanelVentaController implements Initializable {
     public VBox tablaVentaPane;
     public Button botonBuscarProducto;
     public TextField campoIndicadorTotal;
+    public Button finalizarCompraBoton;
 
     @FXML
     private AnchorPane controlVentaAnchorPane;
@@ -66,12 +69,19 @@ public class PanelVentaController implements Initializable {
 
         this.tablaVenta.setPlaceholder(new Label(""));
 
+        this.finalizarCompraBoton.setDisable(true);
+
         tablaVentaPane.getChildren().add(tablaVenta); // se anade al frame...
 
         // dado que no encontre una manera facil de hacer que se actualice el indicador del total
         // en cada evento, llegue a esta solucion. Hace que ese indicador se redibuje y tenga un
         // nuevo valor cada 100 millisegundos.
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+            if (tablaVenta.getItems().isEmpty()) {
+                this.finalizarCompraBoton.setDisable(true);
+            } else {
+                this.finalizarCompraBoton.setDisable(false);
+            }
             this.calcularTotalCompra();
         }));
 
@@ -170,7 +180,32 @@ public class PanelVentaController implements Initializable {
     }
 
     @FXML
-    public void registrarCompra() {
+    public void registrarVenta() {
+        FXMLLoader confirmarVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/ConfirmarVentaDlg.fxml"));
+        Parent root = null;
+
+        confirmarVentaDlgFxmlLoader.setControllerFactory(c -> {
+            return new ConfirmarVentaDlgController(this.totalAPagar);
+        });
+
+        try {
+            root = confirmarVentaDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            // TODO
+        }
+
+        ConfirmarVentaDlgController confirmarVentaController = confirmarVentaDlgFxmlLoader.getController();
+        Stage confirmarVentaDlgStage = new Stage();
+        confirmarVentaController.setStage(confirmarVentaDlgStage);
+        confirmarVentaDlgStage.setScene(new Scene(root));
+        confirmarVentaDlgStage.setTitle("Confirmar Venta");
+        confirmarVentaDlgStage.initModality(Modality.APPLICATION_MODAL);
+        confirmarVentaDlgStage.showAndWait();
+
+        System.out.println(confirmarVentaController.getMetodoPago());
+        System.out.println(confirmarVentaController.getNombreApellidoCliente());
+
 
     }
 
