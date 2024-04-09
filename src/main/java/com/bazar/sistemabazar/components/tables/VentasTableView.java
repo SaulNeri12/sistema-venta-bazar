@@ -7,6 +7,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import objetosNegocio.Venta;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class VentasTableView extends TableView<VentaTableModel> implements IControlTabla<Venta> {
 
     public Venta ventaSeleccionada;
@@ -40,13 +43,19 @@ public class VentasTableView extends TableView<VentaTableModel> implements ICont
         colVentaMontoTotal.setMinWidth(100);
         colVentaMontoTotal.setCellValueFactory(cellData -> cellData.getValue().getMontoTotalProperty().asObject());
 
+        TableColumn<VentaTableModel, String> colFechaVenta = new TableColumn<>("Fecha");
+        colFechaVenta.setMaxWidth(200);
+        colFechaVenta.setMinWidth(200);
+        colFechaVenta.setCellValueFactory(cellData -> cellData.getValue().getFechaVentaProperty());
+
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         this.getColumns().addAll(
                 colVentaId,
                 colVentaNombreCliente,
                 colVentaMetodoPago,
-                colVentaMontoTotal
+                colVentaMontoTotal,
+                colFechaVenta
         );
     }
 
