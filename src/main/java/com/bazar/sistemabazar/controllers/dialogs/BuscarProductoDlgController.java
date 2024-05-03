@@ -1,8 +1,9 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
+import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
+import com.bazar.sistemabazar.components.tables.ProductosTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
+import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,22 +14,34 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
+import objetosNegocio.ProductoDTO;
+import persistencia.IPersistenciaBazar;
+import persistencia.excepciones.PersistenciaBazarException;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BuscarProductoDlgController implements Initializable {
 
-    private ObservableList<ProductoVentaTableModel> listaProductos;
+    private ObservableList<ProductoTableModel> listaProductos;
+
+    private IPersistenciaBazar persistencia;
 
     private Timer timerBusquedaProducto;
 
     private Stage stage;
-    private ProductoVentaTableView tablaProductos;
+    private ProductosTableView tablaProductos;
 
-    private ProductoVentaTableModel productoSeleccionado;
+    private ProductoTableModel productoSeleccionado;
+    private ProductoDTO objetoProducto;
+
+    private Integer cantidadProductos;
 
     @FXML
     public Button botonAgregarProducto;
@@ -43,16 +56,14 @@ public class BuscarProductoDlgController implements Initializable {
 
     public void setStage(Stage stage) { this.stage = stage; }
 
+    public BuscarProductoDlgController(IPersistenciaBazar persistencia) {
+        this.persistencia = persistencia;
+        objetoProducto = null;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ProductoVentaTableView tablaProductos = new ProductoVentaTableView();
-
-        int numColumnas = tablaProductos.getColumns().size();
-
-        // removemos las columnas de la tabla ya que no se utilizaran...
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna del total
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
+        ProductosTableView tablaProductos = new ProductosTableView();
 
         // producto seleccionado en la tabla
         productoSeleccionado = null;
@@ -63,7 +74,7 @@ public class BuscarProductoDlgController implements Initializable {
         tablaProductos.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
                 // Obtener la fila seleccionada
-                ProductoVentaTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
+                ProductoTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
 
                 if (productoTablaSeleccionado == null) {
                     botonAgregarProducto.setDisable(true);
@@ -74,15 +85,20 @@ public class BuscarProductoDlgController implements Initializable {
                 productoSeleccionado = productoTablaSeleccionado;
                 productoSeleccionadoTextField.setText(
                         String.format(
-                                "Producto(ID: %d, Nombre: %s)",
-                                productoSeleccionado.getIdProperty().get(),
+                                "Producto(Codigo: %s, Nombre: %s)",
+                                productoSeleccionado.getCodigoProperty().get(),
                                 productoSeleccionado.getNombreProperty().get()
                         )
                 );
+
+                try {
+                    objetoProducto = persistencia.consultarProductoPorCodigoInterno(productoSeleccionado.getCodigoProperty().get());
+                } catch (PersistenciaBazarException e) {
+                    objetoProducto = null;
+                    // TODO: MOSTRAR ALERTA
+                }
             }
         });
-
-
 
         // se le asigna la cantidad maxima para un producto
         this.cantidadProductoSpinner.setValueFactory(
@@ -105,26 +121,28 @@ public class BuscarProductoDlgController implements Initializable {
                     @Override
                     public void run() {
                         filtrarProductosPorNombre(nuevoString.toLowerCase());
-                        System.out.println("CAMBIA!!!");
                     }
                 }, 100);
             }
         });
 
-        this.listaProductos = FXCollections.observableArrayList(
-                new ProductoVentaTableModel(12, "Jarra Plastico", 54.50f, 1),
-                new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
-                new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
-                new ProductoVentaTableModel(15, "Plato Plastico", 32.0f, 1),
-                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1),
-                new ProductoVentaTableModel(17, "Caja Madera 25x25cm", 56.5f, 1),
-                new ProductoVentaTableModel(18, "Caja ordenadora madera 25x25", 97.0f, 1),
-                new ProductoVentaTableModel(19, "Taza Cafe Java", 50.0f, 1),
-                new ProductoVentaTableModel(20, "Taza Cafe Jurassic Park", 60.0f, 1),
-                new ProductoVentaTableModel(21, "Calentadera Metal Azul", 125.0f,1)
-        );
+        // cargar todos los productos en la tabla desde la persistencia...
+        this.listaProductos = FXCollections.observableArrayList();
 
-        tablaProductos.getItems().addAll(listaProductos);
+        try {
+            List<ProductoDTO> productosEnSistema = persistencia.consultarProductosTodos();
+
+            for (ProductoDTO producto: productosEnSistema) {
+                ProductoTableModel productoFilaTabla = new ProductoTableModel(producto);
+                this.listaProductos.add(productoFilaTabla);
+            }
+
+        } catch (PersistenciaBazarException e) {
+            throw new RuntimeException(e);
+            // TODO: EMITIR ALERTA
+        }
+
+        tablaProductos.getItems().addAll(this.listaProductos);
         tablaProductos.setEditable(false);
 
         this.tablaProductos = tablaProductos;
@@ -132,12 +150,13 @@ public class BuscarProductoDlgController implements Initializable {
         panelTablaProductos.getChildren().add(tablaProductos);
     }
 
-    public ProductoTableModel getProductoSeleccionado() {
-        return this.productoSeleccionado;
+    public ProductoDTO getProductoSeleccionado() {
+        return this.objetoProducto;
     }
 
     /**
      * Cierra el dialogo conservando el producto seleccionado
+     * TODO: CAMBIAR NOMBRE
      */
     public void agregarProducto() {
         if (this.productoSeleccionado == null) {
@@ -149,9 +168,13 @@ public class BuscarProductoDlgController implements Initializable {
             return;
         }
 
-        this.productoSeleccionado.setCantidad((Integer) this.cantidadProductoSpinner.getValue());
+        this.cantidadProductos = (Integer) this.cantidadProductoSpinner.getValue();
 
         this.stage.close();
+    }
+
+    public int getCantidadProductos() {
+        return this.cantidadProductos;
     }
 
     /**
@@ -159,17 +182,21 @@ public class BuscarProductoDlgController implements Initializable {
      * @param nombreProducto Nombre del producto a buscar
      */
     public void filtrarProductosPorNombre(String nombreProducto) {
-        ObservableList<ProductoVentaTableModel> productos = listaProductos;
+        ObservableList<ProductoTableModel> productos = listaProductos;
 
-        if (nombreProducto.isEmpty() || nombreProducto == null) {
+        if (nombreProducto == null || nombreProducto.isEmpty()) {
             tablaProductos.getItems().remove(0, tablaProductos.getItems().size());
-            for (ProductoVentaTableModel p: productos) {
+            // se agregan todos los elementos encontrados cuando la entrada del
+            // nombre del producto es null o esta vacia...
+            for (ProductoTableModel p: productos) {
                 tablaProductos.getItems().add(p);
             }
             return;
         }
 
-        for (ProductoVentaTableModel prdct: productos) {
+        // cada producto el cual contiene en su nombre, el texto almacenado en
+        // 'nombreProducto' es anadido a la tabla ya que cumple con la busqueda
+        for (ProductoTableModel prdct: productos) {
             if (!prdct.getNombreProperty().get().toLowerCase().contains(nombreProducto)) {
                 tablaProductos.getItems().remove(prdct);
             }

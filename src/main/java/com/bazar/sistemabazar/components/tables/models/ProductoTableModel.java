@@ -1,56 +1,73 @@
 package com.bazar.sistemabazar.components.tables.models;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.FloatProperty;
+import objetosNegocio.ProductoDTO;
 
 import java.time.LocalDateTime;
 
 public class ProductoTableModel {
-    protected SimpleIntegerProperty productoId;
+    protected SimpleStringProperty codigo;
     protected SimpleStringProperty nombre;
     protected SimpleFloatProperty precio;
     protected ObjectProperty<LocalDateTime> fechaRegistro;
 
-    public ProductoTableModel(int productoId, String nombre, float precio, LocalDateTime fechaRegistro) {
-        this.productoId = new SimpleIntegerProperty(productoId);
+    public ProductoTableModel(String codigo, String nombre, float precio, LocalDateTime fechaRegistro) {
+        this.codigo = new SimpleStringProperty(codigo);
         this.nombre = new SimpleStringProperty(nombre);
         this.precio = new SimpleFloatProperty(precio);
         this.fechaRegistro = new SimpleObjectProperty<LocalDateTime>(fechaRegistro);
     }
 
-    public void setId(int productoId) {
-        this.productoId.set(productoId);
+    public ProductoTableModel(ProductoDTO producto) {
+        this.codigo = new SimpleStringProperty(producto.getCodigoInterno());
+        this.nombre = new SimpleStringProperty(producto.getNombre());
+        this.precio = new SimpleFloatProperty(producto.getPrecio());
+        this.fechaRegistro = new SimpleObjectProperty<>(producto.getFechaRegistro());
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo.set(codigo);
+    }
+
+    public SimpleStringProperty getCodigoProperty() {
+        return this.codigo;
     }
 
     public void setNombre(String nombre) {
         this.nombre.set(nombre);
     }
 
-    public void setPrecio(float precio) { this.precio.set(precio); }
-
-    private void setFechaRegistro(LocalDateTime fecha) { this.fechaRegistro.set(fecha); };
-
-    public IntegerProperty getIdProperty() {
-        return this.productoId;
+    public void setPrecio(float precio) {
+        this.precio.set(precio);
     }
 
-    public StringProperty getNombreProperty() {
+    public SimpleStringProperty getNombreProperty() {
         return this.nombre;
     }
 
-    public FloatProperty getPrecioProperty() {
+    public SimpleFloatProperty getPrecioProperty() {
         return this.precio;
     }
 
-    public ObjectProperty<LocalDateTime> getFechaRegistroProperty() { return this.fechaRegistro; };
+    private void setFechaRegistro(LocalDateTime fecha) {
+        this.fechaRegistro.set(fecha);
+    }
+
+    public ObjectProperty<LocalDateTime> getFechaRegistroProperty() {
+        return this.fechaRegistro;
+    }
 
     @Override
     public String toString() {
         return String.format(
-                "Producto(%d, %s, %.2f)",
-                productoId.get(),
+                "Producto(%s, %s, %.2f)",
+                codigo.get(),
                 nombre.get(),
                 precio.get()
         );

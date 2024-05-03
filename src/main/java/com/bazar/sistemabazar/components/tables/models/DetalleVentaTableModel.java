@@ -1,15 +1,28 @@
 package com.bazar.sistemabazar.components.tables.models;
 
 import javafx.beans.property.*;
+import objetosNegocio.ProductoDTO;
 
-public class ProductoVentaTableModel extends ProductoTableModel {
+public class DetalleVentaTableModel extends ProductoTableModel {
     private SimpleIntegerProperty cantidad;
     private SimpleFloatProperty total;
 
-    public ProductoVentaTableModel(int productoId, String nombre, float precio, int cantidad) {
-        super(productoId, nombre, precio, null);
+    public DetalleVentaTableModel(String codigo, String nombre, float precio, int cantidad) {
+        super(codigo, nombre, precio, null);
         this.cantidad = new SimpleIntegerProperty(cantidad);
         this.total = new SimpleFloatProperty(precio * cantidad);
+    }
+
+    public DetalleVentaTableModel(ProductoDTO producto, int cantidad) {
+        super(
+                producto.getCodigoInterno(),
+                producto.getNombre(),
+                producto.getPrecio(),
+                null
+        );
+
+        this.cantidad = new SimpleIntegerProperty(cantidad);
+        this.total = new SimpleFloatProperty(producto.getPrecio() * cantidad);
     }
 
     public void setCantidad(int cantidad) {
@@ -26,19 +39,19 @@ public class ProductoVentaTableModel extends ProductoTableModel {
         this.total.set(total);
     }
 
-    public IntegerProperty getCantidadProperty() {
+    public SimpleIntegerProperty getCantidadProperty() {
         return this.cantidad;
     }
 
-    public FloatProperty getTotalProperty() {
+    public SimpleFloatProperty getTotalProperty() {
         return this.total;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "ProductoVenta(%d, %s, %.2f, %d)",
-                productoId.get(),
+                "ProductoVenta(%s, %s, %.2f, %d)",
+                codigo.get(),
                 nombre.get(),
                 precio.get(),
                 cantidad.get()
