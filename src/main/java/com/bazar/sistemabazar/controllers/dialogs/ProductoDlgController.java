@@ -15,15 +15,15 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import javafx.scene.layout.Pane;
-import objetosNegocio.Producto;
-import objetosNegocio.Proveedor;
+import objetosNegocio.ProductoDTO;
+import objetosNegocio.ProveedorDTO;
 
 // TODO: AVERIGUAR QUE SE PUEDE HACER CON ESTE CONTROLADOR (VER SI ES MEJOR DIVIDIRLO)
 
 public class ProductoDlgController implements Initializable {
 
 
-    private Producto producto;
+    private ProductoDTO producto;
     private DialogoOperacion modoOperacion;
     private ProveedoresTableView tablaProveedores;
 

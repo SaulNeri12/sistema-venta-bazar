@@ -6,12 +6,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
 
 import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
-import objetosNegocio.DetalleVenta;
-import objetosNegocio.Producto;
+import objetosNegocio.DetalleVentaDTO;
+import objetosNegocio.ProductoDTO;
 
 import java.util.Optional;
 
-public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> implements IControlTabla<DetalleVenta> {
+
+public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> implements IControlTabla<DetalleVentaDTO> {
 
     @Override
     public void inicializar() {
@@ -77,22 +78,22 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
     }
 
     @Override
-    public DetalleVenta obtenerFilaObjetoSeleccionado() {
+    public DetalleVentaDTO obtenerFilaObjetoSeleccionado() {
         DetalleVentaTableModel seleccionado = this.getSelectionModel().getSelectedItem();
 
         if (seleccionado == null)
             return null;
 
-        Producto producto = new Producto();
+        ProductoDTO producto = new ProductoDTO();
 
-        producto.setId(null);
-        producto.setCodigo(seleccionado.getCodigoProperty().get());
+        //producto.setCodigoBarras(null);
+        producto.setCodigoInterno(seleccionado.getCodigoProperty().get());
         producto.setNombre(seleccionado.getNombreProperty().get());
         producto.setPrecio(seleccionado.getPrecioProperty().get());
-        producto.setFechaRegistro(null);
+        //producto.setFechaRegistro(null);
         producto.setPrecio(seleccionado.getPrecioProperty().get());
 
-        DetalleVenta productoVenta = new DetalleVenta();
+        DetalleVentaDTO productoVenta = new DetalleVentaDTO();
 
         productoVenta.setCantidad(seleccionado.getCantidadProperty().get());
         productoVenta.setPrecioProducto(producto.getPrecio());
@@ -104,15 +105,15 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
 
 
     @Override
-    public DetalleVenta obtenerFilaObjetoPorIndice(int indice) {
+    public DetalleVentaDTO obtenerFilaObjetoPorIndice(int indice) {
         return null;
     }
 
     @Override
-    public void agregarFilaObjeto(DetalleVenta productoVenta) {
+    public void agregarFilaObjeto(DetalleVentaDTO productoVenta) {
         Optional<DetalleVentaTableModel> productoEnTabla = this.getItems()
                 .stream()
-                .filter(p -> p.getCodigoProperty().get().equals(productoVenta.getProducto().getCodigo()))
+                .filter(p -> p.getCodigoProperty().get().equals(productoVenta.getProducto().getCodigoInterno()))
                 .findFirst();
 
         if (productoEnTabla.isPresent()) {
@@ -125,7 +126,7 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
         }
 
         DetalleVentaTableModel filaProducto = new DetalleVentaTableModel(
-                productoVenta.getProducto().getCodigo(),
+                productoVenta.getProducto().getCodigoInterno(),
                 productoVenta.getProducto().getNombre(),
                 productoVenta.getPrecioProducto(),
                 productoVenta.getCantidad()
@@ -135,8 +136,8 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
     }
 
     @Override
-    public boolean eliminarFilaObjeto(DetalleVenta productoVenta) {
-        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(productoVenta.getProducto().getCodigo()));
+    public boolean eliminarFilaObjeto(DetalleVentaDTO productoVenta) {
+        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(productoVenta.getProducto().getCodigoInterno()));
     }
 
     @Override

@@ -14,7 +14,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
-import objetosNegocio.Producto;
+import objetosNegocio.ProductoDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
@@ -39,7 +39,7 @@ public class BuscarProductoDlgController implements Initializable {
     private ProductosTableView tablaProductos;
 
     private ProductoTableModel productoSeleccionado;
-    private Producto objetoProducto;
+    private ProductoDTO objetoProducto;
 
     private Integer cantidadProductos;
 
@@ -92,7 +92,7 @@ public class BuscarProductoDlgController implements Initializable {
                 );
 
                 try {
-                    objetoProducto = persistencia.consultarProductoPorCodigo(productoSeleccionado.getCodigoProperty().get());
+                    objetoProducto = persistencia.consultarProductoPorCodigoInterno(productoSeleccionado.getCodigoProperty().get());
                 } catch (PersistenciaBazarException e) {
                     objetoProducto = null;
                     // TODO: MOSTRAR ALERTA
@@ -130,9 +130,9 @@ public class BuscarProductoDlgController implements Initializable {
         this.listaProductos = FXCollections.observableArrayList();
 
         try {
-            List<Producto> productosEnSistema = persistencia.consultarProductosTodos();
+            List<ProductoDTO> productosEnSistema = persistencia.consultarProductosTodos();
 
-            for (Producto producto: productosEnSistema) {
+            for (ProductoDTO producto: productosEnSistema) {
                 ProductoTableModel productoFilaTabla = new ProductoTableModel(producto);
                 this.listaProductos.add(productoFilaTabla);
             }
@@ -150,7 +150,7 @@ public class BuscarProductoDlgController implements Initializable {
         panelTablaProductos.getChildren().add(tablaProductos);
     }
 
-    public Producto getProductoSeleccionado() {
+    public ProductoDTO getProductoSeleccionado() {
         return this.objetoProducto;
     }
 

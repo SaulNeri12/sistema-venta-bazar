@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import objetosNegocio.Venta;
+import objetosNegocio.VentaDTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +18,7 @@ public class VentaTableModel {
     private SimpleStringProperty fechaVenta;
     private DateTimeFormatter formatoFecha;
 
-    public VentaTableModel(Venta venta) {
+    public VentaTableModel(VentaDTO venta) {
         this.formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         this.id = new SimpleLongProperty(venta.getId());
         this.nombreCliente = new SimpleStringProperty(venta.getNombreCliente() + " " + venta.getApellidoCliente());
@@ -43,7 +43,7 @@ public class VentaTableModel {
         return this.nombreCliente;
     }
 
-    public void setMetodoPago(Venta.MetodoPago metodoPago) {
+    public void setMetodoPago(VentaDTO.MetodoPago metodoPago) {
         this.metodoPago.set(metodoPago.toString());
     }
 

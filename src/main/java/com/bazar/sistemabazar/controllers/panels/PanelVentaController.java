@@ -22,10 +22,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.util.Duration;
-import objetosNegocio.DetalleVenta;
-import objetosNegocio.Producto;
-import objetosNegocio.Usuario;
-import objetosNegocio.Venta;
+import objetosNegocio.DetalleVentaDTO;
+import objetosNegocio.ProductoDTO;
+import objetosNegocio.UsuarioDTO;
+import objetosNegocio.VentaDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
@@ -46,7 +46,7 @@ public class PanelVentaController implements Initializable {
     private Float totalAPagar;
 
     private IPersistenciaBazar persistencia;
-    private Usuario usuario;
+    private UsuarioDTO usuario;
 
     private DetallesVentaTableView tablaVenta;
 
@@ -60,7 +60,7 @@ public class PanelVentaController implements Initializable {
     private AnchorPane controlVentaAnchorPane;
 
 
-    public PanelVentaController(IPersistenciaBazar persistencia, Usuario usuario) {
+    public PanelVentaController(IPersistenciaBazar persistencia, UsuarioDTO usuario) {
         totalAPagar = 0.0f;
         this.persistencia = persistencia;
         this.usuario = usuario;
@@ -117,7 +117,7 @@ public class PanelVentaController implements Initializable {
             buscarProductoStage.showAndWait();
 
             /* logica importante */
-            Producto productoSeleccionado= buscarProductoController.getProductoSeleccionado();
+            ProductoDTO productoSeleccionado= buscarProductoController.getProductoSeleccionado();
 
             if (productoSeleccionado == null) {
                 return;
@@ -125,7 +125,7 @@ public class PanelVentaController implements Initializable {
 
             ObservableList<DetalleVentaTableModel> productosTabla = tablaVenta.getItems();
 
-            DetalleVenta productoVenta = new DetalleVenta();
+            DetalleVentaDTO productoVenta = new DetalleVentaDTO();
             productoVenta.setProducto(productoSeleccionado);
             productoVenta.setPrecioProducto(productoSeleccionado.getPrecio());
             productoVenta.setCantidad(buscarProductoController.getCantidadProductos());
@@ -208,17 +208,17 @@ public class PanelVentaController implements Initializable {
         confirmarVentaDlgStage.initModality(Modality.APPLICATION_MODAL);
         confirmarVentaDlgStage.showAndWait();
 
-        List<DetalleVenta> productosDetalleVenta = new ArrayList<>();
+        List<DetalleVentaDTO> productosDetalleVenta = new ArrayList<>();
 
         for (DetalleVentaTableModel detalleVentaEnTabla: tablaVenta.getItems()) {
             try {
-                Producto producto = persistencia.consultarProductoPorCodigo(detalleVentaEnTabla.getCodigoProperty().get());
+                ProductoDTO producto = persistencia.consultarProductoPorCodigoInterno(detalleVentaEnTabla.getCodigoProperty().get());
 
                 if (producto == null) {
                     throw new PersistenciaBazarException("Ocurrio un error al buscar el detalle del producto");
                 }
 
-                DetalleVenta detalleVenta = new DetalleVenta();
+                DetalleVentaDTO detalleVenta = new DetalleVentaDTO();
                 detalleVenta.setProducto(producto);
                 detalleVenta.setCantidad(detalleVentaEnTabla.getCantidadProperty().get());
                 detalleVenta.setPrecioProducto(producto.getPrecio());
@@ -230,7 +230,7 @@ public class PanelVentaController implements Initializable {
             }
         }
 
-        Venta venta = new Venta();
+        VentaDTO venta = new VentaDTO();
 
         // NOTE: PARA SIMULACION...
         Random random = new Random();

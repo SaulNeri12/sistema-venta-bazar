@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import objetosNegocio.Usuario;
+import objetosNegocio.UsuarioDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class LoginController {
 
-    private Usuario usuario;
+    private UsuarioDTO usuario;
     private IPersistenciaBazar persistencia;
 
     private Stage stage;
@@ -82,7 +82,7 @@ public class LoginController {
         this.close();
     }
 
-    public Usuario obtenerUsuarioLogeado() {
+    public UsuarioDTO obtenerUsuarioLogeado() {
         return this.usuario;
     }
 

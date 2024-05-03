@@ -12,9 +12,9 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
-import objetosNegocio.Usuario;
+import objetosNegocio.UsuarioDTO;
 import persistencia.IPersistenciaBazar;
-import persistencia.PersistenciaBazarListas;
+import persistencia.PersistenciaBazar;
 
 import java.io.IOException;
 
@@ -23,7 +23,11 @@ public class BazarApplication extends Application {
     private IPersistenciaBazar persistencia;
 
     public BazarApplication() {
-        this.persistencia = new PersistenciaBazarListas();
+        try {
+            this.persistencia = new PersistenciaBazar();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -61,7 +65,7 @@ public class BazarApplication extends Application {
 
 
         // inicializacion del frame principal
-        Usuario usuarioLogeado = loginController.obtenerUsuarioLogeado();
+        UsuarioDTO usuarioLogeado = loginController.obtenerUsuarioLogeado();
 
         /*** System.out.println(usuarioLogeado);*/
 

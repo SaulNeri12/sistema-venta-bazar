@@ -17,9 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import objetosNegocio.Usuario;
+import objetosNegocio.UsuarioDTO;
 import persistencia.IPersistenciaBazar;
-import persistencia.PersistenciaBazarListas;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -29,7 +28,7 @@ import java.util.ResourceBundle;
 public class BazarController implements Initializable {
 
     private IPersistenciaBazar persistencia;
-    private Usuario usuario;
+    private UsuarioDTO usuario;
 
     @FXML
     private VBox panelVentaContainer;
@@ -63,7 +62,7 @@ public class BazarController implements Initializable {
     public MenuItem menuInventarioRegistrarExistenciaProducto;
 
 
-    public BazarController(IPersistenciaBazar persistencia, Usuario usuario) {
+    public BazarController(IPersistenciaBazar persistencia, UsuarioDTO usuario) {
         this.persistencia = persistencia;
         this.usuario = usuario;
     }

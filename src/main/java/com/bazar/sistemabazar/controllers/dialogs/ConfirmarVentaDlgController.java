@@ -8,8 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import objetosNegocio.Usuario;
-import objetosNegocio.Venta;
+import objetosNegocio.UsuarioDTO;
+import objetosNegocio.VentaDTO;
+import objetosNegocio.VentaDTO;
 import persistencia.IPersistenciaBazar;
 
 import java.net.URL;
@@ -24,7 +25,7 @@ public class ConfirmarVentaDlgController implements Initializable {
 
     private String nombreCliente;
     private String apellidoCliente;
-    private Venta.MetodoPago metodoPago;
+    private VentaDTO.MetodoPago metodoPago;
     private Float montoTotal;
 
     private Stage stage;
@@ -47,7 +48,7 @@ public class ConfirmarVentaDlgController implements Initializable {
 
         this.nombreCliente = "";
         this.apellidoCliente = "";
-        this.metodoPago = Venta.MetodoPago.EFECTIVO;
+        this.metodoPago = VentaDTO.MetodoPago.EFECTIVO;
 
         this.campoCambioTextField.setEditable(false);
         this.montoTotalTextField.setEditable(false);
@@ -121,11 +122,11 @@ public class ConfirmarVentaDlgController implements Initializable {
 
             String metodoPagoSeleccionado = (String) this.metodoPagoChoiceBox.getSelectionModel().getSelectedItem();
 
-            if (metodoPagoSeleccionado.equals(Venta.MetodoPago.EFECTIVO.toString())) {
-                this.metodoPago = Venta.MetodoPago.EFECTIVO;
+            if (metodoPagoSeleccionado.equals(VentaDTO.MetodoPago.EFECTIVO.toString())) {
+                this.metodoPago = VentaDTO.MetodoPago.EFECTIVO;
             }
-            else if (metodoPagoSeleccionado.equals(Venta.MetodoPago.TARJETA.toString())) {
-                this.metodoPago = Venta.MetodoPago.TARJETA;
+            else if (metodoPagoSeleccionado.equals(VentaDTO.MetodoPago.TARJETA.toString())) {
+                this.metodoPago = VentaDTO.MetodoPago.TARJETA;
             }
 
             Float montoPagoVenta = Float.valueOf(this.campoMontoPagoTextField.getText());
@@ -157,7 +158,7 @@ public class ConfirmarVentaDlgController implements Initializable {
         return this.apellidoCliente;
     }
 
-    public Venta.MetodoPago getMetodoPago() {
+    public VentaDTO.MetodoPago getMetodoPago() {
         return this.metodoPago;
     }
 

@@ -7,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import objetosNegocio.Usuario;
-import objetosNegocio.Venta;
+import objetosNegocio.UsuarioDTO;
+import objetosNegocio.VentaDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
@@ -20,14 +20,14 @@ public class BuscarVentaDlgController implements Initializable {
 
     private IPersistenciaBazar persistencia;
     private VentasTableView tablaVentas;
-    private Usuario usuario;
+    private UsuarioDTO usuario;
     private Stage stage;
 
     @FXML
     public VBox panelTablaVentas;
     public Button botonVerDetalles;
 
-    public BuscarVentaDlgController(IPersistenciaBazar persistencia, Usuario usuario) {
+    public BuscarVentaDlgController(IPersistenciaBazar persistencia, UsuarioDTO usuario) {
         this.persistencia = persistencia;
         this.usuario = usuario;
     }
@@ -39,9 +39,9 @@ public class BuscarVentaDlgController implements Initializable {
         this.panelTablaVentas.getChildren().add(tablaVentas);
 
         try {
-            List<Venta> ventasEnSistema = persistencia.consultarVentasTodas();
+            List<VentaDTO> ventasEnSistema = persistencia.consultarVentasTodas();
 
-            for (Venta venta: ventasEnSistema) {
+            for (VentaDTO venta: ventasEnSistema) {
                 VentaTableModel filaVenta = new VentaTableModel(venta);
                 tablaVentas.getItems().add(filaVenta);
             }

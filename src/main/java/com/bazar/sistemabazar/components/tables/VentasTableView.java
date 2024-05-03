@@ -5,14 +5,14 @@ import com.bazar.sistemabazar.components.tables.models.VentaTableModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import objetosNegocio.Venta;
+import objetosNegocio.VentaDTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class VentasTableView extends TableView<VentaTableModel> implements IControlTabla<Venta> {
+public class VentasTableView extends TableView<VentaTableModel> implements IControlTabla<VentaDTO> {
 
-    public Venta ventaSeleccionada;
+    public VentaDTO ventaSeleccionada;
 
     public VentasTableView() {
         super();
@@ -60,14 +60,14 @@ public class VentasTableView extends TableView<VentaTableModel> implements ICont
     }
 
     @Override
-    public Venta obtenerFilaObjetoSeleccionado() {
+    public VentaDTO obtenerFilaObjetoSeleccionado() {
         VentaTableModel ventaSeleccionadaEnTabla = this.getSelectionModel().getSelectedItem();
 
         if (ventaSeleccionadaEnTabla == null) {
             return null;
         }
 
-        ventaSeleccionada = new Venta();
+        ventaSeleccionada = new VentaDTO();
         ventaSeleccionada.setId(ventaSeleccionadaEnTabla.getIdProperty().get());
 
         return ventaSeleccionada;
@@ -75,17 +75,17 @@ public class VentasTableView extends TableView<VentaTableModel> implements ICont
 
 
     @Override
-    public Venta obtenerFilaObjetoPorIndice(int indice) {
+    public VentaDTO obtenerFilaObjetoPorIndice(int indice) {
         VentaTableModel ventaEnTabla = this.getItems().get(indice);
 
-        Venta venta = new Venta();
+        VentaDTO venta = new VentaDTO();
         venta.setId(ventaEnTabla.getIdProperty().get());
 
         return venta;
     }
 
     @Override
-    public void agregarFilaObjeto(Venta venta) {
+    public void agregarFilaObjeto(VentaDTO venta) {
         if (venta == null) {
             return;
         }
@@ -94,7 +94,7 @@ public class VentasTableView extends TableView<VentaTableModel> implements ICont
     }
 
     @Override
-    public boolean eliminarFilaObjeto(Venta venta) {
+    public boolean eliminarFilaObjeto(VentaDTO venta) {
         return this.getItems().removeIf(v -> v.getIdProperty().get() == venta.getId());
     }
 

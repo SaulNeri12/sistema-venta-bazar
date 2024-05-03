@@ -5,14 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import objetosNegocio.Producto;
+import objetosNegocio.ProductoDTO;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class ProductosTableView extends TableView<ProductoTableModel> implements IControlTabla<Producto> {
+public class ProductosTableView extends TableView<ProductoTableModel> implements IControlTabla<ProductoDTO> {
 
 
     @Override
@@ -45,16 +45,16 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
     }
 
     @Override
-    public Producto obtenerFilaObjetoSeleccionado() {
+    public ProductoDTO obtenerFilaObjetoSeleccionado() {
         ProductoTableModel seleccionado = this.getSelectionModel().getSelectedItem();
 
         if (seleccionado == null)
             return null;
 
-        Producto producto = new Producto();
+        ProductoDTO producto = new ProductoDTO();
 
-        producto.setId(null);
-        producto.setCodigo(seleccionado.getCodigoProperty().get());
+        producto.setCodigoBarras(null);
+        producto.setCodigoInterno(seleccionado.getCodigoProperty().get());
         producto.setNombre(seleccionado.getNombreProperty().get());
         producto.setPrecio(seleccionado.getPrecioProperty().get());
         producto.setFechaRegistro(seleccionado.getFechaRegistroProperty().get());
@@ -63,15 +63,15 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
     }
 
     @Override
-    public Producto obtenerFilaObjetoPorIndice(int indice) {
+    public ProductoDTO obtenerFilaObjetoPorIndice(int indice) {
         ProductoTableModel filaProducto = this.getItems().get(indice);
 
         if (filaProducto == null)
             return null;
 
-        Producto productoEncontrado = new Producto();
+        ProductoDTO productoEncontrado = new ProductoDTO();
 
-        productoEncontrado.setCodigo(filaProducto.getCodigoProperty().get());
+        productoEncontrado.setCodigoInterno(filaProducto.getCodigoProperty().get());
         productoEncontrado.setNombre(filaProducto.getNombreProperty().get());
         productoEncontrado.setPrecio(filaProducto.getPrecioProperty().get());
         productoEncontrado.setFechaRegistro(filaProducto.getFechaRegistroProperty().get());
@@ -79,16 +79,18 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
         return productoEncontrado;
     }
 
+
+
     @Override
-    public void agregarFilaObjeto(Producto producto) {
+    public void agregarFilaObjeto(ProductoDTO producto) {
         boolean productoEnTabla = this.getItems()
                 .stream()
-                .anyMatch(p -> p.getCodigoProperty().get().equals(producto.getCodigo()));
+                .anyMatch(p -> p.getCodigoProperty().get().equals(producto.getCodigoInterno()));
 
         if (productoEnTabla) return;
 
         ProductoTableModel filaProducto = new ProductoTableModel(
-                producto.getCodigo(),
+                producto.getCodigoInterno(),
                 producto.getNombre(),
                 producto.getPrecio(),
                 producto.getFechaRegistro()
@@ -98,8 +100,8 @@ public class ProductosTableView extends TableView<ProductoTableModel> implements
     }
 
     @Override
-    public boolean eliminarFilaObjeto(Producto producto) {
-        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(producto.getCodigo()));
+    public boolean eliminarFilaObjeto(ProductoDTO producto) {
+        return this.getItems().removeIf(p -> p.getCodigoProperty().get().equals(producto.getCodigoInterno()));
     }
 
     @Override

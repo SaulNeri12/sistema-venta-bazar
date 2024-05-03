@@ -13,6 +13,7 @@ public class AdaptadorUsuarioGUICajero implements IAdaptadorUsuarioGUI {
         controladorBazar.menuVentasEliminarVenta.setVisible(false);
         controladorBazar.menuVentasModificarVenta.setVisible(false);
         // opciones de menu productos
+
         controladorBazar.menuProductos.setVisible(false);
         /*
         controladorBazar.menuProductosAgregarProducto.setVisible(false);

@@ -9,7 +9,7 @@ import javafx.scene.control.TableView;
 public class ProveedoresTableView extends TableView<ProveedorTableModel> {
 
     public void inicialiar() {
-        TableColumn<ProveedorTableModel, Integer> columnaProveedorId = new TableColumn<>("ID");
+        TableColumn<ProveedorTableModel, Long> columnaProveedorId = new TableColumn<>("ID");
         columnaProveedorId.setMaxWidth(100);
         columnaProveedorId.setMinWidth(80);
         columnaProveedorId.setCellValueFactory(cellData -> cellData.getValue().getIdProperty().asObject());

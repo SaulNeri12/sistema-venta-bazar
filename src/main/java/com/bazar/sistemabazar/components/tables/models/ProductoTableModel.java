@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.FloatProperty;
-import objetosNegocio.Producto;
+import objetosNegocio.ProductoDTO;
 
 import java.time.LocalDateTime;
 
@@ -24,8 +24,8 @@ public class ProductoTableModel {
         this.fechaRegistro = new SimpleObjectProperty<LocalDateTime>(fechaRegistro);
     }
 
-    public ProductoTableModel(Producto producto) {
-        this.codigo = new SimpleStringProperty(producto.getCodigo());
+    public ProductoTableModel(ProductoDTO producto) {
+        this.codigo = new SimpleStringProperty(producto.getCodigoInterno());
         this.nombre = new SimpleStringProperty(producto.getNombre());
         this.precio = new SimpleFloatProperty(producto.getPrecio());
         this.fechaRegistro = new SimpleObjectProperty<>(producto.getFechaRegistro());
