@@ -95,7 +95,7 @@ public class PanelVentaController implements Initializable {
 
     @FXML
     public void mostrarDialogoBusquedaProducto(ActionEvent actionEvent) {
-        FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoDlg.fxml"));
+        FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoVentaDlg.fxml"));
 
         buscarProductoDlgFxmlLoader.setControllerFactory(c -> {
             return new BuscarProductoVentaDlgController(persistencia);

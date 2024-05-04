@@ -165,7 +165,7 @@ public class BazarController implements Initializable {
         registrarProductoDlgStage.setMaximized(false);
         registrarProductoDlgStage.setScene(scene);
         // NOTE: Cambiar segun operacion...
-        registrarProductoDlgStage.setTitle("Agregar Producto");
+        registrarProductoDlgStage.setTitle("Registrar Producto");
 
         registrarProductoDlgStage.show();
 

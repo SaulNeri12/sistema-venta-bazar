@@ -21,7 +21,7 @@
           <Menu fx:id="menuProductos" mnemonicParsing="false" text="Productos">
             <items>
                 <MenuItem mnemonicParsing="false" text="Buscar Producto" fx:id="menuProductosBuscarProducto"/>
-                <MenuItem mnemonicParsing="false" text="Agregar Producto" fx:id="menuProductosAgregarProducto" onAction="#registrarNuevoProducto"/>
+                <MenuItem mnemonicParsing="false" text="Registrar Producto" fx:id="menuProductosAgregarProducto" onAction="#registrarNuevoProducto"/>
                 <MenuItem mnemonicParsing="false" text="Modificar Producto" fx:id="menuProductosModificarProducto"/>
                 <MenuItem mnemonicParsing="false" text="Eliminar Producto" fx:id="menuProductosEliminarProducto"/>
             </items>
