@@ -1,9 +1,7 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
 import com.bazar.sistemabazar.components.tables.ProductosTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,15 +17,12 @@ import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BuscarProductoDlgController implements Initializable {
+public class BuscarProductoVentaDlgController implements Initializable {
 
     private ObservableList<ProductoTableModel> listaProductos;
 
@@ -56,7 +51,7 @@ public class BuscarProductoDlgController implements Initializable {
 
     public void setStage(Stage stage) { this.stage = stage; }
 
-    public BuscarProductoDlgController(IPersistenciaBazar persistencia) {
+    public BuscarProductoVentaDlgController(IPersistenciaBazar persistencia) {
         this.persistencia = persistencia;
         objetoProducto = null;
     }

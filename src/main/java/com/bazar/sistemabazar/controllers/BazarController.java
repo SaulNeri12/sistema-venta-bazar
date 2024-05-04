@@ -3,7 +3,10 @@ package com.bazar.sistemabazar.controllers;
 import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarProveedorDlgController;
 import com.bazar.sistemabazar.controllers.dialogs.BuscarVentaDlgController;
+import com.bazar.sistemabazar.controllers.dialogs.DialogoOperacion;
+import com.bazar.sistemabazar.controllers.dialogs.ProductoDlgController;
 import com.bazar.sistemabazar.controllers.panels.PanelVentaController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -136,6 +139,36 @@ public class BazarController implements Initializable {
         ventasDlgStage.setTitle("Ventas");
 
         ventasDlgStage.show();
+    }
+
+    public void registrarNuevoProducto(ActionEvent actionEvent) {
+        FXMLLoader registrarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/ProductoDlg.fxml"));
+
+        registrarProductoDlgFxmlLoader.setControllerFactory(c -> {
+            return new ProductoDlgController(persistencia, DialogoOperacion.REGISTRAR);
+        });
+
+        Parent root = null;
+
+        try {
+            root = registrarProductoDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage registrarProductoDlgStage = new Stage();
+
+        ProductoDlgController productoDlgController = registrarProductoDlgFxmlLoader.getController();
+        productoDlgController.setStage(registrarProductoDlgStage);
+
+        Scene scene = new Scene(root);
+        registrarProductoDlgStage.setMaximized(false);
+        registrarProductoDlgStage.setScene(scene);
+        // NOTE: Cambiar segun operacion...
+        registrarProductoDlgStage.setTitle("Agregar Producto");
+
+        registrarProductoDlgStage.show();
+
     }
 
 }
