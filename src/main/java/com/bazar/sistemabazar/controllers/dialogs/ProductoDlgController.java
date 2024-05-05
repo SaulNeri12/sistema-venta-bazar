@@ -83,8 +83,13 @@ public class ProductoDlgController implements Initializable {
                 new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observableValue, String s, String nuevoValor) {
+                        /*
                         if (!nuevoValor.matches("\\d*")) {
                             precioProductoTextField.setText(nuevoValor.replaceAll("[^\\d]", ""));
+                        }
+*/
+                        if (!nuevoValor.matches("|[-\\+]?|[-\\+]?\\d+\\.?|[-\\+]?\\d+\\.?\\d+")) {
+                            precioProductoTextField.setText(s);
                         }
                     }
                 }

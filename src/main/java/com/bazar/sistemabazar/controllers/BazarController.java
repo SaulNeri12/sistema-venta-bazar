@@ -164,7 +164,7 @@ public class BazarController implements Initializable {
         registrarProductoDlgStage.setScene(scene);
         // NOTE: Cambiar segun operacion...
         registrarProductoDlgStage.setTitle("Registrar Producto");
-
+        registrarProductoDlgStage.initModality(Modality.APPLICATION_MODAL);
         registrarProductoDlgStage.show();
 
     }
@@ -195,6 +195,7 @@ public class BazarController implements Initializable {
         buscarProductosDlgStage.setResizable(false);
         buscarProductosDlgStage.setScene(scene);
         buscarProductosDlgStage.setTitle("Buscar Producto");
+        buscarProductosDlgStage.initModality(Modality.APPLICATION_MODAL);
 
         buscarProductosDlgStage.show();
     }

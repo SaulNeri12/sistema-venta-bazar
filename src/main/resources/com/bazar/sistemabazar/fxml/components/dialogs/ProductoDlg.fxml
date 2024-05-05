@@ -17,7 +17,7 @@
          <children>
             <Pane prefHeight="40.0" prefWidth="521.0">
                <children>
-                  <Label fx:id="tituloDialogoLabel" layoutX="1.0" layoutY="2.0" prefHeight="35.0" prefWidth="245.0" text="Registrar Producto" textOverrun="CLIP">
+                  <Label fx:id="tituloDialogoLabel" layoutX="1.0" layoutY="2.0" prefHeight="35.0" prefWidth="511.0" text="Registrar Producto" textOverrun="CLIP">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -130,12 +130,12 @@
                </VBox.margin>
                <children>
                   <Button fx:id="restaurarButton" mnemonicParsing="false" text="Restaurar" />
-                  <Button fx:id="cancelarButton" mnemonicParsing="false" text="Cancelar" onAction="#cerrarDialogo">
+                  <Button fx:id="cancelarButton" mnemonicParsing="false" onAction="#cerrarDialogo" text="Cancelar">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="aceptarButton" mnemonicParsing="false" text="Aceptar" onAction="#ejecutarOperacion">
+                  <Button fx:id="aceptarButton" mnemonicParsing="false" onAction="#ejecutarOperacion" text="Aceptar">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

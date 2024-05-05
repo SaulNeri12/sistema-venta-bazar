@@ -71,6 +71,9 @@ public class BuscarProductoDlgController implements Initializable {
 
         timerBusquedaProducto = new Timer();
 
+        this.botonVerDetallesProducto.setDisable(true);
+        this.botonModificarProducto.setDisable(true);
+        this.botonEliminarProducto.setDisable(true);
 
         tablaProductos.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
