@@ -1,10 +1,7 @@
 package com.bazar.sistemabazar.controllers;
 
 import com.bazar.sistemabazar.BazarApplication;
-import com.bazar.sistemabazar.controllers.dialogs.BuscarProveedorDlgController;
-import com.bazar.sistemabazar.controllers.dialogs.BuscarVentaDlgController;
-import com.bazar.sistemabazar.controllers.dialogs.DialogoOperacion;
-import com.bazar.sistemabazar.controllers.dialogs.ProductoDlgController;
+import com.bazar.sistemabazar.controllers.dialogs.*;
 import com.bazar.sistemabazar.controllers.panels.PanelVentaController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -163,6 +160,7 @@ public class BazarController implements Initializable {
 
         Scene scene = new Scene(root);
         registrarProductoDlgStage.setMaximized(false);
+        registrarProductoDlgStage.setResizable(false);
         registrarProductoDlgStage.setScene(scene);
         // NOTE: Cambiar segun operacion...
         registrarProductoDlgStage.setTitle("Registrar Producto");
@@ -171,4 +169,33 @@ public class BazarController implements Initializable {
 
     }
 
+    public void buscarProductos(ActionEvent actionEvent) {
+        FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoDlg.fxml"));
+
+        buscarProductoDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarProductoDlgController(persistencia);
+        });
+
+        Parent root = null;
+
+        try {
+            root = buscarProductoDlgFxmlLoader.load();
+        } catch (IOException e) {
+            // TODO: manejarlo
+            throw new RuntimeException(e);
+        }
+
+        Stage buscarProductosDlgStage = new Stage();
+
+        BuscarProductoDlgController buscarProductosDlgController = buscarProductoDlgFxmlLoader.getController();
+        buscarProductosDlgController.setStage(buscarProductosDlgStage);
+
+        Scene scene = new Scene(root);
+        buscarProductosDlgStage.setMaximized(false);
+        buscarProductosDlgStage.setResizable(false);
+        buscarProductosDlgStage.setScene(scene);
+        buscarProductosDlgStage.setTitle("Buscar Producto");
+
+        buscarProductosDlgStage.show();
+    }
 }

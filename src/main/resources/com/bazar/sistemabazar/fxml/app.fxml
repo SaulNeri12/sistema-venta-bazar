@@ -13,17 +13,14 @@
           <Menu fx:id="menuVentas" mnemonicParsing="false" text="Ventas">
             <items>
                 <MenuItem mnemonicParsing="false" text="Buscar Venta" fx:id="menuVentasConsultarTodos" onAction="#mostrarDialogoVentas"/>
-                <MenuItem mnemonicParsing="false" text="Buscar Venta" fx:id="menuVentasBuscarVenta"/>
                 <MenuItem mnemonicParsing="false" text="Modificar Venta" fx:id="menuVentasModificarVenta"/>
                 <MenuItem mnemonicParsing="false" text="Eliminar Venta" fx:id="menuVentasEliminarVenta"/>
             </items>
           </Menu>
           <Menu fx:id="menuProductos" mnemonicParsing="false" text="Productos">
             <items>
-                <MenuItem mnemonicParsing="false" text="Buscar Producto" fx:id="menuProductosBuscarProducto"/>
+                <MenuItem mnemonicParsing="false" text="Buscar Producto" fx:id="menuProductosBuscarProducto" onAction="#buscarProductos"/>
                 <MenuItem mnemonicParsing="false" text="Registrar Producto" fx:id="menuProductosAgregarProducto" onAction="#registrarNuevoProducto"/>
-                <MenuItem mnemonicParsing="false" text="Modificar Producto" fx:id="menuProductosModificarProducto"/>
-                <MenuItem mnemonicParsing="false" text="Eliminar Producto" fx:id="menuProductosEliminarProducto"/>
             </items>
           </Menu>
           <Menu fx:id="menuUsuarios" mnemonicParsing="false" text="Usuarios">

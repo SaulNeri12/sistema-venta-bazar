@@ -160,6 +160,8 @@ public class ProductoDlgController implements Initializable {
         if (!nombreValido) {
             throw new PersistenciaBazarException("Nombre del producto no valido");
         }
+
+        // TODO: validar precio
     }
 
     public ProductoDTO getProducto() {
@@ -169,7 +171,10 @@ public class ProductoDlgController implements Initializable {
         p.setCodigoInterno(this.codigoInternoTextField.getText());
         p.setNombre(this.nombreProductoTextField.getText());
         p.setPrecio(Float.parseFloat(this.precioProductoTextField.getText()));
-        p.setFechaRegistro(LocalDateTime.now());
+
+        if (this.operacion != DialogoOperacion.ACTUALIZAR) {
+            p.setFechaRegistro(LocalDateTime.now());
+        }
 
         return p;
     }
@@ -241,6 +246,7 @@ public class ProductoDlgController implements Initializable {
 
             switch (this.operacion) {
                 case LECTURA -> {
+                    this.stage.close();
                     return;
                 }
                 case REGISTRAR -> {
@@ -262,7 +268,7 @@ public class ProductoDlgController implements Initializable {
             alert.setTitle(titulo);
             alert.setHeaderText(null);
             alert.setContentText(ex.getMessage());
-            alert.initModality(Modality.APPLICATION_MODAL);
+//            alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait();
         }
     }
