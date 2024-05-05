@@ -2,6 +2,9 @@ package com.bazar.sistemabazar.controllers.dialogs;
 
 import com.bazar.sistemabazar.components.tables.ProveedoresTableView;
 import com.bazar.sistemabazar.components.tables.models.ProveedorTableModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,35 +18,56 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import objetosNegocio.ProductoDTO;
-import objetosNegocio.ProveedorDTO;
+import persistencia.IPersistenciaBazar;
+import persistencia.excepciones.PersistenciaBazarException;
 
 // TODO: AVERIGUAR QUE SE PUEDE HACER CON ESTE CONTROLADOR (VER SI ES MEJOR DIVIDIRLO)
 
 public class ProductoDlgController implements Initializable {
 
 
+    private IPersistenciaBazar persistencia;
+    private DialogoOperacion operacion;
     private ProductoDTO producto;
-    private DialogoOperacion modoOperacion;
-    private ProveedoresTableView tablaProveedores;
+
+    private Stage stage;
+
+    private static Pattern codigoBarrasPattern = Pattern.compile("^[0-9]{10,15}$");
+    private static Pattern codigoInternoPattern = Pattern.compile("^[a-zA-Z0-9?]{5,10}$");
+    private static Pattern nombrePattern = Pattern.compile("^[a-zA-Z0-9? ]{2,30}$");
 
     @FXML
+    private Label tituloDialogoLabel;
+    @FXML
     private TextField precioProductoTextField;
+    @FXML
     public Button restaurarButton;
+    @FXML
     public Button cancelarButton;
+    @FXML
     public Button aceptarButton;
-    public TextArea descripcionProductoTextArea;
+    @FXML
     public TextField fechaRegistroTextField;
+    @FXML
     public TextField nombreProductoTextField;
+    @FXML
     public TextField codigoInternoTextField;
+    @FXML
     public TextField codigoBarrasTextField;
-    public Pane tablaProveedoresPane;
 
-    /*
-    public ProductoDlgController(IGestorProductos gestorProductos, IGestorProveedores ) {
+    public ProductoDlgController(IPersistenciaBazar persistencia, DialogoOperacion operacion, ProductoDTO producto) {
+        this.producto = producto;
+        this.persistencia = persistencia;
+        this.operacion = operacion;
+    }
 
-    }*/
-
+    public ProductoDlgController(IPersistenciaBazar persistencia, DialogoOperacion operacion) {
+        this.persistencia = persistencia;
+        this.operacion = operacion;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,134 +76,217 @@ public class ProductoDlgController implements Initializable {
         this.nombreProductoTextField.setText("");
         this.precioProductoTextField.setText("");
         this.fechaRegistroTextField.setText("");
-        this.descripcionProductoTextArea.setText("");
 
-        UnaryOperator<TextFormatter.Change> filtroNumeros = change -> {
-            String entrada = change.getControlNewText();
-            Pattern pattern = Pattern.compile("-?\\d*\\.?\\d*");
-            boolean entradaValida = pattern.matcher(entrada).matches();
-            if (entradaValida) {
-                return change;
-            } else {
-                return null; // Rechazar el cambio
-            }
-        };
+        this.prepararModoOperacion();
 
-        this.precioProductoTextField.setTextFormatter((TextFormatter<?>) filtroNumeros);
+        this.precioProductoTextField.textProperty().addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observableValue, String s, String nuevoValor) {
+                        /*
+                        if (!nuevoValor.matches("\\d*")) {
+                            precioProductoTextField.setText(nuevoValor.replaceAll("[^\\d]", ""));
+                        }
+*/
+                        if (!nuevoValor.matches("|[-\\+]?|[-\\+]?\\d+\\.?|[-\\+]?\\d+\\.?\\d+")) {
+                            precioProductoTextField.setText(s);
+                        }
+                    }
+                }
+        );
 
-        //this.prepararModoOperacion();
-
-        ProveedoresTableView tablaProveedores = new ProveedoresTableView();
-        this.tablaProveedores = tablaProveedores;
-        this.tablaProveedoresPane.getChildren().add(tablaProveedores);
     }
 
+    private void prepararInformacionProducto() {
 
-
-    /*
-    @Override
-    public void prepararModoOperacion() {
-         switch (modoOperacion) {
-             case LECTURA -> {
-                 this.codigoBarrasTextField.setEditable(false);
-                 this.codigoInternoTextField.setEditable(false);
-                 this.nombreProductoTextField.setEditable(false);
-                 this.descripcionProductoTextArea.setEditable(false);
-                 this.precioProductoTextField.setEditable(false);
-                 this.fechaRegistroTextField.setEditable(false);
-                 this.aceptarButton.setText("Aceptar");
-                 this.restaurarButton.setDisable(true);
-
-                 // deshabilitar botones para agregar o eliminar proveedor.
-             }
-             case REGISTRAR -> {
-                 this.fechaRegistroTextField.setEditable(false);
-                 this.fechaRegistroTextField.setVisible(false);
-             }
-             case ACTUALIZAR -> {
-                 this.codigoBarrasTextField.setEditable(false);
-                 this.codigoInternoTextField.setEditable(false);
-                 this.fechaRegistroTextField.setEditable(false);
-                 this.aceptarButton.setText("Actualizar");
-             }
-             case ELIMINAR -> {
-                 this.codigoBarrasTextField.setEditable(false);
-                 this.codigoInternoTextField.setEditable(false);
-                 this.nombreProductoTextField.setEditable(false);
-                 this.descripcionProductoTextArea.setEditable(false);
-                 this.precioProductoTextField.setEditable(false);
-                 this.fechaRegistroTextField.setEditable(false);
-                 // deshabilitar botones para agregar o eliminar proveedor.
-                 this.aceptarButton.setText("Eliminar");
-                 this.restaurarButton.setDisable(true);
-
-             }
-        }
-    }
-
-
-    @Override
-    public DialogoOperacion obtenerModoOperacion() {
-        return this.modoOperacion;
-    }
-
-    @Override
-    public void guardarCambios() {
-        this.producto = new Producto();
-
-        this.producto.setId(Long.valueOf(this.codigoBarrasTextField.getId()));
-        this.producto.setNombre(this.nombreProductoTextField.getText());
-        this.producto.setCodigo(this.codigoInternoTextField.getText());
-
-        Float precio;
-
-        try {
-            precio = Float.parseFloat(this.precioProductoTextField.getText());
-        } catch (Exception e) {
-            System.out.println("# ERROR EN EL PRECIO DEL PRODUCTO");
-            return;
-        }
-
-        this.producto.setPrecio(precio);
-
-        String fechaString = this.fechaRegistroTextField.getText();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime fechaRegistro = LocalDateTime.parse(fechaString, formatter);
-
-        this.producto.setFechaRegistro(fechaRegistro);
-
-        List<ProveedorTableModel> proveedores = this.tablaProveedores.getItems().stream().toList();
-
-        for (ProveedorTableModel p: proveedores){
-            Proveedor proveedor = new Proveedor();
-
-            proveedor.setId((long) p.getIdProperty().get());
-            proveedor.setNombre(p.getNombreProperty().get());
-            proveedor.setTelefono(p.getTelefonoProperty().get());
-
-            this.producto.obtenerProveedores().add(proveedor);
-        }
-    }
-
-    @Override
-    public void restaurarCambios() {
-        // TODO: Pendiente
-    }
-
-    @Override
-    public Producto obtenerObjeto() {
-        return this.producto;
-    }
-
-    @Override
-    public void asignarObjeto(Producto producto) {
-        if (modoOperacion != DialogoOperacion.REGISTRAR) {
-            this.producto = producto;
-
-            this.codigoBarrasTextField.setText(producto.getId().toString());
-            this.codigoInternoTextField.setText(producto.getCodigo());
+        if (producto != null) {
+            this.codigoBarrasTextField.setText(String.valueOf(producto.getCodigoBarras()));
+            this.codigoInternoTextField.setText(producto.getCodigoInterno());
             this.nombreProductoTextField.setText(producto.getNombre());
-            this.precioProductoTextField.setText(Float.toString(producto.getPrecio()));
+            this.precioProductoTextField.setText(String.valueOf(producto.getPrecio()));
+            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            this.fechaRegistroTextField.setText(producto.getFechaRegistro().format(formatoFecha));
         }
-    }*/
+    }
+
+    public void prepararModoOperacion() {
+        switch (this.operacion) {
+            case LECTURA -> {
+                this.codigoBarrasTextField.setEditable(false);
+                this.codigoInternoTextField.setEditable(false);
+                this.nombreProductoTextField.setEditable(false);
+                this.precioProductoTextField.setEditable(false);
+                this.fechaRegistroTextField.setEditable(false);
+                this.aceptarButton.setText("Aceptar");
+                this.restaurarButton.setDisable(true);
+                this.tituloDialogoLabel.setText("Informacion del Producto");
+                this.prepararInformacionProducto();
+            }
+            case REGISTRAR -> {
+                this.fechaRegistroTextField.setEditable(false);
+                this.fechaRegistroTextField.setDisable(true);
+                this.tituloDialogoLabel.setText("Registrar Producto");
+            }
+            case ACTUALIZAR -> {
+                this.codigoBarrasTextField.setEditable(false);
+                this.codigoInternoTextField.setEditable(false);
+                this.fechaRegistroTextField.setEditable(false);
+                this.aceptarButton.setText("Actualizar");
+                this.tituloDialogoLabel.setText("Actualizar Producto");
+                this.prepararInformacionProducto();
+            }
+            case ELIMINAR -> {
+                this.codigoBarrasTextField.setEditable(false);
+                this.codigoInternoTextField.setEditable(false);
+                this.nombreProductoTextField.setEditable(false);
+                this.precioProductoTextField.setEditable(false);
+                this.fechaRegistroTextField.setEditable(false);
+                // deshabilitar botones para agregar o eliminar proveedor.
+                this.aceptarButton.setText("Eliminar");
+                this.restaurarButton.setDisable(true);
+                this.tituloDialogoLabel.setText("Eliminar Producto");
+                this.prepararInformacionProducto();
+            }
+        }
+    }
+
+    private void validarCampos() throws PersistenciaBazarException {
+        boolean codigoBarrasValido = codigoBarrasPattern.matcher(codigoBarrasTextField.getText()).matches();
+        if (!codigoBarrasValido) {
+            throw new PersistenciaBazarException("Codigo de barras no valido");
+        }
+
+        boolean codigoInternoValido = codigoInternoPattern.matcher(codigoInternoTextField.getText()).matches();
+        if (!codigoInternoValido) {
+            throw new PersistenciaBazarException("Codigo interno no valido");
+        }
+
+        boolean nombreValido = nombrePattern.matcher(nombreProductoTextField.getText()).matches();
+        if (!nombreValido) {
+            throw new PersistenciaBazarException("Nombre del producto no valido");
+        }
+
+        // TODO: validar precio
+    }
+
+    public ProductoDTO getProducto() {
+        ProductoDTO p = new ProductoDTO();
+
+        p.setCodigoBarras(Long.parseLong(this.codigoBarrasTextField.getText()));
+        p.setCodigoInterno(this.codigoInternoTextField.getText());
+        p.setNombre(this.nombreProductoTextField.getText());
+        p.setPrecio(Float.parseFloat(this.precioProductoTextField.getText()));
+
+        if (this.operacion != DialogoOperacion.ACTUALIZAR) {
+            p.setFechaRegistro(LocalDateTime.now());
+        }
+
+        return p;
+    }
+
+    private void registrar() throws PersistenciaBazarException {
+        ProductoDTO producto = this.getProducto();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Registrar Producto");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Desea registrar el producto?");
+
+        // Mostrar el diálogo y esperar la respuesta del usuario
+        alert.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                System.out.println("### registrando producto...");
+            } else {
+                return;
+            }
+        });
+
+        persistencia.registrarProducto(producto);
+    }
+
+    private void actualizar() throws PersistenciaBazarException {
+        ProductoDTO producto = this.getProducto();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Actualizar Producto");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Desea actualizar los datos del producto?");
+
+        // Mostrar el diálogo y esperar la respuesta del usuario
+        alert.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                System.out.println("### actualizando producto...");
+            } else {
+                return;
+            }
+        });
+
+        persistencia.actualizarProducto(producto);
+    }
+
+    private void eliminar() throws PersistenciaBazarException {
+        ProductoDTO producto = this.getProducto();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Eliminar Producto");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Desea eliminar producto?");
+
+        // Mostrar el diálogo y esperar la respuesta del usuario
+        alert.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                System.out.println("### eliminado producto...");
+            } else {
+                return;
+            }
+        });
+
+        persistencia.eliminarProducto(producto.getCodigoInterno());
+    }
+
+    public void ejecutarOperacion() {
+        try {
+
+            this.validarCampos();
+
+            switch (this.operacion) {
+                case LECTURA -> {
+                    this.stage.close();
+                    return;
+                }
+                case REGISTRAR -> {
+                    this.registrar();
+                }
+                case ACTUALIZAR -> {
+                    this.actualizar();
+                }
+                case ELIMINAR -> {
+                    this.eliminar();
+                }
+            }
+
+            this.stage.close();
+        } catch (PersistenciaBazarException ex) {
+            // TODO: muestra dialogo
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            String titulo = String.format("%s PRODUCTO", this.operacion.toString());
+            alert.setTitle(titulo);
+            alert.setHeaderText(null);
+            alert.setContentText(ex.getMessage());
+//            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.showAndWait();
+        }
+    }
+
+    public void restaurarCambios() {
+        // TODO
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void cerrarDialogo(ActionEvent actionEvent) {
+        this.stage.close();
+    }
 }

@@ -3,8 +3,7 @@ package com.bazar.sistemabazar.controllers.panels;
 import com.bazar.sistemabazar.BazarApplication;
 import com.bazar.sistemabazar.components.tables.DetallesVentaTableView;
 import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoDlgController;
+import com.bazar.sistemabazar.controllers.dialogs.BuscarProductoVentaDlgController;
 import com.bazar.sistemabazar.controllers.dialogs.ConfirmarVentaDlgController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -96,10 +95,10 @@ public class PanelVentaController implements Initializable {
 
     @FXML
     public void mostrarDialogoBusquedaProducto(ActionEvent actionEvent) {
-        FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoDlg.fxml"));
+        FXMLLoader buscarProductoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarProductoVentaDlg.fxml"));
 
         buscarProductoDlgFxmlLoader.setControllerFactory(c -> {
-            return new BuscarProductoDlgController(persistencia);
+            return new BuscarProductoVentaDlgController(persistencia);
         });
 
         Parent root = null;
@@ -109,7 +108,7 @@ public class PanelVentaController implements Initializable {
             Stage buscarProductoStage = new Stage();
             buscarProductoStage.setScene(new Scene(root));
             // obtenemos el controlador del frame
-            BuscarProductoDlgController buscarProductoController = buscarProductoDlgFxmlLoader.getController();
+            BuscarProductoVentaDlgController buscarProductoController = buscarProductoDlgFxmlLoader.getController();
             buscarProductoController.setStage(buscarProductoStage);
             // configuracion basica para el nuevo frame...
             buscarProductoStage.setTitle("Buscar Producto");
