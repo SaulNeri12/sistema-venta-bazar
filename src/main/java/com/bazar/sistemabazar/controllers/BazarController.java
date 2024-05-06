@@ -114,7 +114,7 @@ public class BazarController implements Initializable {
         FXMLLoader buscarVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarVentaDlg.fxml"));
 
         buscarVentaDlgFxmlLoader.setControllerFactory(c -> {
-            return new BuscarVentaDlgController(persistencia, usuario);
+            return new BuscarVentaDlgController(persistencia, usuario, BuscarVentaDlgController.Filtro.TODOS);
         });
 
         Parent root = null;
@@ -198,5 +198,61 @@ public class BazarController implements Initializable {
         buscarProductosDlgStage.initModality(Modality.APPLICATION_MODAL);
 
         buscarProductosDlgStage.show();
+    }
+
+    public void mostrarDialogoVentasDelDia(ActionEvent actionEvent) {
+        FXMLLoader buscarVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarVentaDlg.fxml"));
+
+        buscarVentaDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarVentaDlgController(persistencia, usuario, BuscarVentaDlgController.Filtro.VENTAS_DEL_DIA);
+        });
+
+        Parent root = null;
+
+        try {
+            root = buscarVentaDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage ventasDlgStage = new Stage();
+
+        BuscarVentaDlgController ventaDlgController = buscarVentaDlgFxmlLoader.getController();
+        ventaDlgController.setStage(ventasDlgStage);
+
+        Scene scene = new Scene(root);
+        ventasDlgStage.setMaximized(false);
+        ventasDlgStage.setScene(scene);
+        ventasDlgStage.setTitle("Ventas");
+
+        ventasDlgStage.show();
+    }
+
+    public void mostrarDialogoVentasUltimaHora(ActionEvent actionEvent) {
+        FXMLLoader buscarVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/BuscarVentaDlg.fxml"));
+
+        buscarVentaDlgFxmlLoader.setControllerFactory(c -> {
+            return new BuscarVentaDlgController(persistencia, usuario, BuscarVentaDlgController.Filtro.VENTAS_ULTIMA_HORA);
+        });
+
+        Parent root = null;
+
+        try {
+            root = buscarVentaDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage ventasDlgStage = new Stage();
+
+        BuscarVentaDlgController ventaDlgController = buscarVentaDlgFxmlLoader.getController();
+        ventaDlgController.setStage(ventasDlgStage);
+
+        Scene scene = new Scene(root);
+        ventasDlgStage.setMaximized(false);
+        ventasDlgStage.setScene(scene);
+        ventasDlgStage.setTitle("Ventas");
+
+        ventasDlgStage.show();
     }
 }

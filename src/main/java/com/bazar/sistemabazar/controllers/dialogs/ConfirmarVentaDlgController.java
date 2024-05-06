@@ -27,6 +27,7 @@ public class ConfirmarVentaDlgController implements Initializable {
     private String apellidoCliente;
     private VentaDTO.MetodoPago metodoPago;
     private Float montoTotal;
+    private boolean confirmacionCancelada = false;
 
     private Stage stage;
 
@@ -87,7 +88,9 @@ public class ConfirmarVentaDlgController implements Initializable {
         this.stage = stage;
     }
 
-
+    public boolean confirmacionCancelada(){
+        return this.confirmacionCancelada;
+    }
 
     @FXML
     public void completarVenta() {
@@ -116,7 +119,7 @@ public class ConfirmarVentaDlgController implements Initializable {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait().ifPresent(response -> {
                 if (response != ButtonType.OK) {
-                    return;
+                    confirmacionCancelada = true;
                 }
             });
 
