@@ -207,6 +207,11 @@ public class PanelVentaController implements Initializable {
         confirmarVentaDlgStage.initModality(Modality.APPLICATION_MODAL);
         confirmarVentaDlgStage.showAndWait();
 
+        // se cancela la confirmacion y el llenado de datos de la compra en curso...
+        if (confirmarVentaController.confirmacionCancelada()) {
+            return;
+        }
+
         List<DetalleVentaDTO> productosDetalleVenta = new ArrayList<>();
 
         for (DetalleVentaTableModel detalleVentaEnTabla: tablaVenta.getItems()) {
@@ -232,9 +237,8 @@ public class PanelVentaController implements Initializable {
         VentaDTO venta = new VentaDTO();
 
         // NOTE: PARA SIMULACION...
-        Random random = new Random();
-
-        venta.setId(random.nextLong() & Long.MAX_VALUE);
+        //Random random = new Random();
+        //venta.setId(random.nextLong() & Long.MAX_VALUE);
 
         venta.setNombreCliente(confirmarVentaController.getNombreCliente());
         venta.setApellidoCliente(confirmarVentaController.getApellidoCliente());

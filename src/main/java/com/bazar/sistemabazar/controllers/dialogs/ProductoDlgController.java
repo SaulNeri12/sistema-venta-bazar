@@ -177,7 +177,7 @@ public class ProductoDlgController implements Initializable {
         p.setNombre(this.nombreProductoTextField.getText());
         p.setPrecio(Float.parseFloat(this.precioProductoTextField.getText()));
 
-        if (this.operacion != DialogoOperacion.ACTUALIZAR) {
+        if (this.operacion != DialogoOperacion  .ACTUALIZAR) {
             p.setFechaRegistro(LocalDateTime.now());
         }
 
