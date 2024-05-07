@@ -13,14 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="466.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.dialogs.VentaDlgController">
+<AnchorPane prefHeight="506.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bazar.sistemabazar.controllers.dialogs.VentaDlgController">
    <children>
-      <VBox prefHeight="466.0" prefWidth="680.0">
+      <VBox prefHeight="506.0" prefWidth="712.0">
          <children>
             <HBox prefHeight="46.0" prefWidth="600.0">
                <children>
-                  <Label prefHeight="41.0" prefWidth="437.0" text="Titulo Dialogo Venta" fx:id="tituloDialogoLabel">
+                  <Label fx:id="tituloDialogoLabel" prefHeight="41.0" prefWidth="437.0" text="Titulo Dialogo Venta">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -38,13 +37,13 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="42.0" prefWidth="171.0" fx:id="nombreClienteTextField" />
+                  <TextField fx:id="nombreClienteTextField" prefHeight="34.0" prefWidth="184.0" />
                   <Label prefHeight="41.0" prefWidth="124.0" text="Apellido Cliente:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="41.0" prefWidth="192.0" fx:id="apellidoClienteTextField" />
+                  <TextField fx:id="apellidoClienteTextField" prefHeight="41.0" prefWidth="192.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -57,19 +56,19 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefHeight="41.0" prefWidth="150.0" fx:id="metodoPagoChoiceBox" />
+                  <ChoiceBox fx:id="metodoPagoChoiceBox" prefHeight="34.0" prefWidth="184.0" />
                   <Label prefHeight="30.0" prefWidth="51.0" text="Fecha:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker prefHeight="34.0" prefWidth="149.0" fx:id="fechaVentaDatePicker" />
+                  <DatePicker fx:id="fechaVentaDatePicker" prefHeight="34.0" prefWidth="149.0" />
                   <Label prefHeight="27.0" prefWidth="44.0" text="Hora:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="32.0" prefWidth="75.0" fx:id="horaVentaTextField" />
+                  <TextField fx:id="horaVentaTextField" prefHeight="32.0" prefWidth="75.0" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
@@ -90,20 +89,34 @@
                   </Label>
                </children>
             </HBox>
-            <Pane prefHeight="276.0" prefWidth="680.0" fx:id="panelTablaDetalleVenta" />
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="42.0" prefWidth="680.0">
+            <Pane fx:id="panelTablaDetalleVenta" prefHeight="238.0" prefWidth="702.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" />
+               </VBox.margin></Pane>
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="680.0">
                <children>
-                  <Button mnemonicParsing="false" text="Cerrar" fx:id="botonCerrar">
+                  <Label prefHeight="30.0" prefWidth="98.0" text="Monto Total:" />
+                  <TextField prefHeight="36.0" prefWidth="106.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <Separator prefHeight="14.0" prefWidth="680.0" />
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="33.0" prefWidth="680.0">
+               <children>
+                  <Button fx:id="botonCerrar" mnemonicParsing="false" text="Cerrar">
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Restaurar" fx:id="botonRestaurar">
+                  <Button fx:id="botonRestaurar" mnemonicParsing="false" text="Restaurar">
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Aceptar" fx:id="botonAceptar">
+                  <Button fx:id="botonAceptar" mnemonicParsing="false" text="Aceptar">
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" />
                      </HBox.margin>

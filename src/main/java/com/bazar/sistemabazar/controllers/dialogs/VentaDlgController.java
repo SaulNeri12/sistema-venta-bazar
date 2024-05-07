@@ -63,7 +63,8 @@ public class VentaDlgController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        tablaProductosVendidos = new DetallesVentaTableView();
+        tablaProductosVendidos = new DetallesVentaTableView(this.operacion);
+
         this.panelTablaDetalleVenta.getChildren().add(tablaProductosVendidos);
 
         this.metodoPagoChoiceBox.setItems(FXCollections.observableArrayList(

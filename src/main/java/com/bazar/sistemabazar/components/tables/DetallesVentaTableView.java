@@ -1,5 +1,6 @@
 package com.bazar.sistemabazar.components.tables;
 
+import com.bazar.sistemabazar.controllers.dialogs.DialogoOperacion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -14,29 +15,58 @@ import java.util.Optional;
 
 public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> implements IControlTabla<DetalleVentaDTO> {
 
+    private DialogoOperacion operacion;
+
+    public DetallesVentaTableView(DialogoOperacion operacion) {
+        this.operacion = operacion;
+    }
+
     @Override
     public void inicializar() {
         TableColumn<DetalleVentaTableModel, String> columnaProductoCodigo = new TableColumn<>("ID");
+        /*
         columnaProductoCodigo.setMinWidth(80);
         columnaProductoCodigo.setMaxWidth(100);
+
+         */
         columnaProductoCodigo.setCellValueFactory(cellData -> cellData.getValue().getCodigoProperty());
 
         TableColumn<DetalleVentaTableModel, String> columnaNombreProducto = new TableColumn<>("Nombre del producto");
+        /*
         columnaNombreProducto.setPrefWidth(300);
+        columnaNombreProducto.setMinWidth(100);
+        columnaNombreProducto.setMaxWidth(300);
+        */
+
         columnaNombreProducto.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
 
         TableColumn<DetalleVentaTableModel, Float> columnaPrecioProducto = new TableColumn<>("Precio");
-        columnaPrecioProducto.setPrefWidth(50);
+        /*
+        columnaPrecioProducto.setPrefWidth(25);
+        columnaPrecioProducto.setMinWidth(25);
+        columnaPrecioProducto.setMaxWidth(30);
+
+         */
         columnaPrecioProducto.setCellValueFactory(cellData -> cellData.getValue().getPrecioProperty().asObject());
 
         TableColumn<DetalleVentaTableModel, Integer> columnaCantidadProducto = new TableColumn<>("Cantidad");
-        columnaCantidadProducto.setPrefWidth(50);
+        /*
+        columnaCantidadProducto.setPrefWidth(25);
+        columnaCantidadProducto.setMinWidth(25);
+        columnaCantidadProducto.setMaxWidth(25);
+
+         */
         columnaCantidadProducto.setCellValueFactory(cellData -> cellData.getValue().getCantidadProperty().asObject());
 
+
         TableColumn<DetalleVentaTableModel, Float> columnaTotalProducto = new TableColumn<>("Total");
-        columnaTotalProducto.setPrefWidth(50);
+        /*
+        columnaTotalProducto.setPrefWidth(25);
+        columnaTotalProducto.setMaxWidth(25);
         columnaTotalProducto.setCellValueFactory(cellData -> cellData.getValue().getTotalProperty().asObject());
 
+
+         */
         // ajustes adicionales
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -75,6 +105,8 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
                 columnaTotalProducto,
                 columnaControl
         );
+
+        //this.getColumns().remove(this.getColumns().size() - 1);
     }
 
     @Override

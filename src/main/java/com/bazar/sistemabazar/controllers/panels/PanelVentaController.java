@@ -42,6 +42,7 @@ import java.util.ResourceBundle;
 public class PanelVentaController implements Initializable {
 
 
+
     private Float totalAPagar;
 
     private IPersistenciaBazar persistencia;
@@ -54,6 +55,7 @@ public class PanelVentaController implements Initializable {
     public Button botonBuscarProducto;
     public TextField campoIndicadorTotal;
     public Button finalizarCompraBoton;
+    public Button botonCancelarCompra;
 
     @FXML
     private AnchorPane controlVentaAnchorPane;
@@ -82,8 +84,10 @@ public class PanelVentaController implements Initializable {
         // nuevo valor cada 100 millisegundos.
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
             if (tablaVenta.getItems().isEmpty()) {
+                this.botonCancelarCompra.setDisable(true);
                 this.finalizarCompraBoton.setDisable(true);
             } else {
+                this.botonCancelarCompra.setDisable(false);
                 this.finalizarCompraBoton.setDisable(false);
             }
             this.calcularTotalCompra();
