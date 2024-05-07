@@ -61,6 +61,8 @@ public class ConfirmarVentaDlgController implements Initializable {
                 "TARJETA"
         ));
 
+        this.metodoPagoChoiceBox.setValue("EFECTIVO");
+
 
         this.campoMontoPagoTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override

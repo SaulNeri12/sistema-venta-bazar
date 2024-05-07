@@ -14,7 +14,7 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="Buscar Venta" fx:id="menuVentasConsultarTodos" onAction="#mostrarDialogoVentas"/>
                 <MenuItem mnemonicParsing="false" text="Ventas del dia" fx:id="menuVentasConsultarVentasDelDia" onAction="#mostrarDialogoVentasDelDia"/>
-                <MenuItem mnemonicParsing="false" text="Ventas Ultima Hora" visible="false" fx:id="menuVentasConsultarVentasUltimaHora" onAction="#mostrarDialogoVentasUltimaHora"/>
+                <MenuItem mnemonicParsing="false" text="Ventas Ultima Hora" fx:id="menuVentasConsultarVentasUltimaHora" onAction="#mostrarDialogoVentasUltimaHora"/>
                 <MenuItem mnemonicParsing="false" text="Modificar Venta" fx:id="menuVentasModificarVenta"/>
                 <MenuItem mnemonicParsing="false" text="Eliminar Venta" fx:id="menuVentasEliminarVenta"/>
             </items>
