@@ -28,7 +28,7 @@
           <Menu fx:id="menuUsuarios" mnemonicParsing="false" text="Usuarios">
             <items>
                 <MenuItem mnemonicParsing="false" text="Buscar Usuario" fx:id="menuUsuariosBuscarUsuario"/>
-                <MenuItem mnemonicParsing="false" text="Agregar Usuario" fx:id="menuUsuariosAgregarUsuario"/>
+                <MenuItem mnemonicParsing="false" text="Registrar Usuario" fx:id="menuUsuariosAgregarUsuario" onAction="#registrarUsuario"/>
                 <MenuItem mnemonicParsing="false" text="Modificar Usuario" fx:id="menuUsuariosModificarUsuario"/>
                 <MenuItem mnemonicParsing="false" text="Eliminar Usuario" fx:id="menuUsuariosEliminarUsuario"/>
             </items>

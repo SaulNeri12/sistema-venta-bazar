@@ -255,4 +255,32 @@ public class BazarController implements Initializable {
 
         ventasDlgStage.show();
     }
+
+    public void registrarUsuario(ActionEvent actionEvent) {
+        FXMLLoader registrarUsuarioDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/RegistrarUsuarioDlg.fxml"));
+
+        registrarUsuarioDlgFxmlLoader.setControllerFactory(c -> {
+            return new RegistrarUsuarioDlgController(persistencia);
+        });
+
+        Parent root = null;
+
+        try {
+            root = registrarUsuarioDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage registrarUsuarioDlgStage = new Stage();
+
+        RegistrarUsuarioDlgController registrarUsuarioDlgController = registrarUsuarioDlgFxmlLoader.getController();
+        registrarUsuarioDlgController.setStage(registrarUsuarioDlgStage);
+
+        Scene scene = new Scene(root);
+        registrarUsuarioDlgStage.setMaximized(false);
+        registrarUsuarioDlgStage.setScene(scene);
+        registrarUsuarioDlgStage.setTitle("Ventas");
+
+        registrarUsuarioDlgStage.show();
+    }
 }
