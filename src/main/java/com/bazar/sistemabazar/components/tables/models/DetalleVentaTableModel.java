@@ -1,7 +1,7 @@
 package com.bazar.sistemabazar.components.tables.models;
 
 import javafx.beans.property.*;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.ProductoDTO;
 
 public class DetalleVentaTableModel extends ProductoTableModel {
     private SimpleIntegerProperty cantidad;

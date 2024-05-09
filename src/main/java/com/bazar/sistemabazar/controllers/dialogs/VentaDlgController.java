@@ -11,8 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import objetosNegocio.DetalleVentaDTO;
-import objetosNegocio.VentaDTO;
+import objetosDTO.DetalleVentaDTO;
+import objetosDTO.VentaDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 

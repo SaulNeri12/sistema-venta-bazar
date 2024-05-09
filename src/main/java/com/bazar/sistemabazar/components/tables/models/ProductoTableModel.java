@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.FloatProperty;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.ProductoDTO;
 
 import java.time.LocalDateTime;
 

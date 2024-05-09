@@ -21,10 +21,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.util.Duration;
-import objetosNegocio.DetalleVentaDTO;
-import objetosNegocio.ProductoDTO;
-import objetosNegocio.UsuarioDTO;
-import objetosNegocio.VentaDTO;
+import objetosDTO.DetalleVentaDTO;
+import objetosDTO.ProductoDTO;
+import objetosDTO.UsuarioDTO;
+import objetosDTO.VentaDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 

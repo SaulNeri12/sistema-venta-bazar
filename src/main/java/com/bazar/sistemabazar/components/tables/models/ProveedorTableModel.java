@@ -1,7 +1,7 @@
 package com.bazar.sistemabazar.components.tables.models;
 
 import javafx.beans.property.*;
-import objetosNegocio.ProveedorDTO;
+import objetosDTO.ProveedorDTO;
 
 import java.time.LocalDateTime;
 

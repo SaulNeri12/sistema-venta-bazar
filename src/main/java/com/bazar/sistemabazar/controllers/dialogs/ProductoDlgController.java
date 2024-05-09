@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.ProductoDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 

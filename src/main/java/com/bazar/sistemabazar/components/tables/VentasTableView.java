@@ -5,7 +5,7 @@ import com.bazar.sistemabazar.components.tables.models.VentaTableModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import objetosNegocio.VentaDTO;
+import objetosDTO.VentaDTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

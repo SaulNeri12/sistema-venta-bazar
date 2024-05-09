@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import objetosNegocio.UsuarioDTO;
+import objetosDTO.UsuarioDTO;
 import persistencia.IPersistenciaBazar;
 
 import java.io.IOException;

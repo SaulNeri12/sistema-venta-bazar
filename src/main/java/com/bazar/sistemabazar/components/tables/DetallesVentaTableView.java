@@ -7,8 +7,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
 
 import com.bazar.sistemabazar.components.tables.models.DetalleVentaTableModel;
-import objetosNegocio.DetalleVentaDTO;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.DetalleVentaDTO;
+import objetosDTO.ProductoDTO;
 
 import java.util.Optional;
 
