@@ -86,6 +86,11 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Button>
+                        <Button fx:id="botonEliminarVenta" mnemonicParsing="false" text="Eliminar" onAction="#eliminarVenta">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
                         <Button fx:id="botonVerDetalles" mnemonicParsing="false" onAction="#desplegarDialogoDetalleVenta" text="Ver Detalles">
                            <HBox.margin>
                               <Insets right="10.0" />
