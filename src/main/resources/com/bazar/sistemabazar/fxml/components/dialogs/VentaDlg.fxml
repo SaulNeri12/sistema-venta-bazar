@@ -73,6 +73,34 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
+            <Separator prefHeight="25.0" prefWidth="712.0" />
+            <VBox prefHeight="63.0" prefWidth="712.0">
+               <children>
+                  <HBox prefHeight="27.0" prefWidth="712.0">
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="122.0" text="Atendido por:">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="nombreEncargadoTextField" prefHeight="27.0" prefWidth="227.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="29.0" prefWidth="712.0">
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="123.0" text="ID del Empleado:">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="empleadoIdTextField" prefHeight="24.0" prefWidth="224.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <HBox prefHeight="32.0" prefWidth="680.0">
                <VBox.margin>
                   <Insets top="10.0" />
@@ -95,7 +123,7 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="680.0">
                      <children>
                         <Label prefHeight="30.0" prefWidth="98.0" text="Monto Total:" />
-                        <TextField prefHeight="36.0" prefWidth="106.0">
+                        <TextField fx:id="montoTotalTextField" prefHeight="36.0" prefWidth="106.0">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>

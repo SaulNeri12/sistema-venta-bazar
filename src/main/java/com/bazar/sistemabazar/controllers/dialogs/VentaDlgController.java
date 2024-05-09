@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 public class VentaDlgController implements Initializable {
 
+
     private IPersistenciaBazar persistencia;
     private DialogoOperacion operacion;
     private VentaDTO venta;
@@ -53,6 +54,12 @@ public class VentaDlgController implements Initializable {
     private Button botonRestaurar;
     @FXML
     private Button botonCerrar;
+    @FXML
+    private TextField montoTotalTextField;
+    @FXML
+    private TextField empleadoIdTextField;
+    @FXML
+    private TextField nombreEncargadoTextField;
 
     public VentaDlgController(IPersistenciaBazar persistencia, DialogoOperacion operacion, Long idVenta) {
         this.persistencia = persistencia;
@@ -95,6 +102,14 @@ public class VentaDlgController implements Initializable {
 
         this.prepararInformacionVenta();
         this.prepararModoOperacion();
+
+        // asignar datos de usuario encargado
+        String nombreUsuario = venta.getUsuario().getNombre() + " " + venta.getUsuario().getApellido();
+        this.nombreEncargadoTextField.setText(nombreUsuario);
+        this.empleadoIdTextField.setText(venta.getUsuario().getId().toString());
+
+        this.montoTotalTextField.setText(String.valueOf(venta.getMontoTotal()));
+        this.montoTotalTextField.setEditable(false);
     }
 
     public void prepararModoOperacion() {
