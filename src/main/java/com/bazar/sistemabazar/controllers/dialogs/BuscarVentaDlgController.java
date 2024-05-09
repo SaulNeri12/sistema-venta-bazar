@@ -3,21 +3,28 @@ package com.bazar.sistemabazar.controllers.dialogs;
 import com.bazar.sistemabazar.components.tables.VentasTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
 import com.bazar.sistemabazar.components.tables.models.VentaTableModel;
+import com.bazar.sistemabazar.BazarApplication;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import objetosNegocio.UsuarioDTO;
-import objetosNegocio.VentaDTO;
+import objetosDTO.UsuarioDTO;
+import objetosDTO.VentaDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +47,8 @@ public class BuscarVentaDlgController implements Initializable {
     private Stage stage;
     private UsuarioDTO usuario;
     private Filtro filtroPrincipal;
+
+    private VentaTableModel ventaSeleccionada;
 
     private ObservableList<VentaTableModel> listaVentas;
     private Timer timerBusquedaVenta;
@@ -72,16 +81,34 @@ public class BuscarVentaDlgController implements Initializable {
 
         this.panelTablaVentas.getChildren().add(tablaVentas);
 
+        tablaVentas.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                // Obtener la fila seleccionada
+                VentaTableModel ventaTablaSeleccionado = tablaVentas.getSelectionModel().getSelectedItem();
+
+                if (ventaTablaSeleccionado == null) {
+                    botonVerDetalles.setDisable(true);
+                    return;
+                }
+                this.ventaSeleccionada = ventaTablaSeleccionado;
+                botonVerDetalles.setDisable(false);
+            }
+        });
+
         // inicializa los datos de la tabla de ventas
         try {
             List<VentaDTO> ventasEnSistema = obtenerVentasFiltradas();
 
+            listaVentas = FXCollections.observableArrayList();
+
             for (VentaDTO venta: ventasEnSistema) {
                 VentaTableModel filaVenta = new VentaTableModel(venta);
-                tablaVentas.getItems().add(filaVenta);
+                //tablaVentas.getItems().add(filaVenta);
+                listaVentas.add(filaVenta);
             }
 
-            listaVentas = tablaVentas.getItems();
+            tablaVentas.setItems(listaVentas);
+
 
         } catch (PersistenciaBazarException e) {
             //throw new RuntimeException(e);
@@ -117,17 +144,50 @@ public class BuscarVentaDlgController implements Initializable {
 
     @FXML
     public void desplegarDialogoDetalleVenta() {
-        // TODO: FALTARA CREAR EL DIALOGO VentaDlg Y DESPUES IMPLEMENTAR ESTE METODO
+        // TODO: ARROJAR EXCEPCION
+        if (ventaSeleccionada == null) {
+            return;
+        }
+
+        FXMLLoader detalleVentaDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/VentaDlg.fxml"));
+
+        detalleVentaDlgFxmlLoader.setControllerFactory(c -> {
+            return new VentaDlgController(persistencia, DialogoOperacion.LECTURA, ventaSeleccionada.getIdProperty().get());
+        });
+
+        Parent root = null;
+
+        try {
+            root = detalleVentaDlgFxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage ventasDlgStage = new Stage();
+
+        VentaDlgController ventaDlgController = detalleVentaDlgFxmlLoader.getController();
+        ventaDlgController.setStage(ventasDlgStage);
+
+        Scene scene = new Scene(root);
+        ventasDlgStage.setMaximized(false);
+        ventasDlgStage.setResizable(false);
+        ventasDlgStage.setScene(scene);
+        ventasDlgStage.setTitle("Informacion Venta");
+
+        ventasDlgStage.show();
     }
 
     public void filtrarVentasPorNombre(String nombreCliente) {
         ObservableList<VentaTableModel> ventas = listaVentas;
 
         if (nombreCliente == null || nombreCliente.isEmpty()) {
-            tablaVentas.getItems().clear();
+            //tablaVentas.getItems().clear();
+            tablaVentas.getItems().remove(0, tablaVentas.getItems().size());
             // se agregan todos los elementos encontrados cuando la entrada del
             // nombre del producto es null o esta vacia...
-            tablaVentas.setItems(listaVentas);
+            for (VentaTableModel venta: ventas) {
+                tablaVentas.getItems().add(venta);
+            }
             return;
         }
 
@@ -166,7 +226,7 @@ public class BuscarVentaDlgController implements Initializable {
 
         if (this.filtroPrincipal == Filtro.VENTAS_DEL_DIA) {
             LocalDateTime fechaHoraInicioDia = LocalDate.now().atStartOfDay();
-            LocalDateTime fechaHoraActual = LocalDateTime.now();
+            LocalDateTime fechaHoraActual = LocalDate.now().plusDays(1).atStartOfDay();
             listaVentas = persistencia.consultarVentasPorPeriodo(fechaHoraInicioDia, fechaHoraActual);
         }
         else if (this.filtroPrincipal == Filtro.VENTAS_ULTIMA_HORA) {

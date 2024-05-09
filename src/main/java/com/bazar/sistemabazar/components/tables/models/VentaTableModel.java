@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import objetosNegocio.VentaDTO;
+import objetosDTO.VentaDTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

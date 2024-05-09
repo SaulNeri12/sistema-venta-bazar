@@ -12,7 +12,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.ProductoDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.excepciones.PersistenciaBazarException;
 

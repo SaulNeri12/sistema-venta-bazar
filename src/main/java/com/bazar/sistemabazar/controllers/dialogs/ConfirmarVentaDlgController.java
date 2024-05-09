@@ -8,9 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import objetosNegocio.UsuarioDTO;
-import objetosNegocio.VentaDTO;
-import objetosNegocio.VentaDTO;
+import objetosDTO.UsuarioDTO;
+import objetosDTO.VentaDTO;
+import objetosDTO.VentaDTO;
 import persistencia.IPersistenciaBazar;
 
 import java.net.URL;
@@ -60,6 +60,8 @@ public class ConfirmarVentaDlgController implements Initializable {
                 "EFECTIVO",
                 "TARJETA"
         ));
+
+        this.metodoPagoChoiceBox.setValue("EFECTIVO");
 
 
         this.campoMontoPagoTextField.textProperty().addListener(new ChangeListener<String>() {

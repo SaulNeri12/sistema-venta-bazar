@@ -33,7 +33,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#cancelarCompra" text="Cancelar - F2">
+                  <Button mnemonicParsing="false" fx:id="botonCancelarCompra" onAction="#cancelarCompra" text="Cancelar - F2">
                      <font>
                         <Font size="12.0" />
                      </font>

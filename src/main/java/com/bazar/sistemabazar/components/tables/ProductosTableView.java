@@ -5,7 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import objetosNegocio.ProductoDTO;
+import objetosDTO.ProductoDTO;
 
 import java.time.Instant;
 import java.time.ZoneId;

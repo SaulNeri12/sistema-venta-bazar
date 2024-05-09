@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
-import objetosNegocio.UsuarioDTO;
+import objetosDTO.UsuarioDTO;
 import persistencia.IPersistenciaBazar;
 import persistencia.PersistenciaBazar;
 
