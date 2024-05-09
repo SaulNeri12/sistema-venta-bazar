@@ -27,7 +27,6 @@ public class BuscarProductoVentaDlgController implements Initializable {
     private ObservableList<ProductoTableModel> listaProductos;
 
     private IPersistenciaBazar persistencia;
-
     private Timer timerBusquedaProducto;
 
     private Stage stage;
