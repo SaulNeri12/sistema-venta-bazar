@@ -1,98 +1,99 @@
 package com.bazar.sistemabazar.controllers.dialogs;
 
-import com.bazar.sistemabazar.components.tables.ProductoVentaTableView;
+import com.bazar.sistemabazar.BazarApplication;
+import com.bazar.sistemabazar.components.tables.ProductosTableView;
 import com.bazar.sistemabazar.components.tables.models.ProductoTableModel;
-import com.bazar.sistemabazar.components.tables.models.ProductoVentaTableModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
+import objetosDTO.ProductoDTO;
+import persistencia.IPersistenciaBazar;
+import persistencia.excepciones.PersistenciaBazarException;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BuscarProductoDlgController implements Initializable {
 
-    private ObservableList<ProductoVentaTableModel> listaProductos;
+    private ObservableList<ProductoTableModel> listaProductos;
+
+    private IPersistenciaBazar persistencia;
 
     private Timer timerBusquedaProducto;
 
     private Stage stage;
-    private ProductoVentaTableView tablaProductos;
+    private ProductosTableView tablaProductos;
 
-    private ProductoVentaTableModel productoSeleccionado;
+    private ProductoTableModel productoSeleccionado;
+    private ProductoDTO objetoProducto;
 
     @FXML
-    public Button botonAgregarProducto;
+    public Button botonCerrarDialogo;
+    @FXML
+    public Button botonVerDetallesProducto;
+    @FXML
+    public Button botonModificarProducto;
+    @FXML
+    public Button botonEliminarProducto;
     @FXML
     public VBox panelTablaProductos;
     @FXML
     public TextField nombreProductoTextField;
-    @FXML
-    public TextField productoSeleccionadoTextField;
-    @FXML
-    public Spinner cantidadProductoSpinner;
 
     public void setStage(Stage stage) { this.stage = stage; }
 
+    public BuscarProductoDlgController(IPersistenciaBazar persistencia) {
+        this.persistencia = persistencia;
+        objetoProducto = null;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ProductoVentaTableView tablaProductos = new ProductoVentaTableView();
-
-        int numColumnas = tablaProductos.getColumns().size();
-
-        // removemos las columnas de la tabla ya que no se utilizaran...
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna del total
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
-        tablaProductos.getColumns().remove(--numColumnas); // se elimina la columna de la cantidad
+        ProductosTableView tablaProductos = new ProductosTableView();
 
         // producto seleccionado en la tabla
         productoSeleccionado = null;
 
-        productoSeleccionadoTextField.setText("");
+        timerBusquedaProducto = new Timer();
 
-        // cuando se hace click en la tabla
+        this.botonVerDetallesProducto.setDisable(true);
+        this.botonModificarProducto.setDisable(true);
+        this.botonEliminarProducto.setDisable(true);
+
         tablaProductos.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
                 // Obtener la fila seleccionada
-                ProductoVentaTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
+                ProductoTableModel productoTablaSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
 
                 if (productoTablaSeleccionado == null) {
-                    botonAgregarProducto.setDisable(true);
+                    botonVerDetallesProducto.setDisable(true);
+                    botonModificarProducto.setDisable(true);
+                    botonEliminarProducto.setDisable(true);
                     return;
                 }
 
-                botonAgregarProducto.setDisable(false);
                 productoSeleccionado = productoTablaSeleccionado;
-                productoSeleccionadoTextField.setText(
-                        String.format(
-                                "Producto(ID: %d, Nombre: %s)",
-                                productoSeleccionado.getIdProperty().get(),
-                                productoSeleccionado.getNombreProperty().get()
-                        )
-                );
+
+                botonVerDetallesProducto.setDisable(false);
+                botonModificarProducto.setDisable(false);
+                botonEliminarProducto.setDisable(false);
             }
         });
-
-
-
-        // se le asigna la cantidad maxima para un producto
-        this.cantidadProductoSpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                        1,
-                        100
-                )
-        );
-
-        timerBusquedaProducto = new Timer();
 
         nombreProductoTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -105,53 +106,46 @@ public class BuscarProductoDlgController implements Initializable {
                     @Override
                     public void run() {
                         filtrarProductosPorNombre(nuevoString.toLowerCase());
-                        System.out.println("CAMBIA!!!");
                     }
                 }, 100);
             }
         });
 
-        this.listaProductos = FXCollections.observableArrayList(
-                new ProductoVentaTableModel(12, "Jarra Plastico", 54.50f, 1),
-                new ProductoVentaTableModel(13, "Vaso Vidrio", 35.0f, 1),
-                new ProductoVentaTableModel(14, "Plato Vidrio Blanco", 40.0f, 1),
-                new ProductoVentaTableModel(15, "Plato Plastico", 32.0f, 1),
-                new ProductoVentaTableModel(16, "Cesta ropa", 90.50f, 1),
-                new ProductoVentaTableModel(17, "Caja Madera 25x25cm", 56.5f, 1),
-                new ProductoVentaTableModel(18, "Caja ordenadora madera 25x25", 97.0f, 1),
-                new ProductoVentaTableModel(19, "Taza Cafe Java", 50.0f, 1),
-                new ProductoVentaTableModel(20, "Taza Cafe Jurassic Park", 60.0f, 1),
-                new ProductoVentaTableModel(21, "Calentadera Metal Azul", 125.0f,1)
-        );
-
-        tablaProductos.getItems().addAll(listaProductos);
-        tablaProductos.setEditable(false);
+        this.actualizarTabla(tablaProductos);
 
         this.tablaProductos = tablaProductos;
 
         panelTablaProductos.getChildren().add(tablaProductos);
     }
 
-    public ProductoTableModel getProductoSeleccionado() {
-        return this.productoSeleccionado;
+    private void actualizarTabla(ProductosTableView tablaProductos) {
+        try {
+            List<ProductoDTO> productosEnSistema = persistencia.consultarProductosTodos();
+
+            // cargar todos los productos en la tabla desde la persistencia...
+            this.listaProductos = FXCollections.observableArrayList();
+
+            for (ProductoDTO producto: productosEnSistema) {
+                ProductoTableModel productoFilaTabla = new ProductoTableModel(producto);
+                this.listaProductos.add(productoFilaTabla);
+            }
+
+            tablaProductos.getItems().addAll(this.listaProductos);
+            tablaProductos.setEditable(false);
+
+        } catch (PersistenciaBazarException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Consultar Productos");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage());
+
+            // Mostrar el diálogo y esperar la respuesta del usuario
+            alert.showAndWait();
+        }
     }
 
-    /**
-     * Cierra el dialogo conservando el producto seleccionado
-     */
-    public void agregarProducto() {
-        if (this.productoSeleccionado == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText(null);
-            alert.setTitle("Advertencia - Agregar Producto");
-            alert.setContentText("Primero selecciona un producto");
-            alert.showAndWait();
-            return;
-        }
-
-        this.productoSeleccionado.setCantidad((Integer) this.cantidadProductoSpinner.getValue());
-
-        this.stage.close();
+    public ProductoDTO getProductoSeleccionado() {
+        return this.objetoProducto;
     }
 
     /**
@@ -159,20 +153,164 @@ public class BuscarProductoDlgController implements Initializable {
      * @param nombreProducto Nombre del producto a buscar
      */
     public void filtrarProductosPorNombre(String nombreProducto) {
-        ObservableList<ProductoVentaTableModel> productos = listaProductos;
+        ObservableList<ProductoTableModel> productos = listaProductos;
 
-        if (nombreProducto.isEmpty() || nombreProducto == null) {
+        if (nombreProducto == null || nombreProducto.isEmpty()) {
             tablaProductos.getItems().remove(0, tablaProductos.getItems().size());
-            for (ProductoVentaTableModel p: productos) {
+            // se agregan todos los elementos encontrados cuando la entrada del
+            // nombre del producto es null o esta vacia...
+            for (ProductoTableModel p: productos) {
                 tablaProductos.getItems().add(p);
             }
             return;
         }
 
-        for (ProductoVentaTableModel prdct: productos) {
+        // cada producto el cual contiene en su nombre, el texto almacenado en
+        // 'nombreProducto' es anadido a la tabla ya que cumple con la busqueda
+        for (ProductoTableModel prdct: productos) {
             if (!prdct.getNombreProperty().get().toLowerCase().contains(nombreProducto)) {
                 tablaProductos.getItems().remove(prdct);
             }
+        }
+    }
+
+    public void verDetallesProducto() {
+        ProductoDTO productoObjetivo;
+
+        if (productoSeleccionado == null) {
+            return;
+        }
+
+        String codigoInterno = productoSeleccionado.getCodigoProperty().get();
+
+        try {
+            productoObjetivo = persistencia.consultarProductoPorCodigoInterno(codigoInterno);
+
+            FXMLLoader productoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/ProductoDlg.fxml"));
+            productoDlgFxmlLoader.setControllerFactory(c -> {
+                return new ProductoDlgController(persistencia, DialogoOperacion.LECTURA, productoObjetivo);
+            });
+
+            Parent root = null;
+
+            try {
+                root = productoDlgFxmlLoader.load();
+            } catch (IOException e) {
+                // TODO: Manejar
+                throw new RuntimeException(e);
+            }
+
+            Stage productoDlgStage = new Stage();
+
+            ProductoDlgController productoDlgController = productoDlgFxmlLoader.getController();
+            productoDlgController.setStage(productoDlgStage);
+
+            Scene scene = new Scene(root);
+            productoDlgStage.setMaximized(false);
+            productoDlgStage.setResizable(false);
+            productoDlgStage.setScene(scene);
+            // NOTE: Cambiar segun operacion...
+            productoDlgStage.setTitle("Detalles del producto");
+            productoDlgStage.initModality(Modality.APPLICATION_MODAL);
+            productoDlgStage.show();
+
+        } catch (PersistenciaBazarException e) {
+            // TODO: asasasas
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void modificarProducto() {
+        ProductoDTO productoObjetivo;
+
+        if (productoSeleccionado == null) {
+            return;
+        }
+
+        String codigoInterno = productoSeleccionado.getCodigoProperty().get();
+
+        try {
+            productoObjetivo = persistencia.consultarProductoPorCodigoInterno(codigoInterno);
+
+            FXMLLoader productoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/ProductoDlg.fxml"));
+            productoDlgFxmlLoader.setControllerFactory(c -> {
+                return new ProductoDlgController(persistencia, DialogoOperacion.ACTUALIZAR, productoObjetivo);
+            });
+
+            Parent root = null;
+
+            try {
+                root = productoDlgFxmlLoader.load();
+            } catch (IOException e) {
+                // TODO: Manejar
+                throw new RuntimeException(e);
+            }
+
+            Stage productoDlgStage = new Stage();
+
+            ProductoDlgController productoDlgController = productoDlgFxmlLoader.getController();
+            productoDlgController.setStage(productoDlgStage);
+
+            Scene scene = new Scene(root);
+            productoDlgStage.setMaximized(false);
+            productoDlgStage.setResizable(false);
+            productoDlgStage.setScene(scene);
+            // NOTE: Cambiar segun operacion...
+            productoDlgStage.setTitle("Modificar Producto");
+            productoDlgStage.initModality(Modality.APPLICATION_MODAL);
+            productoDlgStage.show();
+
+            // TODO: Actualizar la tabla sin dicho producto...
+        } catch (PersistenciaBazarException e) {
+            // TODO: asasasas
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarProducto() {
+        ProductoDTO productoObjetivo;
+
+        if (productoSeleccionado == null) {
+            return;
+        }
+
+        String codigoInterno = productoSeleccionado.getCodigoProperty().get();
+
+        try {
+            productoObjetivo = persistencia.consultarProductoPorCodigoInterno(codigoInterno);
+
+            FXMLLoader productoDlgFxmlLoader = new FXMLLoader(BazarApplication.class.getResource("fxml/components/dialogs/ProductoDlg.fxml"));
+            productoDlgFxmlLoader.setControllerFactory(c -> {
+                return new ProductoDlgController(persistencia, DialogoOperacion.ELIMINAR, productoObjetivo);
+            });
+
+            Parent root = null;
+
+            try {
+                root = productoDlgFxmlLoader.load();
+            } catch (IOException e) {
+                // TODO: Manejar
+                throw new RuntimeException(e);
+            }
+
+            Stage productoDlgStage = new Stage();
+
+            ProductoDlgController productoDlgController = productoDlgFxmlLoader.getController();
+            productoDlgController.setStage(productoDlgStage);
+
+            Scene scene = new Scene(root);
+            productoDlgStage.setMaximized(false);
+            productoDlgStage.setResizable(false);
+            productoDlgStage.setScene(scene);
+            // NOTE: Cambiar segun operacion...
+            productoDlgStage.setTitle("Eliminar producto");
+            productoDlgStage.initModality(Modality.APPLICATION_MODAL);
+            productoDlgStage.show();
+
+            // TODO: Actualizar la tabla sin dicho producto...
+        } catch (PersistenciaBazarException e) {
+            // TODO: asasasas
+            throw new RuntimeException(e);
         }
     }
 
@@ -183,6 +321,4 @@ public class BuscarProductoDlgController implements Initializable {
         productoSeleccionado = null;
         this.stage.close();
     }
-
-
 }
