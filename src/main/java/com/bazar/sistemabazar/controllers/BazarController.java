@@ -279,7 +279,7 @@ public class BazarController implements Initializable {
         Scene scene = new Scene(root);
         registrarUsuarioDlgStage.setMaximized(false);
         registrarUsuarioDlgStage.setScene(scene);
-        registrarUsuarioDlgStage.setTitle("Ventas");
+        registrarUsuarioDlgStage.setTitle("Registrar Usuario");
 
         registrarUsuarioDlgStage.show();
     }

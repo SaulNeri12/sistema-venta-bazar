@@ -12,12 +12,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objetosDTO.UsuarioDTO;
 import objetosDTO.VentaDTO;
@@ -67,6 +69,8 @@ public class BuscarVentaDlgController implements Initializable {
     private TextField horaFechaFinTextField;
     @FXML
     private TextField nombreClienteTextField;
+    @FXML
+    private Button botonEliminarVenta;
 
     public BuscarVentaDlgController(IPersistenciaBazar persistencia, UsuarioDTO usuario, Filtro filtroPrincipal) {
         this.filtroPrincipal = filtroPrincipal;
@@ -80,6 +84,7 @@ public class BuscarVentaDlgController implements Initializable {
         tablaVentas = new VentasTableView();
 
         this.panelTablaVentas.getChildren().add(tablaVentas);
+        this.botonEliminarVenta.setDisable(true);
 
         tablaVentas.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
@@ -88,10 +93,12 @@ public class BuscarVentaDlgController implements Initializable {
 
                 if (ventaTablaSeleccionado == null) {
                     botonVerDetalles.setDisable(true);
+                    botonEliminarVenta.setDisable(true);
                     return;
                 }
                 this.ventaSeleccionada = ventaTablaSeleccionado;
                 botonVerDetalles.setDisable(false);
+                botonEliminarVenta.setDisable(false);
             }
         });
 
@@ -239,6 +246,43 @@ public class BuscarVentaDlgController implements Initializable {
         }
 
         return listaVentas;
+    }
+
+    public void eliminarVenta() {
+        // TODO: ARROJAR EXCEPCION
+        if (ventaSeleccionada == null) {
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Eliminar Venta");
+        alert.setHeaderText("");
+        alert.setContentText("¿Desea eliminar la venta?");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.showAndWait();
+
+        try {
+            persistencia.eliminarVenta(ventaSeleccionada.getIdProperty().get());
+
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Eliminar Venta");
+            alert.setHeaderText("");
+            alert.setContentText("Se elimino la venta");
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.showAndWait();
+
+        } catch (PersistenciaBazarException e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Eliminar Venta");
+            alert.setHeaderText("");
+            alert.setContentText(e.getMessage());
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.showAndWait();
+            return;
+        }
+
+        this.tablaVentas.getItems().remove(this.ventaSeleccionada);
+        this.cerrarDialogo();
     }
 
     @FXML
