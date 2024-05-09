@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import objetosDTO.DetalleVentaDTO;
 import objetosDTO.VentaDTO;
@@ -45,7 +46,7 @@ public class VentaDlgController implements Initializable {
     @FXML
     private TextField horaVentaTextField;
     @FXML
-    private Pane panelTablaDetalleVenta;
+    private VBox panelTablaDetalleVenta;
     @FXML
     private Button botonAceptar;
     @FXML
@@ -77,12 +78,14 @@ public class VentaDlgController implements Initializable {
 
             this.venta = venta;
 
+            listaProductosVendidos = FXCollections.observableArrayList();
+
             for (DetalleVentaDTO detalleVenta: venta.getProductosVendidos()) {
                 DetalleVentaTableModel filaVenta = new DetalleVentaTableModel(detalleVenta.getProducto(), detalleVenta.getCantidad());
-                tablaProductosVendidos.getItems().add(filaVenta);
+                listaProductosVendidos.add(filaVenta);
             }
 
-            listaProductosVendidos = tablaProductosVendidos.getItems();
+            tablaProductosVendidos.getItems().addAll(listaProductosVendidos);
 
         } catch (PersistenciaBazarException e) {
             throw new RuntimeException(e);

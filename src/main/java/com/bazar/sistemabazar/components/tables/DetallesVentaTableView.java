@@ -18,6 +18,8 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
     private DialogoOperacion operacion;
 
     public DetallesVentaTableView(DialogoOperacion operacion) {
+        super();
+        inicializar();
         this.operacion = operacion;
     }
 
@@ -96,6 +98,7 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
             }
         });
 
+
         // anade las columnas a la tabla
         this.getColumns().addAll(
                 columnaProductoCodigo,
@@ -106,7 +109,10 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
                 columnaControl
         );
 
-        //this.getColumns().remove(this.getColumns().size() - 1);
+        if (this.operacion != DialogoOperacion.ACTUALIZAR) {
+            this.getColumns().remove(this.getColumns().size() - 1);
+        }
+        //
     }
 
     @Override
