@@ -190,7 +190,9 @@ public class DetallesVentaTableView extends TableView<DetalleVentaTableModel> im
 
     public DetallesVentaTableView() {
         super();
+        this.operacion = DialogoOperacion.ACTUALIZAR;
         inicializar();
+
 
         /*
         ObservableList<ProductoVentaTableModel> listaProductos = FXCollections.observableArrayList(
